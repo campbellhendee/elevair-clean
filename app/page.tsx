@@ -42,9 +42,11 @@ function Header() {
           <a href="#process" className="hover:text-white">Process</a>
           <a href="#pricing" className="hover:text-white">Pricing</a>
           <a href="#case" className="hover:text-white">Proof</a>
+          <a href="/book" className="hover:text-white">Book</a>
+          <a href="/contact" className="hover:text-white">Contact</a>
         </nav>
-        <a href="#book" className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-4 py-2 text-slate-900 font-semibold hover:bg-cyan-300 transition">
-          Book Free Audit <ArrowRight className="h-4 w-4" />
+        <a href="https://calendly.com/campbellhendee-elevair/30min" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-4 py-2 text-slate-900 font-semibold hover:bg-cyan-300 transition">
+          Book Free 15-min Teardown <ArrowRight className="h-4 w-4" />
         </a>
       </Container>
     </header>
@@ -64,7 +66,7 @@ function Hero() {
           Two‑man strike team fixing broken sales systems and using AI to follow up 24/7. More leads captured, faster responses, higher close rates.
         </p>
         <div className="mt-8 flex flex-wrap gap-4">
-          <a href="#book" className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-5 py-3 text-slate-900 font-semibold hover:bg-cyan-300 transition">
+          <a href="https://calendly.com/campbellhendee-elevair/30min" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-5 py-3 text-slate-900 font-semibold hover:bg-cyan-300 transition">
             Book a Free 15‑min Teardown <ArrowRight className="h-4 w-4" />
           </a>
           <a href="#case" className="inline-flex items-center gap-2 rounded-2xl border border-white/20 px-5 py-3 text-white hover:bg-white/5">
