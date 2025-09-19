@@ -45,8 +45,14 @@ function Header() {
           <a href="/book" className="hover:text-white">Book</a>
           <a href="/contact" className="hover:text-white">Contact</a>
         </nav>
-        <a href="https://calendly.com/campbellhendee-elevair/30min" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-4 py-2 text-slate-900 font-semibold hover:bg-cyan-300 transition">
-          Book Free 15-min Teardown <ArrowRight className="h-4 w-4" />
+        <a
+          href="https://calendly.com/campbellhendee-elevair/30min"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 rounded-xl bg-cyan-400 px-3 py-1.5 text-slate-900 text-sm font-medium hover:bg-cyan-300 transition md:px-4 md:py-2 md:text-sm"
+        >
+          Book Free 15-min Teardown
+          <ArrowRight className="h-3.5 w-3.5 md:h-4 md:w-4" />
         </a>
       </Container>
     </header>
