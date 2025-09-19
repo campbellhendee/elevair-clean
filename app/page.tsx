@@ -51,7 +51,7 @@ function Header() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 rounded-xl bg-cyan-400 px-3 py-1.5 text-slate-900 text-sm font-medium hover:bg-cyan-300 transition md:px-4 md:py-2 md:text-sm"
         >
-          Book Free 15-min Teardown
+          Free Consultation
           <ArrowRight className="h-3.5 w-3.5 md:h-4 md:w-4" />
         </a>
       </Container>
@@ -73,7 +73,7 @@ function Hero() {
         </p>
         <div className="mt-8 flex flex-wrap gap-4">
           <a href="https://calendly.com/campbellhendee-elevair/30min" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-5 py-3 text-slate-900 font-semibold hover:bg-cyan-300 transition">
-            Book a Free 15‑min Teardown <ArrowRight className="h-4 w-4" />
+            Free Consultation <ArrowRight className="h-4 w-4" />
           </a>
           <a href="#case" className="inline-flex items-center gap-2 rounded-2xl border border-white/20 px-5 py-3 text-white hover:bg-white/5">
             See Before / After
@@ -215,7 +215,7 @@ function ResultsCTA() {
               <p className="mt-2 text-slate-300">If we can’t show impact in 30 days, we shouldn’t be there.</p>
             </div>
             <a href="#book" className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-5 py-3 text-slate-900 font-semibold hover:bg-cyan-300 transition">
-              Get your free teardown <ArrowRight className="h-4 w-4" />
+              Free Consultation <ArrowRight className="h-4 w-4" />
             </a>
           </div>
         </div>
@@ -332,14 +332,22 @@ function FinalCTA() {
     <section id="book" className="relative">
       <Container className="py-18 md:py-24">
         <div className="rounded-3xl border border-white/10 bg-[linear-gradient(135deg,rgba(34,211,238,0.10),rgba(2,6,23,0.8))] p-8 md:p-12 text-center">
-          <h3 className="text-3xl md:text-4xl font-extrabold">Free 15‑min teardown for your sales flow</h3>
-          <p className="mt-3 text-slate-300 max-w-2xl mx-auto">We’ll show you 2–3 places you’re leaking revenue and exactly how we’d fix them. If it’s not a fit, you still keep the roadmap.</p>
-          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <a href="#" className="rounded-2xl bg-cyan-400 px-6 py-3 text-slate-900 font-semibold hover:bg-cyan-300 transition inline-flex items-center gap-2">
-              Book on Calendly <ArrowRight className="h-4 w-4" />
-            </a>
-            <a href="mailto:hello@elevair.agency" className="rounded-2xl border border-white/20 px-6 py-3 font-semibold hover:bg-white/5 inline-flex items-center gap-2">
-              Or email us — hello@elevair.agency
+          <h3 className="text-3xl md:text-4xl font-extrabold">Request a Free Consultation</h3>
+          <p className="mt-3 text-slate-300 max-w-2xl mx-auto">Share a bit about your sales flow. We'll respond within 24 hours with quick wins and next steps.</p>
+          <div className="mt-8 mx-auto max-w-2xl w-full bg-white rounded-xl overflow-hidden">
+            <iframe
+              src="https://tally.so/embed/3xKjA5?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+              width="100%"
+              height="520"
+              frameBorder="0"
+              marginHeight={0}
+              marginWidth={0}
+              title="Consultation request form"
+            />
+          </div>
+          <div className="mt-4">
+            <a href="mailto:hello@elevair.agency" className="text-slate-300 hover:text-white underline-offset-2 hover:underline">
+              Prefer email? hello@elevair.agency
             </a>
           </div>
         </div>
