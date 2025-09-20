@@ -3,7 +3,8 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import Capabilities from "../components/Capabilities";
+import dynamic from "next/dynamic";
+const ProductGrid = dynamic(() => import("../components/ProductGrid"), { ssr: true });
 import { ArrowRight, CheckCircle2, BarChart3, Zap, Bot, Mail, Calendar, Shield, Bolt, Workflow, LineChart } from "lucide-react";
 
 export default function Page() {
@@ -17,7 +18,7 @@ export default function Page() {
       <Process />
       <ResultsCTA />
       <CaseStudies />
-  <Capabilities />
+  <ProductGrid />
       <Pricing />
       <FAQ />
       <FinalCTA />
