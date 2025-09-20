@@ -1,5 +1,7 @@
 import "./../styles/globals.css";
 import type { Metadata } from "next";
+import Script from "next/script";
+import StickyBar from "../components/StickyBar";
 
 export const metadata: Metadata = {
   title: "Elevair — We don’t scale teams, we scale revenue",
@@ -11,12 +13,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         {children}
-        {/* TODO: Add Microsoft Clarity Analytics
-            1. Sign up at clarity.microsoft.com (free)
-            2. Create a project, get your Clarity ID
-            3. Import Script from "next/script"
-            4. Add Script component here with your Clarity tracking code
-        */}
+        <StickyBar />
+        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ? (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4" strategy="afterInteractive">{`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}', { anonymize_ip: true });
+            `}</Script>
+          </>
+        ) : null}
       </body>
     </html>
   );

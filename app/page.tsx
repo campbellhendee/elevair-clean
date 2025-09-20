@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 const ProductGrid = dynamic(() => import("../components/ProductGrid"), { ssr: true });
 import { ArrowRight, CheckCircle2, BarChart3, Zap, Bot, Mail, Calendar, Shield, Bolt, Workflow, LineChart } from "lucide-react";
+import CTAButton from "../components/CTAButton";
+import { trackBookClick } from "../lib/analytics";
 
 export default function Page() {
   return (
@@ -42,19 +44,10 @@ function Header() {
           <a href="#services" className="hover:text-white">Services</a>
           <a href="#process" className="hover:text-white">Process</a>
           <a href="#pricing" className="hover:text-white">Pricing</a>
-          <a href="#case" className="hover:text-white">Proof</a>
-          <a href="/book" className="hover:text-white">Book</a>
+          <a href="#proof" className="hover:text-white">Proof</a>
           <a href="/contact" className="hover:text-white">Contact</a>
         </nav>
-        <a
-          href="https://calendly.com/campbellhendee-elevair/30min"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 rounded-xl bg-cyan-400 px-3 py-1.5 text-slate-900 text-sm font-medium hover:bg-cyan-300 transition md:px-4 md:py-2 md:text-sm"
-        >
-          Free Consultation
-          <ArrowRight className="h-3.5 w-3.5 md:h-4 md:w-4" />
-        </a>
+        <CTAButton href="/book" placement="header" className="hidden md:inline-flex">Book a Free 30-min Teardown</CTAButton>
       </Container>
     </header>
   );
@@ -71,20 +64,18 @@ function Hero() {
           </div>
         </div>
         <motion.h1 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-3 text-3xl md:text-5xl font-extrabold tracking-tight">
-          We don’t scale teams —
-          <span className="text-cyan-400"> we scale revenue.</span>
+          We fix slow follow‑ups and leaking funnels — fast.
         </motion.h1>
         <p className="mt-6 max-w-2xl text-lg text-slate-300">
-          Two‑man strike team fixing broken sales systems and using AI to follow up 24/7. More leads captured, faster responses, higher close rates.
+          Two‑man strike team that installs &lt;5‑minute speed‑to‑lead, 5‑touch follow‑ups, and clean CRM automation. More booked calls in 14–30 days.
         </p>
         <div className="mt-8 flex flex-wrap gap-4">
-          <a href="https://calendly.com/campbellhendee-elevair/30min" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-5 py-3 text-slate-900 font-semibold hover:bg-cyan-300 transition">
-            Free Consultation <ArrowRight className="h-4 w-4" />
-          </a>
-          <a href="#case" className="inline-flex items-center gap-2 rounded-2xl border border-white/20 px-5 py-3 text-white hover:bg-white/5">
-            See Before / After
+          <CTAButton href="/book" placement="hero">Book a Free 30-min Teardown <ArrowRight className="h-4 w-4" /></CTAButton>
+          <a href="/#proof" className="inline-flex items-center gap-2 rounded-2xl border border-white/20 px-5 py-3 text-white hover:bg-white/5" data-placement="hero-proof" onClick={() => trackBookClick('hero-proof')}>
+            See Before/After
           </a>
         </div>
+        <div className="mt-4 text-slate-300 italic">We install your speed‑to‑lead + follow‑up system in 48 hours — or month one is free.</div>
       </Container>
     </section>
   );
@@ -206,9 +197,7 @@ function ResultsCTA() {
               <h3 className="text-2xl font-bold">Speed‑to‑lead up, bookings up, revenue up.</h3>
               <p className="mt-2 text-slate-300">If we can’t show impact in 30 days, we shouldn’t be there.</p>
             </div>
-            <a href="#book" className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-5 py-3 text-slate-900 font-semibold hover:bg-cyan-300 transition">
-              Free Consultation <ArrowRight className="h-4 w-4" />
-            </a>
+            <CTAButton href="/book" placement="section">Book a Free 30-min Teardown <ArrowRight className="h-4 w-4" /></CTAButton>
           </div>
         </div>
       </Container>
@@ -223,7 +212,7 @@ function CaseStudies() {
     { name: "Gym, San Marcos", before: "Trial signups leaking", after: "2.1x trials, CAC down 28%", kpi: "Lead → tour: 9% → 19%" },
   ];
   return (
-    <section id="case">
+    <section id="proof">
       <Container className="py-18 md:py-24">
   <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Before / After</h2>
         <div className="mt-8 grid md:grid-cols-3 gap-6">
@@ -238,7 +227,7 @@ function CaseStudies() {
             </div>
           ))}
         </div>
-        <p className="mt-4 text-sm text-slate-400">*These are representative outcomes. Replace with real logos and screenshots as you ship projects.</p>
+        <p className="mt-4 text-sm text-slate-400">Example scenario; methodology: traffic × conversion × speed‑to‑lead.</p>
       </Container>
     </section>
   );
@@ -301,12 +290,10 @@ function FinalCTA() {
     <section id="book" className="relative">
       <Container className="py-18 md:py-24">
         <div className="rounded-3xl border border-white/10 bg-[linear-gradient(135deg,rgba(34,211,238,0.10),rgba(2,6,23,0.8))] p-8 md:p-12 text-center">
-          <h3 className="text-3xl md:text-4xl font-extrabold">Request a Free Consultation</h3>
+          <h3 className="text-3xl md:text-4xl font-extrabold">Request a Free Teardown</h3>
           <p className="mt-3 text-slate-300 max-w-2xl mx-auto">Share a bit about your sales flow. We'll respond within 24 hours with quick wins and next steps.</p>
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <a href="/contact" className="rounded-2xl bg-cyan-400 px-6 py-3 text-slate-900 font-semibold hover:bg-cyan-300 transition inline-flex items-center gap-2">
-              Open Consultation Form <ArrowRight className="h-4 w-4" />
-            </a>
+            <CTAButton href="/book" placement="section">Book a Free 30-min Teardown <ArrowRight className="h-4 w-4" /></CTAButton>
             <a href="mailto:campbellhendee@elevair.org,williamdeyo@elevair.org?subject=Consultation%20request" className="rounded-2xl border border-white/20 px-6 py-3 font-semibold hover:bg-white/5 inline-flex items-center gap-2">
               Prefer email? growth@elevair.org
             </a>

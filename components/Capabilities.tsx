@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import CTAButton from "./CTAButton";
 import {
   Bot,
   Calendar,
@@ -107,13 +108,10 @@ export default function Capabilities() {
               </div>
 
               <div className="relative mt-4">
-                <a
-                  href="/contact"
-                  className="inline-flex items-center gap-2 text-xs font-medium text-cyan-300 hover:text-cyan-200"
-                >
-                  Free Consultation
+                <CTAButton href="/book" placement="section" variant="secondary" className="text-xs">
+                  Book a Free 30-min Teardown
                   <Sparkles className="h-3.5 w-3.5" />
-                </a>
+                </CTAButton>
               </div>
             </div>
           ))}

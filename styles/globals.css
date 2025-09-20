@@ -9,3 +9,8 @@
   --accent: #22d3ee;
 }
 body { color: var(--text); background: var(--bg); }
+
+/* Hide sticky actions on desktop */
+@media (min-width: 769px) {
+  [aria-label="Sticky actions"] { display: none !important; }
+}
