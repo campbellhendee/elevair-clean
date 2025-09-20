@@ -55,19 +55,30 @@ export default function StackDetails() {
     },
   ];
   return (
-    <section id="stack">
+    <section id="stack" aria-labelledby="stack-title">
       <div className="mx-auto w-full max-w-6xl px-6 py-18 md:py-24">
-        <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Elevair Stack</h2>
+        <h2 id="stack-title" className="text-3xl md:text-4xl font-bold tracking-tight">Elevair Stack</h2>
         <p className="text-slate-300 mt-2">Owner‑friendly tools that keep leads moving. Click to learn more.</p>
         <div className="mt-6 space-y-3">
-          {items.map((it) => (
-            <details key={it.name} className="rounded-2xl border border-white/10 bg-white/[.02]">
-              <summary className="cursor-pointer list-none px-5 py-4 flex items-center justify-between">
+          {items.map((it, idx) => (
+            <details
+              key={it.name}
+              className="group rounded-2xl border border-white/10 bg-white/[.02] focus-within:ring-2 focus-within:ring-cyan-400/40"
+              open={idx === 0}
+            >
+              <summary className="cursor-pointer list-none px-5 py-4 flex items-center justify-between gap-3">
                 <span className="font-semibold">{it.name}</span>
-                <span className="text-sm text-slate-400">Learn more</span>
+                <svg
+                  className="h-4 w-4 text-slate-400 transition-transform group-open:rotate-180"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clipRule="evenodd" />
+                </svg>
               </summary>
               <div className="px-5 pb-5 text-slate-300">
-                <dl className="space-y-2">
+                <dl className="grid gap-4 md:grid-cols-3 md:gap-6">
                   <div>
                     <dt className="font-medium text-white">What it is</dt>
                     <dd>{it.what}</dd>
