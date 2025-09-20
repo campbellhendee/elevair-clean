@@ -1,0 +1,3 @@
+{
+  "ignoreCommand": "echo Using GitHub Actions deployment && exit 0"
+}

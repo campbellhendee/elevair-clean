@@ -24,9 +24,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Build static export (Next.js)
+        run: npm run build
 
       - name: Install Vercel CLI
         run: npm i -g vercel@latest
@@ -34,8 +38,5 @@ jobs:
       - name: Pull Vercel environment information
         run: vercel pull --yes --environment=production --token=${{ env.VERCEL_TOKEN }}
 
-      - name: Build project with Vercel
-        run: vercel build --token=${{ env.VERCEL_TOKEN }}
-
-      - name: Deploy prebuilt output to Vercel (Production)
-        run: vercel deploy --prebuilt --prod --token=${{ env.VERCEL_TOKEN }}
+      - name: Deploy static out/ to Vercel (Production)
+        run: vercel deploy out --prod --yes --token=${{ env.VERCEL_TOKEN }}
