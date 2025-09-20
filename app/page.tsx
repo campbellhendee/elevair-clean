@@ -8,7 +8,6 @@ const ProductGrid = dynamic(() => import("../components/ProductGrid"), { ssr: tr
 import { ArrowRight, CheckCircle2, BarChart3, Zap, Bot, Mail, Calendar, Shield, Bolt, Workflow, LineChart } from "lucide-react";
 import CTAButton from "../components/CTAButton";
 import { trackBookClick } from "../lib/analytics";
-import StackDetails from "../components/StackDetails";
 
 export default function Page() {
   return (
@@ -16,8 +15,7 @@ export default function Page() {
       <Header />
       <Hero />
       <Differentiators />
-      <Services />
-      <StackSection />
+  <Services />
       <Process />
       <ResultsCTA />
       <CaseStudies />
@@ -30,15 +28,7 @@ export default function Page() {
   );
 }
 
-function StackSection() {
-  return (
-    <section>
-      <Container className="py-18 md:py-24">
-        <StackDetails />
-      </Container>
-    </section>
-  );
-}
+// Stack details integrated into ProductGrid via inline details/summary.
 
 function Container({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return <div className={`mx-auto w-full max-w-6xl px-6 ${className}`}>{children}</div>;
