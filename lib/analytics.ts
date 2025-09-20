@@ -1,15 +1,10 @@
-// lib/analytics.ts
 export const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? '';
-
-export function initGA() {
-  if (!GA_ID) return;
-  // GA snippet is injected in layout via <Script>
-}
 
 export function track(event: string, params: Record<string, any> = {}) {
   if (!GA_ID) return;
-  // @ts-ignore
-  if (typeof window !== 'undefined') window.gtag?.('event', event, params);
+  if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+    (window as any).gtag('event', event, params);
+  }
 }
 
 export function trackBookClick(placement: string) {
