@@ -2,9 +2,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
-import dynamic from "next/dynamic";
-const ProductGrid = dynamic(() => import("../components/ProductGrid"), { ssr: true });
+import ProductGrid from "../components/ProductGrid";
 import { ArrowRight, CheckCircle2, BarChart3, Zap, Bot, Mail, Calendar, Shield, Bolt, Workflow, LineChart } from "lucide-react";
 import CTAButton from "../components/CTAButton";
 import { trackBookClick } from "../lib/analytics";
@@ -65,9 +63,9 @@ function Hero() {
             <span className="block text-6xl md:text-8xl font-extrabold tracking-tight leading-none bg-gradient-to-r from-cyan-300 via-cyan-200 to-white text-transparent bg-clip-text drop-shadow-[0_0_10px_rgba(34,211,238,0.15)]">Elevair</span>
           </div>
         </div>
-        <motion.h1 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-3 text-3xl md:text-5xl font-extrabold tracking-tight">
+        <h1 className="mt-3 text-3xl md:text-5xl font-extrabold tracking-tight">
           We don’t scale teams — we scale revenue.
-        </motion.h1>
+        </h1>
         <p className="mt-6 max-w-2xl text-lg text-slate-300">
           We fix slow follow‑ups and leaky funnels fast. We install &lt;5‑minute speed‑to‑lead, 5‑touch follow‑ups, and clean CRM automations so you book more calls in 14–30 days.
         </p>
@@ -83,7 +81,7 @@ function Hero() {
   );
 }
 
-// SocialProof chips removed for a cleaner layout
+// SocialProof chips intentionally removed for a cleaner layout
 
 function Differentiators() {
   const items = [
@@ -235,7 +233,7 @@ function CaseStudies() {
   );
 }
 
-// ToolStack replaced by <Capabilities />
+// ToolStack replaced by ProductGrid
 
 function Pricing() {
   const tiers = [
