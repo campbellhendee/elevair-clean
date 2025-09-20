@@ -47,4 +47,6 @@ jobs:
         run: npm run build
 
       - name: Deploy static out/ to Vercel (Production)
-        run: vercel deploy ./out --prod --yes --token=${{ env.VERCEL_TOKEN }}
+        run: |
+          cd ./out
+          vercel --prod --yes --token=${{ env.VERCEL_TOKEN }}
