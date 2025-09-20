@@ -1,20 +1,43 @@
 import "../styles/globals.css";
 import type { Metadata } from "next";
-import StickyBar from "../components/StickyBar";
+import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Elevair — We don’t scale teams, we scale revenue",
-  description: "Two-man strike team fixing broken sales systems and using AI to follow up 24/7.",
+  description: "Two-person strike team. Fast installs. More booked calls in 14–30 days.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
   return (
     <html lang="en">
       <body>
-        {children}
+        <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-cyan-400 text-slate-900 px-3 py-2 rounded">Skip to content</a>
+        <Header />
+        <main id="main" role="main">
+          {children}
+        </main>
         <Footer />
-        <StickyBar />
+        
+        {GA_MEASUREMENT_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_MEASUREMENT_ID}');
+              `}
+            </Script>
+          </>
+        )}
       </body>
     </html>
   );
