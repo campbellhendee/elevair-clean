@@ -66,7 +66,7 @@ function Hero() {
       <Container className="relative py-20 md:py-28">
         <div className="flex justify-center">
           <div className="text-center">
-            <span className="block text-5xl md:text-7xl font-extrabold tracking-tight">Elevair</span>
+            <span className="block text-6xl md:text-8xl font-extrabold tracking-tight leading-none">Elevair</span>
           </div>
         </div>
         <motion.h1 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-3 text-3xl md:text-5xl font-extrabold tracking-tight">
