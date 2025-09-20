@@ -1,26 +1,16 @@
-# This is an example agent configuration file
-# It is used to define custom AI agents within Continue
-# Each agent file can be accessed by selecting it from the agent dropdown
-
-# To learn more, see the full config.yaml reference: https://docs.continue.dev/reference
-
-name: Example Agent
+name: Elevair Assistant
 version: 1.0.0
 schema: v1
 
-# Models define which AI models this agent can use
-# https://docs.continue.dev/customization/models
 models:
-  - name: my gpt-5
+  # Heavy reasoning model for Chat, Edit, Apply
+  - name: gpt-5
     provider: openai
     model: gpt-5
-    apiKey: YOUR_OPENAI_API_KEY_HERE
-  - uses: ollama/qwen2.5-coder-7b
-  - uses: anthropic/claude-4-sonnet
-    with:
-      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    apiKey: ${k-proj-CpYk9hqXJDrq5ZBaS9KcUn5_TTDefFbQdWnwJYIJEpvMHxUkscZSMvdjrBXrUT5E1X-Hv7r8FRT3BlbkFJbMjxfhZF31HULnmUUrslqAXAFtuQZNiB3PUfEfjqqlN1i3vWJYiRJdm4jT0wDdnUMF335yN64A}
 
-# MCP Servers the agent can use
-# https://docs.continue.dev/customization/mcp-tools
-mcpServers:
-  - uses: anthropic/memory-mcp
+  # Fast model for Autocomplete
+  - name: gpt-4o-mini
+    provider: openai
+    model: gpt-4o-mini
+    apiKey: ${k-proj-CpYk9hqXJDrq5ZBaS9KcUn5_TTDefFbQdWnwJYIJEpvMHxUkscZSMvdjrBXrUT5E1X-Hv7r8FRT3BlbkFJbMjxfhZF31HULnmUUrslqAXAFtuQZNiB3PUfEfjqqlN1i3vWJYiRJdm4jT0wDdnUMF335yN64A}

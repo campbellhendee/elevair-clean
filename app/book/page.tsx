@@ -4,7 +4,9 @@ import Script from 'next/script';
 import { brandColorNoHash, getUTMSearch, track } from '../../lib/analytics';
 
 export default function BookPage() {
-  const base = process.env.NEXT_PUBLIC_CALENDLY_URL ?? '';
+  // Prefer env var, but fall back to a safe default so the calendar always works
+  const DEFAULT_CALENDLY = 'https://calendly.com/campbellhendee-elevair/30min';
+  const base = (process.env.NEXT_PUBLIC_CALENDLY_URL || '').trim() || DEFAULT_CALENDLY;
   const color = brandColorNoHash();
   const qs = getUTMSearch();
   const url = useMemo(() => {
@@ -50,6 +52,10 @@ export default function BookPage() {
                 {process.env.NEXT_PUBLIC_SUPPORT_EMAIL || 'growth@elevair.org'}
               </a>{' '}
               or use the <a className="underline" href="/contact">contact form</a>.
+            </p>
+            <p className="mt-3 text-slate-400 text-sm">
+              Prefer to book online?{' '}
+              <a className="underline" href={url} target="_blank" rel="noopener noreferrer">Open the booking page</a>.
             </p>
           </div>
         )}
