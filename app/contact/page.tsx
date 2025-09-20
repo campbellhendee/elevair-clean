@@ -2,6 +2,7 @@
 import { useMemo } from 'react';
 import Link from 'next/link';
 import { getUTMSearch } from '../../lib/analytics';
+import FallbackForm from './fallback-form';
 
 export default function ContactPage() {
   const email = process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? '';
@@ -31,6 +32,11 @@ export default function ContactPage() {
           className="mt-8"
         />
         <script async src="https://tally.so/widgets/embed.js"></script>
+        <div className="mt-8">
+          <h2 className="text-xl font-semibold">Having trouble with the form?</h2>
+          <p className="text-slate-300 mt-1">Email us or use the simple form below. Or <Link href="/book" className="underline">book a 30‑min teardown</Link> now.</p>
+          <FallbackForm email={email} />
+        </div>
       </div>
     </main>
   );

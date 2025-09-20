@@ -8,6 +8,7 @@ const ProductGrid = dynamic(() => import("../components/ProductGrid"), { ssr: tr
 import { ArrowRight, CheckCircle2, BarChart3, Zap, Bot, Mail, Calendar, Shield, Bolt, Workflow, LineChart } from "lucide-react";
 import CTAButton from "../components/CTAButton";
 import { trackBookClick } from "../lib/analytics";
+import StackDetails from "../components/StackDetails";
 
 export default function Page() {
   return (
@@ -16,6 +17,7 @@ export default function Page() {
       <Hero />
       <Differentiators />
       <Services />
+      <StackSection />
       <Process />
       <ResultsCTA />
       <CaseStudies />
@@ -25,6 +27,16 @@ export default function Page() {
       <FinalCTA />
       <Footer />
     </div>
+  );
+}
+
+function StackSection() {
+  return (
+    <section>
+      <Container className="py-18 md:py-24">
+        <StackDetails />
+      </Container>
+    </section>
   );
 }
 
@@ -45,6 +57,7 @@ function Header() {
           <a href="#process" className="hover:text-white">Process</a>
           <a href="#pricing" className="hover:text-white">Pricing</a>
           <a href="#proof" className="hover:text-white">Proof</a>
+          <a href="/about" className="hover:text-white">About</a>
           <a href="/contact" className="hover:text-white">Contact</a>
         </nav>
         <CTAButton href="/book" placement="header" className="hidden md:inline-flex">Book a Free 30-min Teardown</CTAButton>
@@ -64,18 +77,18 @@ function Hero() {
           </div>
         </div>
         <motion.h1 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-3 text-3xl md:text-5xl font-extrabold tracking-tight">
-          We fix slow follow‑ups and leaking funnels — fast.
+          We don’t scale teams — we scale revenue.
         </motion.h1>
         <p className="mt-6 max-w-2xl text-lg text-slate-300">
-          Two‑man strike team that installs &lt;5‑minute speed‑to‑lead, 5‑touch follow‑ups, and clean CRM automation. More booked calls in 14–30 days.
+          We fix slow follow‑ups and leaky funnels fast. We install &lt;5‑minute speed‑to‑lead, 5‑touch follow‑ups, and clean CRM automations so you book more calls in 14–30 days.
         </p>
         <div className="mt-8 flex flex-wrap gap-4">
           <CTAButton href="/book" placement="hero">Book a Free 30-min Teardown <ArrowRight className="h-4 w-4" /></CTAButton>
           <a href="/#proof" className="inline-flex items-center gap-2 rounded-2xl border border-white/20 px-5 py-3 text-white hover:bg-white/5" data-placement="hero-proof" onClick={() => trackBookClick('hero-proof')}>
-            See Before/After
+            See Before/After Results
           </a>
         </div>
-        <div className="mt-4 text-slate-300 italic">We install your speed‑to‑lead + follow‑up system in 48 hours — or month one is free.</div>
+  <div className="mt-4 text-slate-300 italic">Installed in 48 hours or month one is free.</div>
       </Container>
     </section>
   );

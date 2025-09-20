@@ -10,6 +10,8 @@
 }
 body { color: var(--text); background: var(--bg); }
 
+html { scroll-behavior: smooth; }
+
 /* Hide sticky actions on desktop */
 @media (min-width: 769px) {
   [aria-label="Sticky actions"] { display: none !important; }

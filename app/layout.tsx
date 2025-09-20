@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import type { Metadata } from "next";
-import Script from "next/script";
 import StickyBar from "../components/StickyBar";
+import Footer from "../components/Footer";
 
 export const metadata: Metadata = {
   title: "Elevair — We don’t scale teams, we scale revenue",
@@ -9,26 +9,12 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
   return (
     <html lang="en">
       <body>
         {children}
+        <Footer />
         <StickyBar />
-        {GA_ID ? (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="ga4" strategy="afterInteractive">{`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${GA_ID}', { anonymize_ip: true });
-            `}</Script>
-          </>
-        ) : null}
       </body>
     </html>
   );
