@@ -48,5 +48,6 @@ jobs:
 
       - name: Deploy static out/ to Vercel (Production)
         run: |
+          cp -r .vercel ./out/
           cd ./out
           vercel --prod --yes --token=${{ env.VERCEL_TOKEN }}
