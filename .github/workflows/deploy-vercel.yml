@@ -1,15 +1,53 @@
-name: Deploy to Vercel (manual-only)
+name: Deploy to Vercel
 
 on:
-  # Disable automatic deploys from GitHub Actions.
-  # We use Vercel Git Integration as the source of truth for production deploys.
+  push:
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  note:
+  deploy:
+    name: Build and Deploy
     runs-on: ubuntu-latest
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
-      - run: echo "Manual deploy only. Use Vercel Git Integration for automatic builds from 'main'."
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Vercel CLI
+        run: npm i -g vercel@latest
+
+      - name: Link Vercel project (create .vercel/project.json)
+        run: |
+          mkdir -p .vercel
+          echo '{
+            "orgId": "${{ env.VERCEL_ORG_ID }}",
+            "projectId": "${{ env.VERCEL_PROJECT_ID }}"
+          }' > .vercel/project.json
+
+      - name: Pull Vercel environment information
+        run: vercel pull --yes --environment=production --token=${{ env.VERCEL_TOKEN }}
+
+      - name: Build static export (Next.js)
+        run: npm run build
+
+      - name: Deploy static out/ to Vercel (Production)
+        run: |
+          cp -r .vercel ./out/
+          cd ./out
+          vercel --prod --yes --token=${{ env.VERCEL_TOKEN }}
