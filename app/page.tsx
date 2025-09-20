@@ -17,7 +17,7 @@ function Hero() {
     <section className="relative px-6 py-24 lg:py-32">
       <div className="mx-auto max-w-4xl text-center">
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-          We don't scale teams,{" "}
+          We don&apos;t scale teams,{" "}
           <span className="text-cyan-400">we scale revenue</span>
         </h1>
         <p className="mt-6 text-lg leading-8 text-slate-300 max-w-2xl mx-auto">
