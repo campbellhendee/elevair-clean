@@ -66,7 +66,7 @@ function Hero() {
       <Container className="relative py-20 md:py-28">
         <div className="flex justify-center">
           <div className="text-center">
-            <span className="block text-6xl md:text-8xl font-extrabold tracking-tight leading-none">Elevair</span>
+            <span className="block text-6xl md:text-8xl font-extrabold tracking-tight leading-none bg-gradient-to-r from-cyan-300 via-cyan-200 to-white text-transparent bg-clip-text drop-shadow-[0_0_10px_rgba(34,211,238,0.15)]">Elevair</span>
           </div>
         </div>
         <motion.h1 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-3 text-3xl md:text-5xl font-extrabold tracking-tight">
@@ -165,7 +165,7 @@ function Services() {
     <section id="services">
       <Container className="py-18 md:py-24">
         <div className="flex items-end justify-between">
-          <h2 className="text-3xl md:text-4xl font-bold">What we build</h2>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">What we build</h2>
           <span className="text-slate-400 text-sm">Fast wins first. Big systems later.</span>
         </div>
         <div className="mt-8 grid md:grid-cols-3 gap-6">
@@ -195,7 +195,7 @@ function Process() {
   return (
     <section id="process">
       <Container className="py-18 md:py-24">
-        <h2 className="text-3xl md:text-4xl font-bold">Process (simple on purpose)</h2>
+  <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Process (simple on purpose)</h2>
         <div className="mt-8 grid md:grid-cols-4 gap-6">
           {steps.map((s) => (
             <div key={s.title} className="rounded-2xl border border-white/10 bg-white/[.02] p-6">
@@ -238,7 +238,7 @@ function CaseStudies() {
   return (
     <section id="case">
       <Container className="py-18 md:py-24">
-        <h2 className="text-3xl md:text-4xl font-bold">Before / After</h2>
+  <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Before / After</h2>
         <div className="mt-8 grid md:grid-cols-3 gap-6">
           {cases.map((c) => (
             <div key={c.name} className="rounded-2xl border border-white/10 bg-white/[.02] p-6">
@@ -268,7 +268,7 @@ function ToolStack() {
   return (
     <section>
       <Container className="py-16 md:py-20">
-        <h2 className="text-3xl md:text-4xl font-bold">Our stack (kept simple)</h2>
+  <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Our stack (kept simple)</h2>
         <div className="mt-8 grid md:grid-cols-5 gap-6">
           {tools.map((t) => (
             <div key={t.name} className="rounded-2xl border border-white/10 bg-white/[.02] p-5">
@@ -291,7 +291,7 @@ function Pricing() {
   return (
     <section id="pricing">
       <Container className="py-18 md:py-24">
-        <h2 className="text-3xl md:text-4xl font-bold">Pricing</h2>
+  <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Pricing</h2>
         <div className="mt-8 grid md:grid-cols-3 gap-6">
           {tiers.map((t) => (
             <div key={t.name} className="rounded-2xl border border-white/10 bg-white/[.02] p-6">
@@ -318,7 +318,7 @@ function FAQ() {
   return (
     <section>
       <Container className="py-16 md:py-20">
-        <h2 className="text-3xl md:text-4xl font-bold">FAQ (short and honest)</h2>
+  <h2 className="text-3xl md:text-4xl font-bold tracking-tight">FAQ (short and honest)</h2>
         <div className="mt-6 grid md:grid-cols-2 gap-6">
           {faqs.map((f) => (
             <div key={f.q} className="rounded-2xl border border-white/10 bg-white/[.02] p-6">
@@ -359,9 +359,9 @@ function Footer() {
       <Container className="py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-400">
         <div className="flex items-center gap-2"><Bolt className="h-4 w-4 text-cyan-400" /><span>Elevair</span></div>
         <div className="flex items-center gap-4">
-          <a href="#" className="hover:text-white">Privacy</a>
-          <a href="#" className="hover:text-white">Terms</a>
-          <a href="#" className="hover:text-white">Contact</a>
+          <a href="/privacy" className="hover:text-white">Privacy</a>
+          <a href="/terms" className="hover:text-white">Terms</a>
+          <a href="/contact" className="hover:text-white">Contact</a>
         </div>
         <div>© {new Date().getFullYear()} Elevair. All rights reserved.</div>
       </Container>
