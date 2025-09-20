@@ -19,6 +19,10 @@ jobs:
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       # Optional: team scope (slug or ID) if your token has access to multiple teams
       VERCEL_SCOPE: ${{ secrets.VERCEL_SCOPE }}
+      # Safe defaults provided by user (non-secret). Used only if secrets/vars are not set.
+      DEFAULT_VERCEL_PROJECT_ID: prj_1WGkdUKtLBU5AG6LSYr8HvnIiEl1
+      # User/team slug can be used as scope (alternatively, set a real org ID that typically starts with team_...)
+      DEFAULT_VERCEL_SCOPE: campbellhedee
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -42,13 +46,20 @@ jobs:
           if [ -z "${VERCEL_ORG_ID}" ] && [ -n "${{ vars.VERCEL_ORG_ID }}" ]; then echo "VERCEL_ORG_ID=${{ vars.VERCEL_ORG_ID }}" >> $GITHUB_ENV; fi
           if [ -z "${VERCEL_PROJECT_ID}" ] && [ -n "${{ vars.VERCEL_PROJECT_ID }}" ]; then echo "VERCEL_PROJECT_ID=${{ vars.VERCEL_PROJECT_ID }}" >> $GITHUB_ENV; fi
           if [ -z "${VERCEL_SCOPE}" ] && [ -n "${{ vars.VERCEL_SCOPE }}" ]; then echo "VERCEL_SCOPE=${{ vars.VERCEL_SCOPE }}" >> $GITHUB_ENV; fi
+          # If still empty, use provided safe defaults
+          if [ -z "${VERCEL_PROJECT_ID}" ] && [ -n "${DEFAULT_VERCEL_PROJECT_ID}" ]; then echo "VERCEL_PROJECT_ID=${DEFAULT_VERCEL_PROJECT_ID}" >> $GITHUB_ENV; fi
+          # Prefer ORG_ID if present; otherwise use SCOPE (team/user slug). We'll set a default scope if both are missing.
+          if [ -z "${VERCEL_ORG_ID}" ] && [ -z "${VERCEL_SCOPE}" ] && [ -n "${DEFAULT_VERCEL_SCOPE}" ]; then echo "VERCEL_SCOPE=${DEFAULT_VERCEL_SCOPE}" >> $GITHUB_ENV; fi
 
       - name: Validate Vercel configuration
         run: |
           missing=""
           [ -z "${VERCEL_TOKEN}" ] && missing="${missing} VERCEL_TOKEN"
-          [ -z "${VERCEL_ORG_ID}" ] && missing="${missing} VERCEL_ORG_ID"
           [ -z "${VERCEL_PROJECT_ID}" ] && missing="${missing} VERCEL_PROJECT_ID"
+          # Allow using VERCEL_SCOPE (team/user slug) instead of VERCEL_ORG_ID
+          if [ -z "${VERCEL_ORG_ID}" ] && [ -z "${VERCEL_SCOPE}" ]; then
+            missing="${missing} (VERCEL_ORG_ID or VERCEL_SCOPE)"
+          fi
           if [ -n "$missing" ]; then
             echo "::error::Missing required Vercel settings:$missing"
             echo "Ensure these are configured in GitHub (Secrets preferred, or Variables as fallback)."
@@ -60,10 +71,12 @@ jobs:
       - name: Link Vercel project (create .vercel/project.json)
         run: |
           mkdir -p .vercel
-          echo '{
-            "orgId": "'"${VERCEL_ORG_ID}"'",
-            "projectId": "'"${VERCEL_PROJECT_ID}"'"
-          }' > .vercel/project.json
+          # Write project.json; include orgId only if provided
+          if [ -n "${VERCEL_ORG_ID}" ]; then
+            printf '{\n  "orgId": "%s",\n  "projectId": "%s"\n}\n' "${VERCEL_ORG_ID}" "${VERCEL_PROJECT_ID}" > .vercel/project.json
+          else
+            printf '{\n  "projectId": "%s"\n}\n' "${VERCEL_PROJECT_ID}" > .vercel/project.json
+          fi
 
       - name: Pull Vercel environment information
         run: |
