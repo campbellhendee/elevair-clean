@@ -94,7 +94,7 @@ function SocialProof() {
     <section>
       <Container className="py-10 md:py-14">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-6 opacity-80">
-          {['HubSpot','Zapier','Instantly','Apollo','OpenAI'].map((logo)=> (
+          {['Elevair CRM','Elevair Automations','Elevair Outbound','Elevair AI','Elevair Analytics'].map((logo)=> (
             <div key={logo} className="rounded-xl border border-white/10 p-4 text-center text-sm text-slate-300">
               {logo}
             </div>
@@ -136,14 +136,14 @@ function Services() {
       "Notion + Loom delivery (keep it even if we don’t build)",
     ]},
     { tag: "Phase 1", title: "Outreach Automation", price: "$2,500–$5,000", bullets: [
-      "Instantly + Apollo cold email engine",
+      "Elevair Outbound Engine",
       "ICP lists, copy, warmup, tracking",
       "Replies routed to CRM + calendar",
     ]},
     { tag: "Phase 1", title: "Sales Call Assistant", price: "$1,500–$3,000", bullets: [
-      "Record with Fireflies/Otter",
+      "Auto‑record + transcribe",
       "Auto‑summary + objection library",
-      "Coach cards for reps in HubSpot",
+      "Coach cards for reps in Elevair CRM",
     ]},
     { tag: "Phase 2", title: "AI Website Chatbot", price: "$1,500 setup + $150/mo", bullets: [
       "Answers FAQs, captures lead info",
@@ -259,11 +259,11 @@ function CaseStudies() {
 
 function ToolStack() {
   const tools = [
-    { name: "HubSpot", desc: "Pipelines, tasks, simple automations" },
-    { name: "Zapier", desc: "Glue for ops; leads never fall through cracks" },
-    { name: "Instantly + Apollo", desc: "Outbound that actually gets replies" },
-    { name: "Fireflies / Otter", desc: "Call recording + auto‑coaching" },
-    { name: "ChatGPT / Claude", desc: "Fast copy, playbooks, responses" },
+    { name: "Elevair CRM", desc: "Pipelines, tasks, simple automations" },
+    { name: "Elevair Automations", desc: "Ops glue; leads never slip" },
+    { name: "Elevair Outbound", desc: "Cold email engine that gets replies" },
+    { name: "Elevair Call Coach", desc: "Call capture + auto‑coaching" },
+    { name: "Elevair AI", desc: "Fast copy, playbooks, responses" },
   ];
   return (
     <section>
