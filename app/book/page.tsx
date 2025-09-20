@@ -37,7 +37,7 @@ export default function BookPage() {
         </p>
         {hasCalendly ? (
           <>
-            <div className="calendly-inline-widget mt-8" data-url={url} style={{ minWidth: '320px', height: '740px' }} />
+            <div className="calendly-inline-widget mt-8" data-url={url} style={{ minWidth: '320px', height: '820px' }} />
             <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="afterInteractive" />
             <p className="mt-3 text-center text-slate-400 text-sm">
               Trouble loading Calendly?{' '}

@@ -50,7 +50,7 @@ function Header() {
           <a href="/about" className="hover:text-white">About</a>
           <a href="/contact" className="hover:text-white">Contact</a>
         </nav>
-  <CTAButton href="/book" placement="header" className="hidden md:inline-flex">Book a call</CTAButton>
+  <CTAButton href="/contact" placement="header" className="hidden md:inline-flex">Contact</CTAButton>
       </Container>
     </header>
   );
@@ -111,32 +111,32 @@ function Differentiators() {
 
 function Services() {
   const services = [
-    { tag: "Phase 1", title: "AI Growth Audit", price: "$500–$1,000", bullets: [
+    { tag: "Phase 1", title: "AI Growth Audit", price: "Contact for quote", bullets: [
       "60‑min founder interview + funnel review",
       "Map 3–5 leaks, with exact fixes",
       "Notion + Loom delivery (keep it even if we don’t build)",
     ]},
-    { tag: "Phase 1", title: "Outreach Automation", price: "$2,500–$5,000", bullets: [
+  { tag: "Phase 1", title: "Outreach Automation", price: "Contact for quote", bullets: [
       "Elevair Outbound Engine",
       "ICP lists, copy, warmup, tracking",
       "Replies routed to CRM + calendar",
     ]},
-    { tag: "Phase 1", title: "Sales Call Assistant", price: "$1,500–$3,000", bullets: [
+  { tag: "Phase 1", title: "Sales Call Assistant", price: "Contact for quote", bullets: [
       "Auto‑record + transcribe",
       "Auto‑summary + objection library",
       "Coach cards for reps in Elevair CRM",
     ]},
-    { tag: "Phase 2", title: "AI Website Chatbot", price: "$1,500 setup + $150/mo", bullets: [
+  { tag: "Phase 2", title: "AI Website Chatbot", price: "Contact for quote", bullets: [
       "Answers FAQs, captures lead info",
       "Hands off to human when needed",
       "24/7 lead capture + tagging",
     ]},
-    { tag: "Phase 2", title: "Full CRM Automation", price: "$3,500–$8,000", bullets: [
+  { tag: "Phase 2", title: "Full CRM Automation", price: "Contact for quote", bullets: [
       "Forms → emails → tasks → pipeline",
       "SLA timers, no‑response escalations",
       "Reporting built‑in",
     ]},
-    { tag: "Phase 2", title: "RevOps Dashboard", price: "$1,500–$4,000", bullets: [
+  { tag: "Phase 2", title: "RevOps Dashboard", price: "Contact for quote", bullets: [
       "Leads, win rate, speed‑to‑lead",
       "Channel attribution",
       "Owner‑friendly view (no fluff)",
@@ -200,7 +200,7 @@ function ResultsCTA() {
               <h3 className="text-2xl font-bold">Speed‑to‑lead up, bookings up, revenue up.</h3>
               <p className="mt-2 text-slate-300">If we can’t show impact in 30 days, we shouldn’t be there.</p>
             </div>
-            <CTAButton href="/book" placement="section">Get a free consult <ArrowRight className="h-4 w-4" /></CTAButton>
+            <CTAButton href="/contact" placement="section" variant="secondary">Talk to us</CTAButton>
           </div>
         </div>
       </Container>
@@ -240,9 +240,9 @@ function CaseStudies() {
 
 function Pricing() {
   const tiers = [
-    { name: "AI Audit", price: "$500–$1k", points: ["60‑min audit call", "3–5 fixes mapped", "Notion + Loom roadmap"] },
-    { name: "Automation Setup", price: "$2.5k–$5k", points: ["CRM + forms + follow‑ups", "Outbound engine if needed", "Owner training + SOPs"] },
-    { name: "Monthly Support", price: "$1k–$3k/mo", points: ["Monitor + iterate", "New campaigns monthly", "Simple dashboard reports"] },
+  { name: "AI Audit", price: "Custom after consultation", points: ["60‑min audit call", "3–5 fixes mapped", "Notion + Loom roadmap"] },
+  { name: "Automation Setup", price: "Custom after consultation", points: ["CRM + forms + follow‑ups", "Outbound engine if needed", "Owner training + SOPs"] },
+  { name: "Monthly Support", price: "Custom after consultation", points: ["Monitor + iterate", "New campaigns monthly", "Simple dashboard reports"] },
   ];
   return (
     <section id="pricing">
@@ -296,7 +296,7 @@ function FinalCTA() {
           <h3 className="text-3xl md:text-4xl font-extrabold">Request a free consultation</h3>
           <p className="mt-3 text-slate-300 max-w-2xl mx-auto">Share a bit about your sales flow. We'll respond within 24 hours with quick wins and next steps.</p>
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <CTAButton href="/book" placement="section">Talk to us <ArrowRight className="h-4 w-4" /></CTAButton>
+            <CTAButton href="/contact" placement="section">Talk to us <ArrowRight className="h-4 w-4" /></CTAButton>
             <a href="mailto:campbellhendee@elevair.org,williamdeyo@elevair.org?subject=Consultation%20request" className="rounded-2xl border border-white/20 px-6 py-3 font-semibold hover:bg-white/5 inline-flex items-center gap-2">
               Prefer email? growth@elevair.org
             </a>
