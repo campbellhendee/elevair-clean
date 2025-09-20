@@ -38,5 +38,8 @@ jobs:
       - name: Pull Vercel environment information
         run: vercel pull --yes --environment=production --token=${{ env.VERCEL_TOKEN }}
 
+      - name: Link project config into export folder
+        run: cp -r .vercel ./out
+
       - name: Deploy static out/ to Vercel (Production)
-        run: vercel deploy out --prod --yes --token=${{ env.VERCEL_TOKEN }}
+        run: vercel deploy ./out --prod --yes --token=${{ env.VERCEL_TOKEN }}
