@@ -37,6 +37,10 @@ export default function BookPage() {
           <>
             <div className="calendly-inline-widget mt-8" data-url={url} style={{ minWidth: '320px', height: '740px' }} />
             <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="afterInteractive" />
+            <p className="mt-3 text-center text-slate-400 text-sm">
+              Trouble loading Calendly?{' '}
+              <a className="underline" href={url} target="_blank" rel="noopener noreferrer">Open the booking page</a>.
+            </p>
           </>
         ) : (
           <div className="mt-8 rounded-2xl border border-white/10 bg-white/[.02] p-6 text-center">

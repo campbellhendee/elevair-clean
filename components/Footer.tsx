@@ -18,10 +18,10 @@ export default function Footer() {
         <div className="flex items-center gap-4">
           <a
             href="/book"
-            aria-label="Book a free consultation"
+            aria-label="Book a call"
             className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-5 py-3 font-semibold text-slate-900 hover:bg-cyan-300 shadow-lg shadow-cyan-500/20 transition"
           >
-            Book a free consultation
+            Book a call
           </a>
           <span>© {new Date().getFullYear()} Elevair. All rights reserved.</span>
         </div>

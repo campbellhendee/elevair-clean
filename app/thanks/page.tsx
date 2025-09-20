@@ -10,7 +10,7 @@ export default function ThanksPage() {
       <div className="mx-auto w-full max-w-3xl px-6 py-16 text-center">
     <h1 className="text-3xl md:text-4xl font-bold mb-4">Thanks — last step: book your consultation</h1>
         <p className="text-slate-300 mb-6">Your details are in. Grab a time now so we can prep a mini plan for your exact funnel.</p>
-  <CTAButton href="/book" placement="thanks">Book your free consultation</CTAButton>
+  <CTAButton href="/book" placement="thanks">Book a call</CTAButton>
       </div>
     </main>
   );

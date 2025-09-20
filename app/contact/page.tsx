@@ -19,7 +19,7 @@ export default function ContactPage() {
         <p className="text-center text-slate-300 mt-2">
           Prefer email? Reach out at{' '}
           <a className="underline" href={`mailto:${email}`}>{email ? email : 'Growth@Elevair.org'}</a>
-          {' '}or go ahead and <Link className="underline" href="/book">book a free consultation</Link> now.
+          {' '}or go ahead and <Link className="underline" href="/book">book a call</Link> now.
         </p>
         <iframe
           data-tally-src={url}
@@ -34,7 +34,7 @@ export default function ContactPage() {
         <script async src="https://tally.so/widgets/embed.js"></script>
         <div className="mt-8">
           <h2 className="text-xl font-semibold">Having trouble with the form?</h2>
-    <p className="text-slate-300 mt-1">Email us or use the simple form below. Or <Link href="/book" className="underline">book a free consultation</Link> now.</p>
+  <p className="text-slate-300 mt-1">Email us or use the simple form below. Or <Link href="/book" className="underline">book a call</Link> now.</p>
           <FallbackForm email={email} />
         </div>
       </div>

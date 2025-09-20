@@ -50,7 +50,7 @@ function Header() {
           <a href="/about" className="hover:text-white">About</a>
           <a href="/contact" className="hover:text-white">Contact</a>
         </nav>
-  <CTAButton href="/book" placement="header" className="hidden md:inline-flex">Book a free consultation</CTAButton>
+  <CTAButton href="/book" placement="header" className="hidden md:inline-flex">Book a call</CTAButton>
       </Container>
     </header>
   );
@@ -200,7 +200,7 @@ function ResultsCTA() {
               <h3 className="text-2xl font-bold">Speed‑to‑lead up, bookings up, revenue up.</h3>
               <p className="mt-2 text-slate-300">If we can’t show impact in 30 days, we shouldn’t be there.</p>
             </div>
-            <CTAButton href="/book" placement="section">Book a free consultation <ArrowRight className="h-4 w-4" /></CTAButton>
+            <CTAButton href="/book" placement="section">Get a free consult <ArrowRight className="h-4 w-4" /></CTAButton>
           </div>
         </div>
       </Container>
@@ -296,7 +296,7 @@ function FinalCTA() {
           <h3 className="text-3xl md:text-4xl font-extrabold">Request a free consultation</h3>
           <p className="mt-3 text-slate-300 max-w-2xl mx-auto">Share a bit about your sales flow. We'll respond within 24 hours with quick wins and next steps.</p>
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <CTAButton href="/book" placement="section">Book a free consultation <ArrowRight className="h-4 w-4" /></CTAButton>
+            <CTAButton href="/book" placement="section">Talk to us <ArrowRight className="h-4 w-4" /></CTAButton>
             <a href="mailto:campbellhendee@elevair.org,williamdeyo@elevair.org?subject=Consultation%20request" className="rounded-2xl border border-white/20 px-6 py-3 font-semibold hover:bg-white/5 inline-flex items-center gap-2">
               Prefer email? growth@elevair.org
             </a>

@@ -6,7 +6,7 @@ const phone = process.env.NEXT_PUBLIC_PHONE;
 export default function StickyBar() {
   return (
     <div aria-label="Sticky actions" style={barStyle}>
-  <CTAButton href="/book" placement="sticky">Book a free consultation</CTAButton>
+  <CTAButton href="/book" placement="sticky">Book a call</CTAButton>
       {phone ? <a href={`tel:${phone}`} aria-label="Call us" style={phoneBtnStyle}>📞</a> : null}
     </div>
   );
