@@ -338,8 +338,8 @@ function FinalCTA() {
             <a href="/contact" className="rounded-2xl bg-cyan-400 px-6 py-3 text-slate-900 font-semibold hover:bg-cyan-300 transition inline-flex items-center gap-2">
               Open Consultation Form <ArrowRight className="h-4 w-4" />
             </a>
-            <a href="mailto:hello@elevair.agency" className="rounded-2xl border border-white/20 px-6 py-3 font-semibold hover:bg-white/5 inline-flex items-center gap-2">
-              Prefer email? hello@elevair.agency
+            <a href="mailto:campbellhendee@elevair.org,williamdeyo@elevair.org?subject=Consultation%20request" className="rounded-2xl border border-white/20 px-6 py-3 font-semibold hover:bg-white/5 inline-flex items-center gap-2">
+              Prefer email? growth@elevair.org
             </a>
           </div>
         </div>
