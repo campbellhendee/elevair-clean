@@ -23,7 +23,6 @@ export default function Page() {
       <Pricing />
       <FAQ />
       <FinalCTA />
-      <Footer />
     </div>
   );
 }
@@ -78,7 +77,7 @@ function Hero() {
             See Before/After Results
           </a>
         </div>
-  <div className="mt-4 text-slate-300 italic">Installed in 48 hours or month one is free.</div>
+        <div className="mt-4 text-slate-300 italic">Installed in 48 hours or month one is free.</div>
       </Container>
     </section>
   );
@@ -306,19 +305,4 @@ function FinalCTA() {
     </section>
   );
 }
-
-function Footer() {
-  return (
-    <footer className="border-t border-white/10">
-      <Container className="py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-400">
-        <div className="flex items-center gap-2"><Bolt className="h-4 w-4 text-cyan-400" /><span>Elevair</span></div>
-        <div className="flex items-center gap-4">
-          <a href="/privacy" className="hover:text-white">Privacy</a>
-          <a href="/terms" className="hover:text-white">Terms</a>
-          <a href="/contact" className="hover:text-white">Contact</a>
-        </div>
-        <div>© {new Date().getFullYear()} Elevair. All rights reserved.</div>
-      </Container>
-    </footer>
-  );
-}
+// Footer is rendered globally in app/layout.tsx
