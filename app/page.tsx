@@ -3,6 +3,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import Capabilities from "../components/Capabilities";
 import { ArrowRight, CheckCircle2, BarChart3, Zap, Bot, Mail, Calendar, Shield, Bolt, Workflow, LineChart } from "lucide-react";
 
 export default function Page() {
@@ -16,7 +17,7 @@ export default function Page() {
       <Process />
       <ResultsCTA />
       <CaseStudies />
-      <ToolStack />
+  <Capabilities />
       <Pricing />
       <FAQ />
       <FinalCTA />
@@ -257,30 +258,7 @@ function CaseStudies() {
   );
 }
 
-function ToolStack() {
-  const tools = [
-    { name: "Elevair CRM", desc: "Pipelines, tasks, simple automations" },
-    { name: "Elevair Automations", desc: "Ops glue; leads never slip" },
-    { name: "Elevair Outbound", desc: "Cold email engine that gets replies" },
-    { name: "Elevair Call Coach", desc: "Call capture + auto‑coaching" },
-    { name: "Elevair AI", desc: "Fast copy, playbooks, responses" },
-  ];
-  return (
-    <section>
-      <Container className="py-16 md:py-20">
-  <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Our stack (kept simple)</h2>
-        <div className="mt-8 grid md:grid-cols-5 gap-6">
-          {tools.map((t) => (
-            <div key={t.name} className="rounded-2xl border border-white/10 bg-white/[.02] p-5">
-              <div className="text-cyan-300 text-sm">{t.name}</div>
-              <div className="text-slate-300">{t.desc}</div>
-            </div>
-          ))}
-        </div>
-      </Container>
-    </section>
-  );
-}
+// ToolStack replaced by <Capabilities />
 
 function Pricing() {
   const tiers = [
