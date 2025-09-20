@@ -38,8 +38,13 @@ jobs:
       - name: Pull Vercel environment information
         run: vercel pull --yes --environment=production --token=${{ env.VERCEL_TOKEN }}
 
-      - name: Link project config into export folder
-        run: cp -r .vercel ./out
+      - name: Link project config into export folder (optional)
+        run: |
+          if [ -d .vercel ]; then
+            cp -r .vercel ./out
+          else
+            echo ".vercel directory not found; proceeding without copying."
+          fi
 
       - name: Deploy static out/ to Vercel (Production)
-        run: vercel deploy ./out --prod --yes --token=${{ env.VERCEL_TOKEN }}
+        run: vercel deploy ./out --prod --yes --token=${{ env.VERCEL_TOKEN }} --scope=${{ env.VERCEL_ORG_ID }} --project=${{ env.VERCEL_PROJECT_ID }}
