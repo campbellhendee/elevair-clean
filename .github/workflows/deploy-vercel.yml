@@ -35,12 +35,10 @@ jobs:
       - name: Link Vercel project (create .vercel/project.json)
         run: |
           mkdir -p .vercel
-          cat > .vercel/project.json << 'JSON'
-          {
+          echo '{
             "orgId": "${{ env.VERCEL_ORG_ID }}",
             "projectId": "${{ env.VERCEL_PROJECT_ID }}"
-          }
-          JSON
+          }' > .vercel/project.json
 
       - name: Pull Vercel environment information
         run: vercel pull --yes --environment=production --token=${{ env.VERCEL_TOKEN }}
