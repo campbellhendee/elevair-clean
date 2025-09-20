@@ -10,7 +10,7 @@ export default function ContactPage() {
             Prefer to share details before booking? Fill out this quick form and we'll get back to you within 24 hours.
           </p>
         </div>
-        <div className="bg-white rounded-xl overflow-hidden">
+        <div className="rounded-xl overflow-hidden border border-white/10 bg-white/[.02]">
           <iframe
             src="https://tally.so/embed/3xKjA5?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
             width="100%"
@@ -19,7 +19,7 @@ export default function ContactPage() {
             marginHeight={0}
             marginWidth={0}
             title="Contact form"
-            className="w-full"
+            className="w-full bg-transparent"
           />
         </div>
       </div>

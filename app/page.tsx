@@ -334,19 +334,11 @@ function FinalCTA() {
         <div className="rounded-3xl border border-white/10 bg-[linear-gradient(135deg,rgba(34,211,238,0.10),rgba(2,6,23,0.8))] p-8 md:p-12 text-center">
           <h3 className="text-3xl md:text-4xl font-extrabold">Request a Free Consultation</h3>
           <p className="mt-3 text-slate-300 max-w-2xl mx-auto">Share a bit about your sales flow. We'll respond within 24 hours with quick wins and next steps.</p>
-          <div className="mt-8 mx-auto max-w-2xl w-full bg-white rounded-xl overflow-hidden">
-            <iframe
-              src="https://tally.so/embed/3xKjA5?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-              width="100%"
-              height="520"
-              frameBorder="0"
-              marginHeight={0}
-              marginWidth={0}
-              title="Consultation request form"
-            />
-          </div>
-          <div className="mt-4">
-            <a href="mailto:hello@elevair.agency" className="text-slate-300 hover:text-white underline-offset-2 hover:underline">
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a href="/contact" className="rounded-2xl bg-cyan-400 px-6 py-3 text-slate-900 font-semibold hover:bg-cyan-300 transition inline-flex items-center gap-2">
+              Open Consultation Form <ArrowRight className="h-4 w-4" />
+            </a>
+            <a href="mailto:hello@elevair.agency" className="rounded-2xl border border-white/20 px-6 py-3 font-semibold hover:bg-white/5 inline-flex items-center gap-2">
               Prefer email? hello@elevair.agency
             </a>
           </div>
