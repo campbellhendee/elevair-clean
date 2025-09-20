@@ -32,11 +32,21 @@ jobs:
       - name: Install Vercel CLI
         run: npm i -g vercel@latest
 
+      - name: Link Vercel project (create .vercel/project.json)
+        run: |
+          mkdir -p .vercel
+          cat > .vercel/project.json << 'JSON'
+          {
+            "orgId": "${{ env.VERCEL_ORG_ID }}",
+            "projectId": "${{ env.VERCEL_PROJECT_ID }}"
+          }
+          JSON
+
       - name: Pull Vercel environment information
         run: vercel pull --yes --environment=production --token=${{ env.VERCEL_TOKEN }}
 
-      - name: Build with Vercel (prebuilt)
-        run: vercel build --token=${{ env.VERCEL_TOKEN }}
+      - name: Build static export (Next.js)
+        run: npm run build
 
-      - name: Deploy prebuilt output to Vercel (Production)
-        run: vercel deploy --prebuilt --prod --yes --token=${{ env.VERCEL_TOKEN }}
+      - name: Deploy static out/ to Vercel (Production)
+        run: vercel deploy ./out --prod --yes --token=${{ env.VERCEL_TOKEN }}
