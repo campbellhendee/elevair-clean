@@ -19,10 +19,9 @@ jobs:
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       # Optional: team scope (slug or ID) if your token has access to multiple teams
       VERCEL_SCOPE: ${{ secrets.VERCEL_SCOPE }}
-      # Safe defaults provided by user (non-secret). Used only if secrets/vars are not set.
+      # Safe, non-secret defaults confirmed by you (used only if Secrets/Variables are not set)
       DEFAULT_VERCEL_PROJECT_ID: prj_1WGkdUKtLBU5AG6LSYr8HvnIiEl1
-      # User/team slug can be used as scope (alternatively, set a real org ID that typically starts with team_...)
-      DEFAULT_VERCEL_SCOPE: campbellhedee
+      DEFAULT_VERCEL_SCOPE: campbellhendee
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -46,9 +45,8 @@ jobs:
           if [ -z "${VERCEL_ORG_ID}" ] && [ -n "${{ vars.VERCEL_ORG_ID }}" ]; then echo "VERCEL_ORG_ID=${{ vars.VERCEL_ORG_ID }}" >> $GITHUB_ENV; fi
           if [ -z "${VERCEL_PROJECT_ID}" ] && [ -n "${{ vars.VERCEL_PROJECT_ID }}" ]; then echo "VERCEL_PROJECT_ID=${{ vars.VERCEL_PROJECT_ID }}" >> $GITHUB_ENV; fi
           if [ -z "${VERCEL_SCOPE}" ] && [ -n "${{ vars.VERCEL_SCOPE }}" ]; then echo "VERCEL_SCOPE=${{ vars.VERCEL_SCOPE }}" >> $GITHUB_ENV; fi
-          # If still empty, use provided safe defaults
+          # If still empty, use your confirmed safe defaults (non-secret)
           if [ -z "${VERCEL_PROJECT_ID}" ] && [ -n "${DEFAULT_VERCEL_PROJECT_ID}" ]; then echo "VERCEL_PROJECT_ID=${DEFAULT_VERCEL_PROJECT_ID}" >> $GITHUB_ENV; fi
-          # Prefer ORG_ID if present; otherwise use SCOPE (team/user slug). We'll set a default scope if both are missing.
           if [ -z "${VERCEL_ORG_ID}" ] && [ -z "${VERCEL_SCOPE}" ] && [ -n "${DEFAULT_VERCEL_SCOPE}" ]; then echo "VERCEL_SCOPE=${DEFAULT_VERCEL_SCOPE}" >> $GITHUB_ENV; fi
 
       - name: Validate Vercel configuration
