@@ -50,7 +50,7 @@ function Header() {
           <a href="/about" className="hover:text-white">About</a>
           <a href="/contact" className="hover:text-white">Contact</a>
         </nav>
-        <CTAButton href="/book" placement="header" className="hidden md:inline-flex">Book a Free 30-min Teardown</CTAButton>
+  <CTAButton href="/book" placement="header" className="hidden md:inline-flex">Book a free consultation</CTAButton>
       </Container>
     </header>
   );
@@ -73,7 +73,7 @@ function Hero() {
           We fix slow follow‑ups and leaky funnels fast. We install &lt;5‑minute speed‑to‑lead, 5‑touch follow‑ups, and clean CRM automations so you book more calls in 14–30 days.
         </p>
         <div className="mt-8 flex flex-wrap gap-4">
-          <CTAButton href="/book" placement="hero">Book a Free 30-min Teardown <ArrowRight className="h-4 w-4" /></CTAButton>
+          <CTAButton href="/book" placement="hero">Book a free consultation <ArrowRight className="h-4 w-4" /></CTAButton>
           <a href="/#proof" className="inline-flex items-center gap-2 rounded-2xl border border-white/20 px-5 py-3 text-white hover:bg-white/5" data-placement="hero-proof" onClick={() => trackBookClick('hero-proof')}>
             See Before/After Results
           </a>
@@ -200,7 +200,7 @@ function ResultsCTA() {
               <h3 className="text-2xl font-bold">Speed‑to‑lead up, bookings up, revenue up.</h3>
               <p className="mt-2 text-slate-300">If we can’t show impact in 30 days, we shouldn’t be there.</p>
             </div>
-            <CTAButton href="/book" placement="section">Book a Free 30-min Teardown <ArrowRight className="h-4 w-4" /></CTAButton>
+            <CTAButton href="/book" placement="section">Book a free consultation <ArrowRight className="h-4 w-4" /></CTAButton>
           </div>
         </div>
       </Container>
@@ -293,10 +293,10 @@ function FinalCTA() {
     <section id="book" className="relative">
       <Container className="py-18 md:py-24">
         <div className="rounded-3xl border border-white/10 bg-[linear-gradient(135deg,rgba(34,211,238,0.10),rgba(2,6,23,0.8))] p-8 md:p-12 text-center">
-          <h3 className="text-3xl md:text-4xl font-extrabold">Request a Free Teardown</h3>
+          <h3 className="text-3xl md:text-4xl font-extrabold">Request a free consultation</h3>
           <p className="mt-3 text-slate-300 max-w-2xl mx-auto">Share a bit about your sales flow. We'll respond within 24 hours with quick wins and next steps.</p>
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <CTAButton href="/book" placement="section">Book a Free 30-min Teardown <ArrowRight className="h-4 w-4" /></CTAButton>
+            <CTAButton href="/book" placement="section">Book a free consultation <ArrowRight className="h-4 w-4" /></CTAButton>
             <a href="mailto:campbellhendee@elevair.org,williamdeyo@elevair.org?subject=Consultation%20request" className="rounded-2xl border border-white/20 px-6 py-3 font-semibold hover:bg-white/5 inline-flex items-center gap-2">
               Prefer email? growth@elevair.org
             </a>

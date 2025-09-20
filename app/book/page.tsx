@@ -12,6 +12,7 @@ export default function BookPage() {
     const utm = qs ? `&${qs.slice(1)}` : '';
     return `${base}${q}${utm}`;
   }, [base, color, qs]);
+  const hasCalendly = base.trim().length > 0;
 
   useEffect(() => {
     function onMsg(e: MessageEvent) {
@@ -27,13 +28,27 @@ export default function BookPage() {
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
       <div className="mx-auto w-full max-w-4xl px-6 py-12">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-center">Book your free teardown</h1>
+        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-center">Book your free consultation</h1>
         <p className="text-center text-slate-300 mt-2">
-          Pick a time (30 mins). We’ll review your website, forms, follow-ups, and response speed.
+          Pick a time. We’ll review your website, forms, follow-ups, and response speed.
           You leave with a short plan and quick wins.
         </p>
-        <div className="calendly-inline-widget mt-8" data-url={url} style={{ minWidth: '320px', height: '740px' }} />
-        <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="afterInteractive" />
+        {hasCalendly ? (
+          <>
+            <div className="calendly-inline-widget mt-8" data-url={url} style={{ minWidth: '320px', height: '740px' }} />
+            <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="afterInteractive" />
+          </>
+        ) : (
+          <div className="mt-8 rounded-2xl border border-white/10 bg-white/[.02] p-6 text-center">
+            <p className="text-slate-300">
+              Our booking calendar is temporarily unavailable. Please email{' '}
+              <a className="underline" href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL || 'growth@elevair.org'}`}>
+                {process.env.NEXT_PUBLIC_SUPPORT_EMAIL || 'growth@elevair.org'}
+              </a>{' '}
+              or use the <a className="underline" href="/contact">contact form</a>.
+            </p>
+          </div>
+        )}
       </div>
     </main>
   );

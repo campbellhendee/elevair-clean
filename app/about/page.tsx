@@ -15,7 +15,7 @@ export default function AboutPage() {
           </div>
         </div>
         <div className="mt-10">
-          <a href="/book" className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-5 py-3 text-slate-900 font-semibold hover:bg-cyan-300 transition">Book a Free 30‑min Teardown</a>
+          <a href="/book" className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-5 py-3 text-slate-900 font-semibold hover:bg-cyan-300 transition">Book a free consultation</a>
         </div>
       </div>
     </main>

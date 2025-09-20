@@ -90,11 +90,11 @@ export default function ProductGrid() {
   return (
     <section className="w-full py-16">
       <div className="mx-auto max-w-6xl px-6">
-        <header className="mb-8">
-          <h2 className="text-3xl font-bold tracking-tight text-slate-100">
+        <header className="mb-10">
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-100">
             The Elevair Stack
           </h2>
-          <p className="mt-2 text-slate-300 max-w-2xl">
+          <p className="mt-3 text-slate-300 max-w-2xl">
             Everything you need to capture more leads, book more calls, and automate follow-up—without adding headcount.
           </p>
         </header>
@@ -103,15 +103,15 @@ export default function ProductGrid() {
           {PRODUCTS.map((p) => (
             <article
               key={p.key}
-              className="group h-full rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl"
+              className="group h-full rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-sm transition-transform duration-200 hover:-translate-y-1 hover:shadow-2xl hover:border-cyan-500/30"
             >
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-800 text-slate-200">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-800 text-slate-200 ring-1 ring-white/5 group-hover:ring-cyan-400/30">
                   {p.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-slate-100">{p.name}</h3>
+                <h3 className="text-lg md:text-xl font-semibold text-slate-100">{p.name}</h3>
               </div>
-              <p className="mt-3 text-sm leading-6 text-slate-300">{p.blurb}</p>
+              <p className="mt-3 text-[0.95rem] leading-6 text-slate-300">{p.blurb}</p>
               <details className="mt-4 rounded-xl border border-white/10 bg-white/[.02] open:bg-white/[.04]">
                 <summary className="cursor-pointer list-none px-4 py-2 text-sm font-semibold">Learn more</summary>
                 <div className="px-4 py-3 text-slate-300 text-sm">

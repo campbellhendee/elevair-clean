@@ -5,7 +5,7 @@ import { getUTMSearch } from '../../lib/analytics';
 import FallbackForm from './fallback-form';
 
 export default function ContactPage() {
-  const email = process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? '';
+  const email = process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? 'growth@elevair.org';
   const base = process.env.NEXT_PUBLIC_TALLY_URL ?? '';
   const qs = getUTMSearch();
   const url = useMemo(() => {
@@ -18,8 +18,8 @@ export default function ContactPage() {
         <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-center">Contact us</h1>
         <p className="text-center text-slate-300 mt-2">
           Prefer email? Reach out at{' '}
-          <a className="underline" href={`mailto:${email}`}>{email || 'support@example.com'}</a>
-          {' '}or go ahead and <Link className="underline" href="/book">book a 30‑min teardown</Link> now.
+          <a className="underline" href={`mailto:${email}`}>{email ? email : 'Growth@Elevair.org'}</a>
+          {' '}or go ahead and <Link className="underline" href="/book">book a free consultation</Link> now.
         </p>
         <iframe
           data-tally-src={url}
@@ -34,7 +34,7 @@ export default function ContactPage() {
         <script async src="https://tally.so/widgets/embed.js"></script>
         <div className="mt-8">
           <h2 className="text-xl font-semibold">Having trouble with the form?</h2>
-          <p className="text-slate-300 mt-1">Email us or use the simple form below. Or <Link href="/book" className="underline">book a 30‑min teardown</Link> now.</p>
+    <p className="text-slate-300 mt-1">Email us or use the simple form below. Or <Link href="/book" className="underline">book a free consultation</Link> now.</p>
           <FallbackForm email={email} />
         </div>
       </div>
