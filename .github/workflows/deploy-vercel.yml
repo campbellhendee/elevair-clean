@@ -1,4 +1,3 @@
-name: Deploy to Vercel
 
 on:
   push:
@@ -19,9 +18,7 @@ jobs:
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       # Optional: team scope (slug or ID) if your token has access to multiple teams
       VERCEL_SCOPE: ${{ secrets.VERCEL_SCOPE }}
-      # Safe, non-secret defaults confirmed by you (used only if Secrets/Variables are not set)
-      DEFAULT_VERCEL_PROJECT_ID: prj_1WGkdUKtLBU5AG6LSYr8HvnIiEl1
-      DEFAULT_VERCEL_SCOPE: campbellhendee
+      # No defaults: fail fast if required settings are missing to avoid deploying to the wrong project
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -48,9 +45,6 @@ jobs:
           if [ -z "${VERCEL_ORG_ID}" ] && [ -n "${{ vars.VERCEL_ORG_ID }}" ]; then echo "VERCEL_ORG_ID=${{ vars.VERCEL_ORG_ID }}" >> $GITHUB_ENV; fi
           if [ -z "${VERCEL_PROJECT_ID}" ] && [ -n "${{ vars.VERCEL_PROJECT_ID }}" ]; then echo "VERCEL_PROJECT_ID=${{ vars.VERCEL_PROJECT_ID }}" >> $GITHUB_ENV; fi
           if [ -z "${VERCEL_SCOPE}" ] && [ -n "${{ vars.VERCEL_SCOPE }}" ]; then echo "VERCEL_SCOPE=${{ vars.VERCEL_SCOPE }}" >> $GITHUB_ENV; fi
-          # If still empty, use your confirmed safe defaults (non-secret)
-          if [ -z "${VERCEL_PROJECT_ID}" ] && [ -n "${DEFAULT_VERCEL_PROJECT_ID}" ]; then echo "VERCEL_PROJECT_ID=${DEFAULT_VERCEL_PROJECT_ID}" >> $GITHUB_ENV; fi
-          if [ -z "${VERCEL_ORG_ID}" ] && [ -z "${VERCEL_SCOPE}" ] && [ -n "${DEFAULT_VERCEL_SCOPE}" ]; then echo "VERCEL_SCOPE=${DEFAULT_VERCEL_SCOPE}" >> $GITHUB_ENV; fi
 
       - name: Validate Vercel configuration
         run: |
@@ -67,7 +61,8 @@ jobs:
             echo "Repo Settings → Secrets and variables → Actions"
             exit 1
           fi
-          echo "Vercel config present: token ✅, orgId ✅, projectId ✅"
+          if [ -n "${VERCEL_ORG_ID}" ]; then echo "Using orgId (looks like: ${VERCEL_ORG_ID%%_*}_...) and projectId ✅"; fi
+          if [ -n "${VERCEL_SCOPE}" ]; then echo "Using scope (team/user slug): ${VERCEL_SCOPE} and projectId ✅"; fi
 
       - name: Link Vercel project (create .vercel/project.json)
         run: |
@@ -83,7 +78,7 @@ jobs:
         run: |
           SCOPE_ARG=""
           if [ -n "${VERCEL_SCOPE}" ]; then SCOPE_ARG="--scope=${VERCEL_SCOPE}"; fi
-          vercel pull --yes --environment=production --project="${VERCEL_PROJECT_ID}" --token="${VERCEL_TOKEN}" ${SCOPE_ARG}
+          vercel pull --yes --environment=production --token="${VERCEL_TOKEN}" ${SCOPE_ARG}
 
       - name: Build static export (Next.js)
         run: npm run build
@@ -94,4 +89,7 @@ jobs:
           cd ./out
           SCOPE_ARG=""
           if [ -n "${VERCEL_SCOPE}" ]; then SCOPE_ARG="--scope=${VERCEL_SCOPE}"; fi
-          vercel deploy . --prod --yes --project="${VERCEL_PROJECT_ID}" --token="${VERCEL_TOKEN}" ${SCOPE_ARG}
+          ORG_ARG=""
+          if [ -n "${VERCEL_ORG_ID}" ]; then ORG_ARG="--org-id=${VERCEL_ORG_ID}"; fi
+          # Pass explicit project id to avoid any ambiguity
+          vercel deploy . --prod --yes --token="${VERCEL_TOKEN}" ${SCOPE_ARG} ${ORG_ARG} --project-id="${VERCEL_PROJECT_ID}"

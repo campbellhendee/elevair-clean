@@ -4,31 +4,26 @@
 1) npm install
 2) npm run dev
 
-## Deploy to your website (Vercel)
+## Deploy to your website (Vercel Git Integration)
 
-You’ve got two easy paths. If you already use Vercel, Option A is the simplest.
+We use Vercel’s native Git Integration (no GitHub Actions, no CLI tokens). Every push to `main` builds and deploys.
 
-### Option A — Vercel Git Integration (recommended)
-1) Push this repo to GitHub (it already is if you’re reading on GitHub).
-2) In Vercel Dashboard → New Project → Import Git Repository → pick this repo.
-3) Framework will auto-detect (Next.js). Keep defaults and click Deploy.
-4) Add your custom domain in Vercel → Settings → Domains.
+1) In Vercel Dashboard → New Project → Import Git Repository → pick this repo.
+2) Framework: Next.js (auto-detected)
+3) Project → Settings → Build & Output
+	- Install Command: `npm ci`
+	- Build Command: `next build`
+	- Output Directory: `out`
+	- Node.js Version: `20.x`
+	- Ignored Build Step: leave blank
+4) Add your custom domain in Project → Settings → Domains.
 
-That’s it. Every push to `main` will auto-deploy.
-
-### Option B — GitHub Actions workflow (included)
-This repo includes `.github/workflows/deploy-vercel.yml` which builds with `vercel build` and deploys with `vercel deploy --prebuilt` when you push to `main`.
-
-Before it can run, add these GitHub repository secrets (Settings → Secrets and variables → Actions → New repository secret):
-- VERCEL_TOKEN — Create in Vercel: Account Settings → Tokens → Create
-- VERCEL_ORG_ID — In Vercel: Settings → General → find “ID” for your Team/Account
-- VERCEL_PROJECT_ID — In Vercel: Project → Settings → General → “Project ID”
-
-After adding those three secrets, push to `main` to trigger a deploy. The workflow will:
-1) Install dependencies
-2) Pull Vercel env metadata (`vercel pull`)
-3) Build (`vercel build`)
-4) Deploy to production (`vercel deploy --prebuilt --prod`)
+Environment variables (set in Vercel → Project → Settings → Environment Variables):
+- NEXT_PUBLIC_SUPPORT_EMAIL
+- NEXT_PUBLIC_CALENDLY_URL
+- NEXT_PUBLIC_TALLY_URL (optional)
+- NEXT_PUBLIC_GA_MEASUREMENT_ID
+- NEXT_PUBLIC_PHONE (optional)
 
 ### Environment variables (optional)
 Set in Vercel Project → Settings → Environment Variables. All are safe `NEXT_PUBLIC_*` and only used on the client:
@@ -46,6 +41,13 @@ If that succeeds, Vercel will deploy fine.
 
 ### Custom domain
 In Vercel, open your Project → Settings → Domains → Add `yourdomain.com`. Follow the DNS instructions provided by Vercel. Once DNS propagates, your site will be live at your domain.
+
+### Verification after pushing to main
+- Vercel build uses Node 20.x, `npm ci`, `next build`, outputs to `out`
+- Production domain serves the new build
+- /book loads inline Calendly if `NEXT_PUBLIC_CALENDLY_URL` is set
+- /contact loads Tally if `NEXT_PUBLIC_TALLY_URL` is set
+- Optional: /sitemap.xml and /robots.txt are present
 
 ### Troubleshooting
 - Build fails on CI: open the workflow run logs in GitHub Actions. Most issues are missing secrets or env vars.
