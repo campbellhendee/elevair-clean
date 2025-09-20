@@ -12,7 +12,6 @@ export default function Page() {
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <Header />
       <Hero />
-      <SocialProof />
       <Differentiators />
       <Services />
       <Process />
@@ -91,21 +90,7 @@ function Hero() {
   );
 }
 
-function SocialProof() {
-  return (
-    <section>
-      <Container className="py-10 md:py-14">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-6 opacity-80">
-          {['Elevair CRM','Elevair Automations','Elevair Outbound','Elevair AI','Elevair Analytics'].map((logo)=> (
-            <div key={logo} className="rounded-xl border border-white/10 p-4 text-center text-sm text-slate-300">
-              {logo}
-            </div>
-          ))}
-        </div>
-      </Container>
-    </section>
-  );
-}
+// SocialProof chips removed for a cleaner layout
 
 function Differentiators() {
   const items = [
