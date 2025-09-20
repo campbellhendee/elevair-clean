@@ -65,9 +65,8 @@ function Hero() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-500/10 via-slate-900 to-slate-950" />
       <Container className="relative py-20 md:py-28">
         <div className="flex justify-center">
-          <div className="inline-flex items-center gap-2 text-cyan-300">
-            <Bolt className="h-4 w-4" />
-            <span className="text-sm uppercase tracking-wide">Elevair</span>
+          <div className="text-center">
+            <span className="block text-5xl md:text-7xl font-extrabold tracking-tight">Elevair</span>
           </div>
         </div>
         <motion.h1 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mt-3 text-3xl md:text-5xl font-extrabold tracking-tight">
