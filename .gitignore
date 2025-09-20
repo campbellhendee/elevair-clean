@@ -1,4 +1,21 @@
-﻿node_modules
+﻿# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Local env
+.env*
+!.env.example
+
+# Editor/OS
+.DS_Store
+*.log
+
+# Continue/agents (local dev tooling)
+.continue/
+node_modules
 .next
 .vercel
 dist
