@@ -39,11 +39,13 @@ export default function Header() {
           : "bg-transparent border-transparent"
       }`}>
       <div className="mx-auto w-full max-w-6xl px-6 py-3.5 flex items-center justify-between">
-        <Link href="/" className={`inline-flex items-center gap-2 text-lg font-semibold tracking-tight ${focus}`}>
-          <span className="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-white/[.04] ring-1 ring-white/10">
-            <Bolt className="h-4 w-4 text-cyan-400" aria-hidden="true" />
+        <Link href="/" className={`inline-flex items-center gap-3 text-xl font-bold tracking-wide ${focus} group`}>
+          <span className="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-gradient-to-br from-cyan-400/10 to-blue-500/10 ring-1 ring-cyan-400/20 group-hover:ring-cyan-400/40 transition-all duration-300">
+            <Bolt className="h-5 w-5 text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300" aria-hidden="true" />
           </span>
-          <span className="leading-none">Elevair</span>
+          <span className="bg-gradient-to-r from-white via-cyan-100 to-cyan-200 bg-clip-text text-transparent font-extrabold tracking-wider text-2xl leading-none">
+            ELEVAIR
+          </span>
         </Link>
         <nav aria-label="Primary" className="hidden md:flex items-center gap-7 text-sm text-slate-300">
           {links.map((l) => {
