@@ -1,6 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { Source_Sans_3 } from "next/font/google";
+
+const proSubhead = Source_Sans_3({ subsets: ["latin"], display: "swap" });
 
 export default function Page() {
   return (
@@ -19,7 +22,7 @@ function Hero() {
         {/* Brand wordmark with typing + glow (visual only) */}
         <div aria-hidden="true" className="mb-2">
           <span
-            className="inline-block w-[7ch] overflow-hidden whitespace-nowrap border-r-2 border-cyan-300 animate-typing-7 font-extrabold tracking-tight text-spectral glow-cyan text-6xl sm:text-7xl md:text-8xl"
+            className="inline-block font-extrabold tracking-tight text-spectral glow-cyan text-6xl sm:text-7xl md:text-8xl"
             title="Elevair"
           >
             Elevair
@@ -28,10 +31,10 @@ function Hero() {
 
         {/* Accessible H1 */}
         <h1 className="mt-1 font-extrabold tracking-tight leading-tight text-4xl sm:text-5xl md:text-6xl">
-          We don’t scale teams — we scale revenue.
+          We don’t scale teams — <span className="text-spectral glow-cyan">we scale revenue</span>.
         </h1>
 
-        <p className="mt-5 text-xl md:text-2xl leading-relaxed text-slate-300 max-w-3xl mx-auto">
+        <p className={`${proSubhead.className} mt-5 text-xl md:text-2xl leading-relaxed text-slate-300 max-w-3xl mx-auto`}>
           Details are boring. AI thrives on them. Let it work while you scale
         </p>
 
