@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 export default function Page() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 relative">

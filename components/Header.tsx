@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Bolt } from "lucide-react";
 import CTAButton from "./CTAButton";
 
 const links = [
@@ -26,8 +27,9 @@ export default function Header() {
   return (
     <header role="banner" className="sticky top-0 z-40 border-b border-white/10 backdrop-blur supports-[backdrop-filter]:bg-slate-950/60">
       <div className="mx-auto w-full max-w-6xl px-6 py-4 flex items-center justify-between">
-        <Link href="/" className={`text-lg font-semibold tracking-tight ${focus}`}>
-          Elevair
+        <Link href="/" className={`inline-flex items-center gap-2 text-lg font-semibold tracking-tight ${focus}`}>
+          <Bolt className="h-5 w-5 text-cyan-400" aria-hidden="true" />
+          <span>Elevair</span>
         </Link>
         <nav aria-label="Primary" className="hidden md:flex items-center gap-6 text-sm text-slate-300">
           {links.map((l) => {
