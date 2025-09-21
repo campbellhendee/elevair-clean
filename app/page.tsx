@@ -16,8 +16,8 @@ export default function Page() {
 
 function Hero() {
   return (
-    {/* mobile responsive tweak: increase top/bottom padding at md+, tighter on small */}
     <section className="relative z-10 px-6 sm:px-8 pt-28 sm:pt-36 md:pt-56 pb-20 sm:pb-24 md:pb-36">
+      {/* mobile responsive tweak: increase top/bottom padding at md+, tighter on small */}
       {/* mobile responsive tweak: constrain width and center content */}
       <div className="mx-auto w-full max-w-4xl text-center">
         {/* Brand wordmark (glow only, no caret/typing) */}
