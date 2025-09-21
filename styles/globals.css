@@ -45,3 +45,19 @@ html { scroll-behavior: smooth; }
       0 0 22px rgba(34, 211, 238, 0.18);
   }
 }
+
+/* Respect reduced motion for spectral text */
+@media (prefers-reduced-motion: reduce) {
+  .text-spectral { animation: none; }
+  .animate-typing-7 { animation: none; border-right: 0; }
+}
+
+/* Subtle grid overlay */
+.hero-grid {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.6), transparent 70%);
+}
+
