@@ -113,8 +113,16 @@ html { scroll-behavior: smooth; }
   }
 
   .bg-aurora-fast { animation-duration: 12s; }
+  .bg-aurora-slow { animation-duration: 32s; }
 
   .bg-aurora-diagonal { animation-name: aurora-diagonal; }
+
+  .bg-aurora-subtle {
+    background-image:
+      radial-gradient(1000px 600px at 15% 0%, rgba(34,211,238,0.08), transparent 60%),
+      radial-gradient(900px 500px at 85% 0%, rgba(96,165,250,0.06), transparent 60%),
+      linear-gradient(120deg, rgba(2,6,23,0.88), rgba(2,6,23,0.96));
+  }
 
   .bg-aurora-bold {
     background-image:
@@ -215,6 +223,7 @@ html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) {
   .bg-aurora,
   .bg-aurora-fast,
+  .bg-aurora-slow,
   .bg-aurora-diagonal,
   .bg-aurora-front,
   .bg-aurora-beam,
