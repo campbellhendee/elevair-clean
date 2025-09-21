@@ -7,9 +7,8 @@ const revenueFont = IBM_Plex_Sans({ subsets: ["latin"], weight: "600", display: 
 export default function Page() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 relative">
-      {/* Soft radial cyan background + subtle grid overlay */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-500/10 via-slate-900 to-slate-950" />
-      <div className="pointer-events-none absolute inset-0 hero-grid" />
+      {/* Abstract image background with gradient fallback */}
+      <div aria-hidden className="absolute inset-0 -z-10 bg-hero" />
       <Hero />
     </div>
   );
