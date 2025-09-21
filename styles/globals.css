@@ -86,6 +86,12 @@ html { scroll-behavior: smooth; }
   100% { background-position: 0% 50% }
 }
 
+@keyframes aurora-diagonal {
+  0%   { background-position: 0% 0% }
+  50%  { background-position: 100% 100% }
+  100% { background-position: 0% 0% }
+}
+
 @layer utilities {
   /* Animated, subtle aurora gradient */
   .bg-aurora {
@@ -94,7 +100,36 @@ html { scroll-behavior: smooth; }
       radial-gradient(900px 500px at 85% 0%, rgba(96,165,250,0.10), transparent 60%),
       linear-gradient(120deg, rgba(2,6,23,0.85), rgba(2,6,23,0.95));
     background-size: 200% 200%;
-    animation: aurora-shift 22s ease-in-out infinite;
+    animation-name: aurora-shift;
+    animation-duration: 22s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+
+  .bg-aurora-fast { animation-duration: 12s; }
+
+  .bg-aurora-diagonal { animation-name: aurora-diagonal; }
+
+  .bg-aurora-bold {
+    background-image:
+      radial-gradient(1000px 600px at 15% 0%, rgba(34,211,238,0.22), transparent 60%),
+      radial-gradient(900px 500px at 85% 0%, rgba(96,165,250,0.20), transparent 60%),
+      linear-gradient(120deg, rgba(2,6,23,0.80), rgba(2,6,23,0.92));
+  }
+
+  /* Foreground aurora layer for depth */
+  .bg-aurora-front {
+    pointer-events: none;
+    background-image:
+      radial-gradient(700px 420px at 70% 20%, rgba(34,211,238,0.12), transparent 60%),
+      radial-gradient(600px 360px at 30% 10%, rgba(167,139,250,0.10), transparent 60%);
+    background-size: 300% 300%;
+    animation-name: aurora-diagonal;
+    animation-duration: 36s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    mix-blend-mode: screen;
+    opacity: 0.8;
   }
 
   /* Subtle grid overlay for depth (masked) */
@@ -114,5 +149,8 @@ html { scroll-behavior: smooth; }
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .bg-aurora { animation: none; }
+  .bg-aurora,
+  .bg-aurora-fast,
+  .bg-aurora-diagonal,
+  .bg-aurora-front { animation: none; }
 }
