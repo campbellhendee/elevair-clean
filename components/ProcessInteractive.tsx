@@ -140,7 +140,7 @@ export default function ProcessInteractive() {
               <section
                 key={s.id}
                 id={s.id}
-                ref={(el) => (sectionRefs.current[s.id] = el)}
+                ref={(el) => { sectionRefs.current[s.id] = el; }}
                 className="scroll-mt-28 reveal"
               >
                 <StepPanel icon={s.icon} title={s.title} lead={s.lead}>
