@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Bolt, Menu, X } from "lucide-react";
@@ -19,26 +19,45 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(href + "/");
 }
 
-export default function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hideMobile, setHideMobile] = useState(false);
+  const lastScrollY = useRef(0);
   const pathname = usePathname();
   const focus = "focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950";
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
+      // Mobile hide-on-scroll
+      if (window.innerWidth <= 640) {
+        const currentY = window.scrollY;
+        if (currentY > lastScrollY.current && currentY > 32) {
+          setHideMobile(true);
+        } else {
+          setHideMobile(false);
+        }
+        lastScrollY.current = currentY;
+      }
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <header role="banner" className={`sticky top-0 z-40 relative border-b transition-colors duration-300 ${
+    <header
+      role="banner"
+      className={`sticky top-0 z-40 relative border-b transition-colors duration-300 ${
         scrolled
           ? "bg-slate-950/80 border-white/10 shadow-[0_6px_20px_rgba(0,0,0,.35)] backdrop-blur"
           : "bg-transparent border-transparent"
-      }`}>
-      <div className="mx-auto w-full max-w-screen-2xl px-2 md:px-4 py-3.5 flex items-center justify-between">
+      } ${hideMobile ? "header-hide-mobile" : ""}`}
+      style={{
+        transition: "transform 0.35s cubic-bezier(.4,0,.2,1)",
+      }}
+    >
+  <div className="mx-auto w-full max-w-screen-2xl px-2 md:px-4 py-3.5 flex items-center justify-between">
         <Link href="/" className={`inline-flex items-center gap-4 text-xl font-bold tracking-wide ${focus} group`}>
           <span className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-gradient-to-br from-cyan-400/10 to-blue-500/10 ring-1 ring-cyan-400/20 group-hover:ring-cyan-400/40 transition-all duration-300">
             <Bolt className="h-6 w-6 text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300" aria-hidden="true" />
@@ -100,6 +119,14 @@ export default function Header() {
       )}
       {/* subtle bottom gradient border on desktop */}
       <div aria-hidden className="hidden md:block absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      {/* mobile hide-on-scroll style */}
+      <style>{`
+        @media (max-width: 640px) {
+          .header-hide-mobile {
+            transform: translateY(-110%) !important;
+          }
+        }
+      `}</style>
     </header>
   );
 }
