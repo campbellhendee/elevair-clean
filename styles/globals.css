@@ -45,6 +45,7 @@ html { scroll-behavior: smooth; }
       image-set(
         url('/bg/hero-abstract-2560.webp') 2x,
         url('/bg/hero-abstract-1536.webp') 1x,
+        url('/bg/hero-abstract.jpg') 2x,
         url('/bg/hero-abstract.jpg') 1x
       );
     background-size: 100% 100%, cover;
