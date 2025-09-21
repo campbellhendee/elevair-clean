@@ -17,12 +17,12 @@ export default function Page() {
 
 function Hero() {
   return (
-    <section className="relative px-8 py-28 md:py-36">
+    <section className="relative px-8 pt-40 pb-28 md:pt-56 md:pb-36">
       <div className="mx-auto max-w-5xl text-center">
         {/* Brand wordmark with typing + glow (visual only) */}
         <div aria-hidden="true" className="mb-2">
           <span
-            className="inline-block font-extrabold tracking-tight text-spectral glow-cyan text-6xl sm:text-7xl md:text-8xl"
+            className="inline-block font-extrabold tracking-tight text-spectral glow-cyan text-7xl sm:text-8xl md:text-9xl"
             title="Elevair"
           >
             Elevair
@@ -30,7 +30,7 @@ function Hero() {
         </div>
 
         {/* Accessible H1 */}
-        <h1 className="mt-1 font-extrabold tracking-tight leading-tight text-4xl sm:text-5xl md:text-6xl">
+        <h1 className="mt-1 font-extrabold tracking-tight leading-tight text-5xl sm:text-6xl md:text-7xl">
           We don’t scale teams — <span className="text-spectral glow-cyan">we scale revenue</span>.
         </h1>
 
