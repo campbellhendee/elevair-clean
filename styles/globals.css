@@ -92,6 +92,12 @@ html { scroll-behavior: smooth; }
   100% { background-position: 0% 0% }
 }
 
+@keyframes aurora-beam-shift {
+  0%   { background-position: -200% -200%; }
+  50%  { background-position: 0% 0%; }
+  100% { background-position: 200% 200%; }
+}
+
 @layer utilities {
   /* Animated, subtle aurora gradient */
   .bg-aurora {
@@ -115,6 +121,28 @@ html { scroll-behavior: smooth; }
       radial-gradient(1000px 600px at 15% 0%, rgba(34,211,238,0.22), transparent 60%),
       radial-gradient(900px 500px at 85% 0%, rgba(96,165,250,0.20), transparent 60%),
       linear-gradient(120deg, rgba(2,6,23,0.80), rgba(2,6,23,0.92));
+  }
+
+  /* Bold diagonal beam sweep for obvious motion */
+  .bg-aurora-beam {
+    pointer-events: none;
+    background-image:
+      linear-gradient(
+        130deg,
+        rgba(34,211,238,0.00) 40%,
+        rgba(34,211,238,0.40) 50%,
+        rgba(34,211,238,0.00) 60%
+      ),
+      linear-gradient(
+        130deg,
+        rgba(96,165,250,0.00) 35%,
+        rgba(96,165,250,0.20) 50%,
+        rgba(96,165,250,0.00) 65%
+      );
+    background-size: 280% 280%, 320% 320%;
+    animation: aurora-beam-shift 9s ease-in-out infinite;
+    mix-blend-mode: screen;
+    opacity: 0.9;
   }
 
   /* Foreground aurora layer for depth */
@@ -147,10 +175,19 @@ html { scroll-behavior: smooth; }
   }
 }
 
+/* Make beam pop more on small screens */
+@media (max-width: 640px) {
+  .bg-aurora-beam {
+    opacity: 1;
+    background-size: 320% 320%, 360% 360%;
+  }
+}
+
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .bg-aurora,
   .bg-aurora-fast,
   .bg-aurora-diagonal,
-  .bg-aurora-front { animation: none; }
+  .bg-aurora-front,
+  .bg-aurora-beam { animation: none; }
 }
