@@ -6,12 +6,14 @@ const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "support@elevair.o
 export default function Footer() {
   return (
     <footer className="border-t border-white/10">
-      <div className="mx-auto w-full max-w-6xl px-6 py-8 md:py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-sm text-slate-400">
-        <div className="flex items-center gap-2">
+      {/* mobile responsive tweak: stack on mobile, row on desktop */}
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 py-8 md:py-10 grid gap-6 text-sm text-slate-400 md:flex md:items-center md:justify-between">
+        <div className="flex items-center justify-center md:justify-start gap-2">
           <Bolt className="h-4 w-4 text-cyan-400" />
           <span>Elevair</span>
         </div>
-        <nav aria-label="Footer" className="flex flex-wrap items-center justify-center gap-4">
+        {/* mobile responsive tweak: 1-column nav on mobile, wrap on desktop */}
+        <nav aria-label="Footer" className="flex flex-col items-center md:flex-row md:flex-wrap md:justify-center gap-2 md:gap-4">
           <Link href="/services" className="hover:text-white">Services</Link>
           <Link href="/process" className="hover:text-white">Process</Link>
           <Link href="/results" className="hover:text-white">Results</Link>
@@ -21,7 +23,7 @@ export default function Footer() {
           <Link href="/privacy" className="hover:text-white">Privacy</Link>
           <Link href="/terms" className="hover:text-white">Terms</Link>
         </nav>
-        <div className="flex flex-col items-center gap-2 text-xs">
+        <div className="flex flex-col items-center md:items-end gap-2 text-xs">
           <a href={`mailto:${supportEmail}`} className="hover:text-white">
             {supportEmail}
           </a>

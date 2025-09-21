@@ -33,7 +33,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header role="banner" className={`sticky top-0 z-40 border-b transition-colors duration-300 ${
+    <header role="banner" className={`sticky top-0 z-40 relative border-b transition-colors duration-300 ${
         scrolled
           ? "bg-slate-950/80 border-white/10 shadow-[0_6px_20px_rgba(0,0,0,.35)] backdrop-blur"
           : "bg-transparent border-transparent"
@@ -98,6 +98,8 @@ export default function Header() {
           </div>
         </nav>
       )}
+      {/* subtle bottom gradient border on desktop */}
+      <div aria-hidden className="hidden md:block absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
     </header>
   );
 }
