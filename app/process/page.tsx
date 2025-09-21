@@ -1,83 +1,63 @@
-import Link from "next/link";
-import { ArrowRight, Workflow, Bot, Mail, Calendar } from "lucide-react";
+﻿import CTAButton from "../../components/CTAButton";
 
 export const metadata = {
-  title: "Process - Elevair",
-  description: "Our 4-step process: Audit, Build, Train, Support. 14-30 day timeline.",
+  title: "Process — Elevair",
+  description: "Our simple process: discover & plan, build & install, train & launch, optimize & grow. Practical AI that books more calls without hiring.",
 };
 
 export default function ProcessPage() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
-      <div className="mx-auto max-w-4xl px-6 py-16">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
-            Our Process
+      <section className="mx-auto max-w-3xl px-6 py-16">
+        <header className="text-center mb-12">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
+            Our Process: AI That Works for Your Business — End to End
           </h1>
-          <p className="text-lg text-slate-300 max-w-2xl mx-auto">
-            4 simple steps. 14-30 day timeline. More booked calls guaranteed.
+          <p className="text-lg text-slate-300">
+            We keep it simple: learn your workflow, install what helps, train your team, then keep improving.
           </p>
+        </header>
+
+        <div className="space-y-6">
+          <section className="border border-white/10 rounded-2xl p-6">
+            <h2 className="text-lg font-semibold mb-2">Step 1 — Discover & Plan</h2>
+            <p className="text-slate-300">
+              We analyze how your business actually runs—from first contact to job done—and pinpoint the few places where AI will save time or book more calls. You’ll get a short plan with clear “do this first” steps.
+            </p>
+          </section>
+          <section className="border border-white/10 rounded-2xl p-6">
+            <h2 className="text-lg font-semibold mb-2">Step 2 — Build & Install</h2>
+            <p className="text-slate-300">
+              We implement the right tools for you: AI sales rep, chatbot & intake, booking systems, follow‑ups, and CRM workflows. Everything is clean, fast, and reversible.
+            </p>
+          </section>
+          <section className="border border-white/10 rounded-2xl p-6">
+            <h2 className="text-lg font-semibold mb-2">Step 3 — Train & Launch</h2>
+            <p className="text-slate-300">
+              We hand over simple guides and short Looms so your team can use the new system right away—no technical background needed.
+            </p>
+          </section>
+          <section className="border border-white/10 rounded-2xl p-6">
+            <h2 className="text-lg font-semibold mb-2">Step 4 — Optimize & Grow</h2>
+            <p className="text-slate-300">
+              We track performance, improve what works, and expand AI into new areas (retention, reviews, upsells) as your business grows.
+            </p>
+          </section>
         </div>
 
-        <div className="space-y-8">
-          {steps.map((step, index) => (
-            <div key={step.title} className="flex gap-6 p-8 border border-white/10 rounded-2xl">
-              <div className="flex-shrink-0">
-                <div className="w-12 h-12 rounded-xl bg-cyan-400/10 text-cyan-400 flex items-center justify-center font-bold text-lg">
-                  {index + 1}
-                </div>
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2 rounded-lg bg-white/5 text-cyan-400">
-                    {step.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold">{step.title}</h3>
-                </div>
-                <p className="text-slate-300 mb-4">{step.desc}</p>
-                <p className="text-sm text-slate-400">{step.timeline}</p>
-              </div>
-            </div>
-          ))}
+        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <CTAButton href="/book" placement="section" variant="primary">
+            Book a Free 30‑min Teardown
+          </CTAButton>
+          <CTAButton href="/contact" placement="section" variant="secondary">
+            Contact Us
+          </CTAButton>
         </div>
 
-        <div className="text-center mt-16">
-          <Link
-            href="/book"
-            className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-8 py-4 text-lg font-semibold text-slate-900 hover:bg-cyan-300 shadow-lg shadow-cyan-500/20 transition"
-          >
-            Start your project
-            <ArrowRight className="h-5 w-5" />
-          </Link>
-        </div>
-      </div>
+        <p className="text-center text-sm text-slate-400 mt-6">
+          Typical setup: 14–30 days, then light ongoing support.
+        </p>
+      </section>
     </div>
   );
 }
-
-const steps = [
-  {
-    title: "Audit",
-    desc: "We test your lead flow, response speed, and follow‑up. You get a Loom + Notion roadmap with specific recommendations.",
-    timeline: "Week 1: 2-3 days",
-    icon: <Workflow className="h-5 w-5" />
-  },
-  {
-    title: "Build",
-    desc: "We install forms, CRM, automations, and outreach systems. Clean and reversible implementation.",
-    timeline: "Week 2-3: 7-10 days",
-    icon: <Bot className="h-5 w-5" />
-  },
-  {
-    title: "Train",
-    desc: "Short Looms + one‑pager SOPs. Your team actually uses the system we build.",
-    timeline: "Week 3: 2-3 days",
-    icon: <Mail className="h-5 w-5" />
-  },
-  {
-    title: "Support",
-    desc: "2–4 weeks of tweaks and optimization. Then light retainer if you want continued support.",
-    timeline: "Week 4-6: Ongoing",
-    icon: <Calendar className="h-5 w-5" />
-  }
-];
