@@ -39,7 +39,7 @@ export default function ProcessPage() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <section
-        className="relative mx-auto max-w-5xl px-6 py-16"
+        className="relative mx-auto max-w-5xl px-6 py-16 bg-process"
       >
         <header className="text-center mb-12">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
@@ -51,8 +51,8 @@ export default function ProcessPage() {
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {steps.map((s, i) => (
-            <StepCard key={s.title} index={i + 1} icon={s.icon} title={s.title}>
+          {steps.map((s) => (
+            <StepCard key={s.title} icon={s.icon} title={s.title}>
               {s.desc}
             </StepCard>
           ))}
@@ -67,9 +67,6 @@ export default function ProcessPage() {
           </CTAButton>
         </div>
 
-        <p className="text-center text-sm text-slate-400 mt-6">
-          Typical setup: 14–30 days, then light ongoing support.
-        </p>
       </section>
     </div>
   );
@@ -82,12 +79,10 @@ type StepItem = {
 };
 
 function StepCard({
-  index,
   icon,
   title,
   children,
 }: {
-  index: number;
   icon: ReactNode;
   title: string;
   children: ReactNode;
@@ -107,12 +102,7 @@ function StepCard({
         </div>
 
         <div className="flex-1">
-          <div className="flex items-center gap-3 mb-1">
-            <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-md bg-cyan-400/15 text-cyan-300 text-xs font-semibold">
-              {index}
-            </span>
-            <h2 className="text-base sm:text-lg font-semibold">{title}</h2>
-          </div>
+          <h2 className="text-base sm:text-lg font-semibold mb-1">{title}</h2>
           <p className="text-slate-300 text-base leading-relaxed">{children}</p>
         </div>
       </div>
