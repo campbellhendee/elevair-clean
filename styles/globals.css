@@ -92,6 +92,13 @@ html { scroll-behavior: smooth; }
   100% { background-position: 0% 0% }
 }
 
+/* Very small, subtle drift around center */
+@keyframes aurora-drift-small {
+  0%   { background-position: 47% 47% }
+  50%  { background-position: 53% 53% }
+  100% { background-position: 47% 47% }
+}
+
 @keyframes aurora-beam-shift {
   0%   { background-position: -200% -200%; }
   50%  { background-position: 0% 0%; }
@@ -116,6 +123,12 @@ html { scroll-behavior: smooth; }
   .bg-aurora-slow { animation-duration: 32s; }
 
   .bg-aurora-diagonal { animation-name: aurora-diagonal; }
+  .bg-aurora-tiny-drift {
+    animation-name: aurora-drift-small;
+    animation-duration: 60s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
 
   .bg-aurora-subtle {
     background-image:
@@ -225,6 +238,7 @@ html { scroll-behavior: smooth; }
   .bg-aurora-fast,
   .bg-aurora-slow,
   .bg-aurora-diagonal,
+  .bg-aurora-tiny-drift,
   .bg-aurora-front,
   .bg-aurora-beam,
   .bg-aurora-beam-strong { animation: none; }

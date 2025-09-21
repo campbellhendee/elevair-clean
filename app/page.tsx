@@ -9,8 +9,8 @@ export default function Page() {
     <div className="min-h-screen text-slate-100 relative">
       {/* Page photo background (sits above global aurora, below content) */}
   <div aria-hidden className="absolute inset-0 z-0 bg-hero opacity-60 pointer-events-none" />
-      {/* Subtle animated aurora layer only on home page */}
-      <div aria-hidden className="absolute inset-0 z-0 bg-aurora bg-aurora-diagonal bg-aurora-slow bg-aurora-subtle pointer-events-none" />
+      {/* Extremely subtle ambient background drift on home page */}
+      <div aria-hidden className="absolute inset-0 z-0 bg-aurora bg-aurora-subtle bg-aurora-tiny-drift pointer-events-none" />
       <Hero />
     </div>
   );
