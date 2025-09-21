@@ -39,7 +39,7 @@ export default function ProcessPage() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <section
-        className="relative mx-auto max-w-3xl px-6 py-16 bg-[radial-gradient(800px_400px_at_50%_-10%,rgba(34,211,238,0.04),transparent)]"
+        className="relative mx-auto max-w-5xl px-6 py-16"
       >
         <header className="text-center mb-12">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
@@ -50,7 +50,7 @@ export default function ProcessPage() {
           </p>
         </header>
 
-        <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {steps.map((s, i) => (
             <StepCard key={s.title} index={i + 1} icon={s.icon} title={s.title}>
               {s.desc}
@@ -93,14 +93,17 @@ function StepCard({
   children: ReactNode;
 }) {
   return (
-    <section className="rounded-2xl border border-white/10 bg-white/5 p-5">
+    <section className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 h-full hover:border-white/20 transition-colors">
+      {/* subtle top accent */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-cyan-400/30 via-cyan-400/10 to-transparent" />
+
       <div className="flex items-start gap-4">
         {/* Consistent icon circle (works for SVGs or emojis) */}
         <div
-          className="shrink-0 grid place-items-center h-10 w-10 rounded-xl bg-cyan-400/10 text-cyan-300 text-base leading-none"
+          className="shrink-0 grid place-items-center h-10 w-10 rounded-xl bg-cyan-400/10 text-cyan-300"
           aria-hidden
         >
-          <span className="flex items-center justify-center h-5 w-5">{icon}</span>
+          <span className="flex items-center justify-center text-[18px] leading-none">{icon}</span>
         </div>
 
         <div className="flex-1">
