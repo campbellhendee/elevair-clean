@@ -1,6 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
+import { IBM_Plex_Sans } from "next/font/google";
+
+const revenueFont = IBM_Plex_Sans({ subsets: ["latin"], weight: "600", display: "swap" });
 export default function Page() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 relative">
@@ -16,15 +19,10 @@ function Hero() {
   return (
     <section className="relative px-8 pt-40 pb-28 md:pt-56 md:pb-36">
       <div className="mx-auto max-w-4xl text-center">
-        {/* Brand wordmark with typing + glow (visual only) */}
+        {/* Brand wordmark (glow only, no caret/typing) */}
         <div aria-hidden="true" className="mb-3">
           <span
-            className="
-              inline-block w-[7ch] overflow-hidden whitespace-nowrap
-              border-r-2 border-cyan-300 animate-typing-7
-              font-extrabold tracking-tight text-spectral glow-cyan
-              text-7xl sm:text-8xl md:text-9xl
-            "
+            className="inline-block font-extrabold tracking-tight text-spectral glow-cyan text-7xl sm:text-8xl md:text-9xl"
             title="Elevair"
           >
             Elevair
@@ -33,7 +31,7 @@ function Hero() {
 
         {/* Accessible H1 */}
         <h1 className="mt-2 font-extrabold tracking-tight leading-tight text-5xl sm:text-6xl md:text-7xl">
-          We don’t scale teams — we scale revenue.
+          We don’t scale teams. <span className={`${revenueFont.className} text-cyan-300`}>We scale revenue.</span>
         </h1>
 
         {/* Subhead */}
