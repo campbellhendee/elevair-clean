@@ -27,7 +27,7 @@ export default function Footer() {
           <a href={`mailto:${supportEmail}`} className="hover:text-white">
             {supportEmail}
           </a>
-          <span>Â© {new Date().getFullYear()} Elevair. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Elevair. All rights reserved.</span>
         </div>
       </div>
     </footer>
