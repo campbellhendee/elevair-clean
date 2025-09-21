@@ -2,15 +2,15 @@ import React from "react";
 import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { IBM_Plex_Sans } from "next/font/google";
+import AnimatedHeroBg from "../components/AnimatedHeroBg";
 
 const revenueFont = IBM_Plex_Sans({ subsets: ["latin"], weight: "600", display: "swap" });
 export default function Page() {
   return (
     <div className="min-h-screen text-slate-100 relative">
       {/* Page photo background (sits above global aurora, below content) */}
-  <div aria-hidden className="absolute inset-0 z-0 bg-hero opacity-90 pointer-events-none" />
-      {/* Very subtle beam overlay behind content */}
-      <div aria-hidden className="absolute inset-0 z-0 bg-aurora-beam-soft pointer-events-none" />
+      <div aria-hidden className="absolute inset-0 z-0 bg-hero opacity-60 pointer-events-none" />
+      <AnimatedHeroBg />
       <Hero />
     </div>
   );

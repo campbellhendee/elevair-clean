@@ -289,6 +289,50 @@ html { scroll-behavior: smooth; }
   }
 }
 
+/* Hero background animations */
+@keyframes hero-float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -30px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+@keyframes hero-float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-30px, 50px) scale(0.95); }
+  66% { transform: translate(30px, -20px) scale(1.05); }
+}
+
+@keyframes hero-float-3 {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.15); }
+}
+
+@layer utilities {
+  .animate-hero-float-1 {
+    animation: hero-float-1 20s ease-in-out infinite;
+  }
+  
+  .animate-hero-float-2 {
+    animation: hero-float-2 25s ease-in-out infinite;
+  }
+  
+  .animate-hero-float-3 {
+    animation: hero-float-3 30s ease-in-out infinite;
+  }
+
+  /* Section reveal animations */
+  .section-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .section-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .bg-aurora,
@@ -299,4 +343,16 @@ html { scroll-behavior: smooth; }
   .bg-aurora-front,
   .bg-aurora-beam,
   .bg-aurora-beam-strong { animation: none; }
+  
+  .animate-hero-float-1,
+  .animate-hero-float-2,
+  .animate-hero-float-3 {
+    animation: none;
+  }
+  
+  .section-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
