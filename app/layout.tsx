@@ -18,13 +18,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>
+        <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-cyan-400 text-slate-900 px-3 py-2 rounded">Skip to content</a>
         {/* Global background layers (fixed behind content) */}
         <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
           <div className="absolute inset-0 bg-aurora" />
           <div className="absolute inset-0 bg-grid" />
           <div className="absolute inset-0 bg-vignette" />
         </div>
-        <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-cyan-400 text-slate-900 px-3 py-2 rounded">Skip to content</a>
         <Header />
         <main id="main" role="main">
           {children}

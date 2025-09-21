@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <div className="min-h-screen text-slate-100 relative">
       {/* Page photo background (sits above global aurora, below content) */}
-      <div aria-hidden className="absolute inset-0 z-0 bg-hero pointer-events-none" />
+      <div aria-hidden className="absolute inset-0 z-0 bg-hero opacity-30 pointer-events-none" />
       <Hero />
     </div>
   );
