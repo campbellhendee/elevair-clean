@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 relative">
       {/* Abstract image background with gradient fallback */}
-      <div aria-hidden className="absolute inset-0 -z-10 bg-hero" />
+      <div aria-hidden className="absolute inset-0 z-0 bg-hero pointer-events-none" />
       <Hero />
     </div>
   );
@@ -16,7 +16,7 @@ export default function Page() {
 
 function Hero() {
   return (
-    <section className="relative px-8 pt-40 pb-28 md:pt-56 md:pb-36">
+    <section className="relative z-10 px-8 pt-40 pb-28 md:pt-56 md:pb-36">
       <div className="mx-auto max-w-4xl text-center">
         {/* Brand wordmark (glow only, no caret/typing) */}
         <div aria-hidden="true" className="mb-3">
