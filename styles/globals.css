@@ -153,19 +153,19 @@ html { scroll-behavior: smooth; }
       linear-gradient(
         130deg,
         rgba(34,211,238,0.00) 35%,
-        rgba(34,211,238,0.60) 50%,
+        rgba(34,211,238,0.32) 50%,
         rgba(34,211,238,0.00) 65%
       ),
       linear-gradient(
         130deg,
         rgba(96,165,250,0.00) 30%,
-        rgba(96,165,250,0.35) 50%,
+        rgba(96,165,250,0.18) 50%,
         rgba(96,165,250,0.00) 70%
       );
-    background-size: 260% 260%, 300% 300%;
-    animation: aurora-beam-shift 7s ease-in-out infinite;
+    background-size: 280% 280%, 320% 320%;
+    animation: aurora-beam-shift 12s ease-in-out infinite;
     mix-blend-mode: screen;
-    opacity: 1;
+    opacity: 0.6;
     will-change: background-position;
   }
 
@@ -199,11 +199,14 @@ html { scroll-behavior: smooth; }
   }
 }
 
-/* Make beam pop more on small screens */
+/* Mobile tuning */
 @media (max-width: 640px) {
-  .bg-aurora-beam,
-  .bg-aurora-beam-strong {
+  .bg-aurora-beam {
     opacity: 1;
+    background-size: 320% 320%, 360% 360%;
+  }
+  .bg-aurora-beam-strong {
+    opacity: 0.7;
     background-size: 320% 320%, 360% 360%;
   }
 }
