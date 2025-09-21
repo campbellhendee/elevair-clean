@@ -251,6 +251,14 @@ html { scroll-behavior: smooth; }
     background-size: 100% 100%, 100% 100%;
     background-position: left top, right bottom;
   }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal-visible { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
 
 /* Mobile tuning */
