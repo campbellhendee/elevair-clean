@@ -11,11 +11,11 @@ export default function FAQPage() {
       <div className="mx-auto max-w-3xl px-6 py-16">
         <SectionReveal>
           <div className="text-center mb-16">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
-              Frequently Asked Questions
+            <h1 className="text-headline mb-6">
+              Common Questions
             </h1>
-            <p className="text-lg text-slate-300">
-              Everything you need to know about working with Elevair.
+            <p className="text-subhead text-slate-300 max-w-2xl mx-auto">
+              Everything you need to know about our 30-day implementation process.
             </p>
           </div>
         </SectionReveal>

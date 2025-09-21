@@ -14,11 +14,11 @@ export default function ServicesPage() {
       <div className="mx-auto max-w-4xl px-6 py-16">
         <SectionReveal>
           <div className="text-center mb-16">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
-              Our Services
+            <h1 className="text-headline mb-6">
+              Three Systems. Measurable Results.
             </h1>
-            <p className="text-lg text-slate-300 max-w-2xl mx-auto">
-              We build systems that respond instantly, log every lead, and book calls—no 30‑page decks.
+            <p className="text-subhead text-slate-300 max-w-3xl mx-auto">
+              We build systems that capture more leads, respond faster, and convert better. Everything is reversible if you're not happy.
             </p>
           </div>
         </SectionReveal>

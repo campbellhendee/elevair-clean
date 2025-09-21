@@ -14,11 +14,11 @@ export default function PricingPage() {
       <div className="mx-auto max-w-4xl px-6 py-16">
         <SectionReveal>
           <div className="text-center mb-16">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
-              Simple Pricing
+            <h1 className="text-headline mb-6">
+              Transparent Investment
             </h1>
-            <p className="text-lg text-slate-300 max-w-2xl mx-auto">
-              One project fee, no surprises. Optional retainer for ongoing support.
+            <p className="text-subhead text-slate-300 max-w-3xl mx-auto">
+              One project fee covers everything. Optional ongoing support. 30-day results guarantee or 50% refund.
             </p>
           </div>
         </SectionReveal>

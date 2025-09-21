@@ -39,9 +39,9 @@ html { scroll-behavior: smooth; }
 /* Hero background utility using provided abstract image with gradient fallback */
 @layer utilities {
   .bg-hero {
-    /* Put gradient first so it overlays the image for readability */
+    /* Brighter overlay for better mobile readability */
     background-image:
-      radial-gradient(ellipse at 30% 0%, rgba(2, 6, 23, 0.0), rgba(2, 6, 23, 0.55) 55%, rgba(2, 6, 23, 0.85) 100%),
+      radial-gradient(ellipse at 30% 0%, rgba(2, 6, 23, 0.0), rgba(2, 6, 23, 0.4) 55%, rgba(2, 6, 23, 0.75) 100%),
       image-set(
         url('/bg/hero-abstract-2560.webp') 2x,
         url('/bg/hero-abstract-1536.webp') 1x,
@@ -52,6 +52,18 @@ html { scroll-behavior: smooth; }
     background-position: center top, center top;
     background-repeat: no-repeat;
   }
+  
+  /* Mobile-specific adjustments */
+  @media (max-width: 640px) {
+    .bg-hero {
+      background-image:
+        radial-gradient(ellipse at 30% 0%, rgba(2, 6, 23, 0.1), rgba(2, 6, 23, 0.5) 55%, rgba(2, 6, 23, 0.8) 100%),
+        image-set(
+          url('/bg/hero-abstract-1536.webp') 1x,
+          url('/bg/hero-abstract.jpg') 1x
+        );
+    }
+  }
 }
 
 /* Utilities */
@@ -61,6 +73,31 @@ html { scroll-behavior: smooth; }
     text-shadow:
       0 0 10px rgba(34, 211, 238, 0.30),
       0 0 22px rgba(34, 211, 238, 0.18);
+  }
+
+  /* Enhanced typography scale */
+  .text-display { 
+    @apply text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-none; 
+  }
+  .text-headline { 
+    @apply text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight; 
+  }
+  .text-subhead { 
+    @apply text-lg sm:text-xl lg:text-2xl font-medium leading-relaxed; 
+  }
+  .text-supporting { 
+    @apply text-sm sm:text-base text-slate-400 leading-relaxed; 
+  }
+  .text-metric { 
+    @apply text-3xl sm:text-4xl font-bold text-cyan-400; 
+  }
+  
+  /* Improved section spacing */
+  .section-spacing {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+  .section-spacing-sm {
+    @apply py-12 sm:py-16 lg:py-20;
   }
 }
 

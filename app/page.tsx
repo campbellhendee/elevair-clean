@@ -1,21 +1,24 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, ChevronDown } from "lucide-react";
-import { IBM_Plex_Sans } from "next/font/google";
+import { ArrowRight } from "lucide-react";
 import AnimatedHeroBg from "../components/AnimatedHeroBg";
 import StickyBar from "../components/StickyBar";
 import BackToTop from "../components/BackToTop";
 import ProgressBar from "../components/ProgressBar";
+import MetricCard from "../components/MetricCard";
+import ImplementationTimeline from "../components/ImplementationTimeline";
+import SectionReveal from "../components/SectionReveal";
 
-const revenueFont = IBM_Plex_Sans({ subsets: ["latin"], weight: "600", display: "swap" });
 export default function Page() {
   return (
     <div className="min-h-screen text-slate-100 relative">
       <ProgressBar />
       {/* Page photo background (sits above global aurora, below content) */}
-      <div aria-hidden className="absolute inset-0 z-0 bg-hero opacity-60 pointer-events-none" />
+      <div aria-hidden className="absolute inset-0 z-0 bg-hero opacity-50 pointer-events-none" />
       <AnimatedHeroBg />
       <Hero />
+      <ResultsPreview />
+      <ProcessOverview />
       <StickyBar />
       <BackToTop />
     </div>
@@ -24,56 +27,118 @@ export default function Page() {
 
 function Hero() {
   return (
-    <section className="relative z-10 px-6 sm:px-8 pt-28 sm:pt-36 md:pt-56 pb-20 sm:pb-24 md:pb-36">
-      {/* mobile responsive tweak: increase top/bottom padding at md+, tighter on small */}
-      {/* mobile responsive tweak: constrain width and center content */}
-      <div className="mx-auto w-full max-w-4xl text-center">
-        {/* Brand wordmark (glow only, no caret/typing) */}
-        {/* mobile responsive tweak: adjust spacing on small screens */}
-        <div aria-hidden="true" className="mb-2 sm:mb-3">
+    <section className="relative z-10 section-spacing">
+      <div className="mx-auto w-full max-w-5xl px-6 sm:px-8 text-center">
+        {/* Brand wordmark - smaller, less prominent */}
+        <div aria-hidden="true" className="mb-6">
           <span
-            className="inline-block font-extrabold tracking-tight text-spectral glow-cyan text-7xl sm:text-8xl md:text-9xl"
+            className="inline-block font-bold tracking-wide text-spectral text-4xl sm:text-5xl md:text-6xl opacity-75"
             title="Elevair"
           >
             Elevair
           </span>
         </div>
 
-        {/* Accessible H1 */}
-        {/* mobile responsive tweak: responsive headline scaling */}
-        <h1 className="mt-1 sm:mt-2 font-extrabold tracking-tight leading-tight text-3xl sm:text-5xl md:text-7xl">
-          We don’t scale teams. <span className={`${revenueFont.className} text-cyan-300`}>We scale revenue.</span>
+        {/* Stronger, results-focused headline */}
+        <h1 className="text-display mb-6">
+          Stop hiring. <span className="text-cyan-300">Start converting.</span>
         </h1>
 
-        {/* Subhead */}
-        {/* mobile responsive tweak: responsive subhead scaling */}
-        <p className="mt-3 sm:mt-4 text-base sm:text-xl md:text-2xl leading-relaxed text-slate-300 max-w-3xl mx-auto">
-          Details are boring. AI thrives on them. Let it work while you scale
+        {/* More specific subhead */}
+        <p className="text-subhead text-slate-300 max-w-3xl mx-auto mb-8">
+          Get measurable lift in qualified leads within 30 days. We build the systems, you see the results.
         </p>
 
-        {/* CTAs (equal width on mobile) */}
-        {/* mobile responsive tweak: buttons full width on mobile, inline on desktop */}
-        <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-5">
+        {/* Single primary CTA */}
+        <div className="mb-6">
           <Link
             href="/book"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl bg-cyan-400 px-6 sm:px-8 md:px-10 py-4 sm:py-5 text-lg sm:text-xl font-semibold text-slate-900 hover:bg-cyan-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 shadow-lg shadow-cyan-500/20 transition"
+            className="inline-flex items-center justify-center gap-3 rounded-2xl bg-cyan-400 px-8 py-5 text-xl font-semibold text-slate-900 hover:bg-cyan-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 shadow-lg shadow-cyan-500/20 transition-all duration-200 hover:scale-105"
           >
-            Book a Free Consultation
-            <ArrowRight className="h-5 w-5" />
-          </Link>
-          <Link
-            href="/process"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl border border-white/20 px-6 sm:px-8 md:px-10 py-4 sm:py-5 text-lg sm:text-xl font-medium text-slate-100 hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 transition"
-          >
-            See How It Works
-            <ArrowRight className="h-5 w-5" />
+            Book Free Strategy Call
+            <ArrowRight className="h-6 w-6" />
           </Link>
         </div>
 
-        {/* Proof line */}
-        <p className="mt-3 text-slate-400 text-sm">
-          Simple, reversible systems. If we can’t point to revenue impact, we won’t sell it to you.
+        {/* Stronger proof line */}
+        <p className="text-supporting">
+          30-day results guarantee. If we can't show measurable improvement, we refund 50% of the project fee.
         </p>
+      </div>
+    </section>
+  );
+}
+
+function ResultsPreview() {
+  return (
+    <section className="relative z-10 section-spacing-sm bg-slate-900/50">
+      <div className="mx-auto w-full max-w-6xl px-6 sm:px-8">
+        <SectionReveal>
+          <div className="text-center mb-12">
+            <h2 className="text-headline mb-4">Typical Results for B2B Service Businesses</h2>
+            <p className="text-subhead text-slate-300 max-w-2xl mx-auto">
+              Real improvements our clients see within 30 days of implementation
+            </p>
+          </div>
+        </SectionReveal>
+
+        <SectionReveal delay={200}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <MetricCard 
+              before="2.1%" 
+              after="8.3%" 
+              metric="Lead Conversion Rate"
+              timeframe="within 30 days"
+            />
+            <MetricCard 
+              before="$247" 
+              after="$89" 
+              metric="Cost Per Lead"
+              timeframe="within 45 days"
+            />
+            <MetricCard 
+              before="18 hrs" 
+              after="4 min" 
+              metric="Response Time"
+              timeframe="immediate improvement"
+            />
+          </div>
+        </SectionReveal>
+
+        <SectionReveal delay={400}>
+          <div className="text-center">
+            <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 text-slate-300 px-6 py-3 rounded-xl text-sm">
+              <svg className="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Results may vary. We only work with businesses we believe we can help.
+            </div>
+          </div>
+        </SectionReveal>
+      </div>
+    </section>
+  );
+}
+
+function ProcessOverview() {
+  return (
+    <section className="relative z-10 section-spacing">
+      <div className="mx-auto w-full max-w-6xl px-6 sm:px-8">
+        <SectionReveal>
+          <ImplementationTimeline />
+        </SectionReveal>
+        
+        <SectionReveal delay={400}>
+          <div className="text-center mt-12">
+            <Link
+              href="/book"
+              className="inline-flex items-center justify-center gap-3 rounded-2xl border border-cyan-400/30 bg-cyan-400/5 px-8 py-4 text-lg font-semibold text-cyan-400 hover:bg-cyan-400/10 hover:border-cyan-400/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 transition-all duration-200"
+            >
+              Start Your 30-Day Implementation
+              <ArrowRight className="h-5 w-5" />
+            </Link>
+          </div>
+        </SectionReveal>
       </div>
     </section>
   );
