@@ -50,21 +50,12 @@ export default function ProcessPage() {
           </p>
         </header>
 
-        {/* Timeline wrapper */}
-        <div className="relative">
-          {/* Vertical timeline (desktop) */}
-          <div
-            aria-hidden
-            className="hidden md:block absolute left-6 top-0 bottom-0 w-px bg-cyan-400/15"
-          />
-
-          <div className="space-y-6">
-            {steps.map((s, i) => (
-              <StepCard key={s.title} index={i + 1} icon={s.icon} title={s.title}>
-                {s.desc}
-              </StepCard>
-            ))}
-          </div>
+        <div className="space-y-6">
+          {steps.map((s, i) => (
+            <StepCard key={s.title} index={i + 1} icon={s.icon} title={s.title}>
+              {s.desc}
+            </StepCard>
+          ))}
         </div>
 
         <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -102,29 +93,24 @@ function StepCard({
   children: ReactNode;
 }) {
   return (
-    <section className="relative">
-      {/* Timeline node (desktop) */}
-      <div
-        aria-hidden
-        className="hidden md:block absolute left-[22px] top-6 h-3 w-3 rounded-full bg-cyan-400 shadow-[0_0_0_3px_rgba(34,211,238,0.18)]"
-      />
+    <section className="rounded-2xl border border-white/10 bg-white/5 p-5">
+      <div className="flex items-start gap-4">
+        {/* Consistent icon circle (works for SVGs or emojis) */}
+        <div
+          className="shrink-0 grid place-items-center h-10 w-10 rounded-xl bg-cyan-400/10 text-cyan-300 text-base leading-none"
+          aria-hidden
+        >
+          <span className="flex items-center justify-center h-5 w-5">{icon}</span>
+        </div>
 
-      <div
-        className="rounded-2xl bg-white/5 p-5 md:pl-14 border border-white/10 hover:border-white/20 transition-colors"
-      >
-        <div className="flex items-start gap-3">
-          <div className="flex items-center justify-center h-8 w-8 rounded-xl bg-cyan-400/10 text-cyan-300">
-            {icon}
+        <div className="flex-1">
+          <div className="flex items-center gap-3 mb-1">
+            <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-md bg-cyan-400/15 text-cyan-300 text-xs font-semibold">
+              {index}
+            </span>
+            <h2 className="text-base sm:text-lg font-semibold">{title}</h2>
           </div>
-          <div className="flex-1">
-            <div className="flex items-center gap-3 mb-1">
-              <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-md bg-cyan-400/15 text-cyan-300 text-xs font-semibold">
-                {index}
-              </span>
-              <h2 className="text-base sm:text-lg font-semibold">{title}</h2>
-            </div>
-            <p className="text-slate-300 text-base leading-relaxed">{children}</p>
-          </div>
+          <p className="text-slate-300 text-base leading-relaxed">{children}</p>
         </div>
       </div>
     </section>
