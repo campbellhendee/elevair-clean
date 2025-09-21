@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import './aurora.css';
 
 :root {
   --bg: #020617;
@@ -117,4 +116,3 @@ html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) {
   .bg-aurora { animation: none; }
 }
-
