@@ -6,9 +6,7 @@ import { IBM_Plex_Sans } from "next/font/google";
 const revenueFont = IBM_Plex_Sans({ subsets: ["latin"], weight: "600", display: "swap" });
 export default function Page() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 relative">
-      {/* Abstract image background with gradient fallback */}
-      <div aria-hidden className="absolute inset-0 z-0 bg-hero pointer-events-none" />
+    <div className="min-h-screen text-slate-100 relative">
       <Hero />
     </div>
   );
