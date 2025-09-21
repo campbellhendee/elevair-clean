@@ -39,7 +39,7 @@ export default function ProcessPage() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <section
-        className="relative mx-auto max-w-5xl px-6 py-16 bg-process"
+        className="relative mx-auto max-w-5xl px-6 py-16"
       >
         <header className="text-center mb-12">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
@@ -50,21 +50,24 @@ export default function ProcessPage() {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {steps.map((s) => (
-            <StepCard key={s.title} icon={s.icon} title={s.title}>
-              {s.desc}
-            </StepCard>
-          ))}
-        </div>
+        <div className="relative mt-6">
+          <div aria-hidden className="absolute inset-0 -z-10 bg-process" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {steps.map((s) => (
+              <StepCard key={s.title} icon={s.icon} title={s.title}>
+                {s.desc}
+              </StepCard>
+            ))}
+          </div>
 
-        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <CTAButton href="/book" placement="section" variant="primary">
-            Book a Free 30‑min Teardown
-          </CTAButton>
-          <CTAButton href="/contact" placement="section" variant="secondary">
-            Contact Us
-          </CTAButton>
+          <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <CTAButton href="/book" placement="section" variant="primary">
+              Book a Free 30‑min Teardown
+            </CTAButton>
+            <CTAButton href="/contact" placement="section" variant="secondary">
+              Contact Us
+            </CTAButton>
+          </div>
         </div>
 
       </section>
