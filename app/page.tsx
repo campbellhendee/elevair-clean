@@ -9,6 +9,8 @@ export default function Page() {
     <div className="min-h-screen text-slate-100 relative">
       {/* Page photo background (sits above global aurora, below content) */}
   <div aria-hidden className="absolute inset-0 z-0 bg-hero opacity-60 pointer-events-none" />
+      {/* Obvious beam animation only on home page */}
+      <div aria-hidden className="absolute inset-0 z-0 bg-aurora-beam-strong pointer-events-none" />
       <Hero />
     </div>
   );

@@ -143,6 +143,30 @@ html { scroll-behavior: smooth; }
     animation: aurora-beam-shift 9s ease-in-out infinite;
     mix-blend-mode: screen;
     opacity: 0.9;
+    will-change: background-position;
+  }
+
+  /* Extra-strong, noticeable beam (home page) */
+  .bg-aurora-beam-strong {
+    pointer-events: none;
+    background-image:
+      linear-gradient(
+        130deg,
+        rgba(34,211,238,0.00) 35%,
+        rgba(34,211,238,0.60) 50%,
+        rgba(34,211,238,0.00) 65%
+      ),
+      linear-gradient(
+        130deg,
+        rgba(96,165,250,0.00) 30%,
+        rgba(96,165,250,0.35) 50%,
+        rgba(96,165,250,0.00) 70%
+      );
+    background-size: 260% 260%, 300% 300%;
+    animation: aurora-beam-shift 7s ease-in-out infinite;
+    mix-blend-mode: screen;
+    opacity: 1;
+    will-change: background-position;
   }
 
   /* Foreground aurora layer for depth */
@@ -177,7 +201,8 @@ html { scroll-behavior: smooth; }
 
 /* Make beam pop more on small screens */
 @media (max-width: 640px) {
-  .bg-aurora-beam {
+  .bg-aurora-beam,
+  .bg-aurora-beam-strong {
     opacity: 1;
     background-size: 320% 320%, 360% 360%;
   }
@@ -189,5 +214,6 @@ html { scroll-behavior: smooth; }
   .bg-aurora-fast,
   .bg-aurora-diagonal,
   .bg-aurora-front,
-  .bg-aurora-beam { animation: none; }
+  .bg-aurora-beam,
+  .bg-aurora-beam-strong { animation: none; }
 }
