@@ -1,69 +1,55 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Plus, Minus } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { AccordionItem } from "../../components/Accordion";
+import SectionReveal from "../../components/SectionReveal";
 
 export default function FAQPage() {
-  const [openItems, setOpenItems] = useState<Set<number>>(new Set());
-
-  const toggleItem = (index: number) => {
-    const newOpenItems = new Set(openItems);
-    if (newOpenItems.has(index)) {
-      newOpenItems.delete(index);
-    } else {
-      newOpenItems.add(index);
-    }
-    setOpenItems(newOpenItems);
-  };
-
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <div className="mx-auto max-w-3xl px-6 py-16">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
-            Frequently Asked Questions
-          </h1>
-          <p className="text-lg text-slate-300">
-            Everything you need to know about working with Elevair.
-          </p>
-        </div>
+        <SectionReveal>
+          <div className="text-center mb-16">
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
+              Frequently Asked Questions
+            </h1>
+            <p className="text-lg text-slate-300">
+              Everything you need to know about working with Elevair.
+            </p>
+          </div>
+        </SectionReveal>
 
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <div key={index} className="border border-white/10 rounded-2xl overflow-hidden">
-              <button
-                onClick={() => toggleItem(index)}
-                className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition"
+        <SectionReveal delay={200}>
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <AccordionItem
+                key={index}
+                trigger={
+                  <h3 className="font-semibold text-left">{faq.question}</h3>
+                }
+                className="border border-white/10 rounded-2xl"
               >
-                <h3 className="font-semibold pr-4">{faq.question}</h3>
-                {openItems.has(index) ? (
-                  <Minus className="h-5 w-5 text-cyan-400 flex-shrink-0" />
-                ) : (
-                  <Plus className="h-5 w-5 text-cyan-400 flex-shrink-0" />
-                )}
-              </button>
-              {openItems.has(index) && (
-                <div className="px-6 pb-6">
-                  <p className="text-slate-300 leading-relaxed">{faq.answer}</p>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+                <p className="text-slate-300 leading-relaxed">{faq.answer}</p>
+              </AccordionItem>
+            ))}
+          </div>
+        </SectionReveal>
 
-        <div className="text-center mt-16">
-          <p className="text-slate-400 mb-6">
-            Still have questions?
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-8 py-4 text-lg font-semibold text-slate-900 hover:bg-cyan-300 shadow-lg shadow-cyan-500/20 transition"
-          >
-            Get in touch
-            <ArrowRight className="h-5 w-5" />
-          </Link>
-        </div>
+        <SectionReveal delay={400}>
+          <div className="text-center mt-16">
+            <p className="text-slate-400 mb-6">
+              Still have questions?
+            </p>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-8 py-4 text-lg font-semibold text-slate-900 hover:bg-cyan-300 shadow-lg shadow-cyan-500/20 transition"
+            >
+              Get in touch
+              <ArrowRight className="h-5 w-5" />
+            </Link>
+          </div>
+        </SectionReveal>
       </div>
     </div>
   );

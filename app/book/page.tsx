@@ -2,6 +2,7 @@
 import { useEffect, useMemo } from 'react';
 import Script from 'next/script';
 import { brandColorNoHash, getUTMSearch, track } from '../../lib/analytics';
+import SectionReveal from '../../components/SectionReveal';
 
 export default function BookPage() {
   // Prefer env var, but fall back to a safe default so the calendar always works

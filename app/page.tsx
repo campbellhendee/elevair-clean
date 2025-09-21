@@ -3,15 +3,21 @@ import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { IBM_Plex_Sans } from "next/font/google";
 import AnimatedHeroBg from "../components/AnimatedHeroBg";
+import StickyBar from "../components/StickyBar";
+import BackToTop from "../components/BackToTop";
+import ProgressBar from "../components/ProgressBar";
 
 const revenueFont = IBM_Plex_Sans({ subsets: ["latin"], weight: "600", display: "swap" });
 export default function Page() {
   return (
     <div className="min-h-screen text-slate-100 relative">
+      <ProgressBar />
       {/* Page photo background (sits above global aurora, below content) */}
       <div aria-hidden className="absolute inset-0 z-0 bg-hero opacity-60 pointer-events-none" />
       <AnimatedHeroBg />
       <Hero />
+      <StickyBar />
+      <BackToTop />
     </div>
   );
 }

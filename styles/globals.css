@@ -68,6 +68,18 @@ html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) {
   .text-spectral { animation: none; }
   .animate-typing-7 { animation: none; border-right: 0; }
+  
+  /* Disable all animations for reduced motion users */
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .section-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 /* Subtle grid overlay */
