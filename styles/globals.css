@@ -167,6 +167,29 @@ html { scroll-behavior: smooth; }
     will-change: background-position;
   }
 
+  /* Subtle background beam (home page overlay) */
+  .bg-aurora-beam-soft {
+    pointer-events: none;
+    background-image:
+      linear-gradient(
+        130deg,
+        rgba(34,211,238,0.00) 42%,
+        rgba(34,211,238,0.16) 50%,
+        rgba(34,211,238,0.00) 58%
+      ),
+      linear-gradient(
+        130deg,
+        rgba(96,165,250,0.00) 38%,
+        rgba(96,165,250,0.08) 50%,
+        rgba(96,165,250,0.00) 62%
+      );
+    background-size: 340% 340%, 380% 380%;
+    animation: aurora-beam-shift 20s ease-in-out infinite;
+    mix-blend-mode: screen;
+    opacity: 0.22;
+    will-change: background-position;
+  }
+
   /* Extra-strong, noticeable beam (home page) */
   .bg-aurora-beam-strong {
     pointer-events: none;
