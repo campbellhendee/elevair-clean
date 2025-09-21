@@ -252,9 +252,25 @@ html { scroll-behavior: smooth; }
     background-position: left top, right bottom;
   }
 
-  /* Scroll reveal */
-  .reveal { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+  /* Alternating step band glows */
+  .bg-band-left {
+    background-image: radial-gradient(900px 420px at 0% 20%, rgba(34,211,238,0.06), transparent 60%);
+  }
+  .bg-band-right {
+    background-image: radial-gradient(900px 420px at 100% 20%, rgba(96,165,250,0.05), transparent 60%);
+  }
+
+  /* Scroll reveal (quieter) */
+  .reveal { opacity: 0; transform: translateY(4px); transition: opacity .4s ease, transform .4s ease; }
   .reveal-visible { opacity: 1; transform: translateY(0); }
+
+  /* Sticky rail underline style */
+  .rail-link { position: relative; }
+  .rail-link-active::after {
+    content: ""; position: absolute; left: 12px; right: 12px; bottom: 6px; height: 2px;
+    background: linear-gradient(90deg, rgba(34,211,238,.6), rgba(96,165,250,.6));
+    border-radius: 2px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

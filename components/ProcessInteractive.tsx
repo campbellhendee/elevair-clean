@@ -153,25 +153,6 @@ export default function ProcessInteractive() {
                 </StepPanel>
               </section>
             ))}
-
-            <div className="reveal">
-              <ProofStrip />
-            </div>
-
-            <div className="reveal">
-              <div className="mt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
-                <CTAButton href="/book" placement="section" variant="primary">
-                  Book a Free 30‑min Teardown
-                </CTAButton>
-                <CTAButton href="/contact" placement="section" variant="secondary">
-                  Contact Us
-                </CTAButton>
-              </div>
-            </div>
-
-            <div className="reveal">
-              <FAQ />
-            </div>
           </div>
         </div>
       </div>
@@ -184,8 +165,9 @@ function RailLink({ href, label, active }: { href: string; label: string; active
     <li>
       <a
         href={href}
-        className={`block rounded-lg px-3 py-2 transition ${
-          active ? "text-cyan-300 bg-white/[0.04] border border-cyan-400/20" : "text-slate-300 hover:bg-white/[0.03]"
+        aria-current={active ? "step" : undefined}
+        className={`rail-link block rounded-lg px-3 py-2 transition ${
+          active ? "text-cyan-300 rail-link-active" : "text-slate-300 hover:bg-white/[0.03]"
         }`}
       >
         {label}

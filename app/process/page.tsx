@@ -1,5 +1,6 @@
 ﻿import CTAButton from "../../components/CTAButton";
 import ProcessInteractive from "../../components/ProcessInteractive";
+import HowToSchema from "../../components/HowToSchema";
 
 export const metadata = {
   title: "Process — Elevair",
@@ -10,6 +11,7 @@ export const metadata = {
 export default function ProcessPage() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
+      <HowToSchema />
       <section className="relative mx-auto max-w-3xl px-6 py-16">
         <header className="text-center mb-10">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
