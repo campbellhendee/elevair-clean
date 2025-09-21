@@ -34,7 +34,7 @@ function Hero() {
         {/* Accessible H1 */}
         {/* mobile responsive tweak: responsive headline scaling */}
         <h1 className="mt-1 sm:mt-2 font-extrabold tracking-tight leading-tight text-3xl sm:text-5xl md:text-7xl">
-          We donâ€™t scale teams. <span className={`${revenueFont.className} text-cyan-300`}>We scale revenue.</span>
+          We don’t scale teams. <span className={`${revenueFont.className} text-cyan-300`}>We scale revenue.</span>
         </h1>
 
         {/* Subhead */}
@@ -64,7 +64,7 @@ function Hero() {
 
         {/* Proof line */}
         <p className="mt-3 text-slate-400 text-sm">
-          Simple, reversible systems. If we canâ€™t point to revenue impact, we wonâ€™t sell it to you.
+          Simple, reversible systems. If we can’t point to revenue impact, we won’t sell it to you.
         </p>
       </div>
     </section>

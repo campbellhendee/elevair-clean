@@ -6,8 +6,8 @@ import Script from "next/script";
 import { Inter } from "next/font/google";
 
 export const metadata: Metadata = {
-  title: "Elevair â€” We donâ€™t scale teams, we scale revenue",
-  description: "Two-person strike team. Fast installs. More booked calls in 14â€“30 days.",
+  title: "Elevair — We don’t scale teams, we scale revenue",
+  description: "Two-person strike team. Fast installs. More booked calls in 14–30 days.",
 };
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
