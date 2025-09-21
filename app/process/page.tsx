@@ -39,7 +39,7 @@ export default function ProcessPage() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <section
-        className="relative mx-auto max-w-3xl px-6 py-16 bg-[radial-gradient(800px_400px_at_50%_-10%,rgba(34,211,238,0.08),transparent)]"
+        className="relative mx-auto max-w-3xl px-6 py-16 bg-[radial-gradient(800px_400px_at_50%_-10%,rgba(34,211,238,0.04),transparent)]"
       >
         <header className="text-center mb-12">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
@@ -55,7 +55,7 @@ export default function ProcessPage() {
           {/* Vertical timeline (desktop) */}
           <div
             aria-hidden
-            className="hidden md:block absolute left-6 top-0 bottom-0 w-px bg-cyan-400/20"
+            className="hidden md:block absolute left-6 top-0 bottom-0 w-px bg-cyan-400/15"
           />
 
           <div className="space-y-6">
@@ -102,27 +102,20 @@ function StepCard({
   children: ReactNode;
 }) {
   return (
-    <section
-      className="relative group rounded-2xl p-0.5 bg-gradient-to-br from-cyan-400/25 to-transparent"
-    >
+    <section className="relative">
       {/* Timeline node (desktop) */}
       <div
         aria-hidden
-        className="hidden md:block absolute -left-[6px] top-6 h-3 w-3 rounded-full bg-cyan-400 shadow-[0_0_0_3px_rgba(34,211,238,0.2)]"
+        className="hidden md:block absolute left-[22px] top-6 h-3 w-3 rounded-full bg-cyan-400 shadow-[0_0_0_3px_rgba(34,211,238,0.18)]"
       />
 
       <div
-        className="rounded-2xl bg-white/5 p-5 md:pl-14 transition-transform duration-300 group-hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:transform-none"
+        className="rounded-2xl bg-white/5 p-5 md:pl-14 border border-white/10 hover:border-white/20 transition-colors"
       >
         <div className="flex items-start gap-3">
-          {/* Icon position */}
-          <div className="hidden md:flex absolute left-8 top-4 h-8 w-8 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-300">
+          <div className="flex items-center justify-center h-8 w-8 rounded-xl bg-cyan-400/10 text-cyan-300">
             {icon}
           </div>
-          <div className="flex md:hidden items-center justify-center h-8 w-8 rounded-xl bg-cyan-400/10 text-cyan-300">
-            {icon}
-          </div>
-
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-1">
               <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-md bg-cyan-400/15 text-cyan-300 text-xs font-semibold">
