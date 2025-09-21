@@ -7,6 +7,8 @@ const revenueFont = IBM_Plex_Sans({ subsets: ["latin"], weight: "600", display: 
 export default function Page() {
   return (
     <div className="min-h-screen text-slate-100 relative">
+      {/* Page photo background (sits above global aurora, below content) */}
+      <div aria-hidden className="absolute inset-0 z-0 bg-hero pointer-events-none" />
       <Hero />
     </div>
   );
