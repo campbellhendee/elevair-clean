@@ -92,7 +92,7 @@ html { scroll-behavior: smooth; }
     background-image:
       radial-gradient(1000px 600px at 15% 0%, rgba(34,211,238,0.12), transparent 60%),
       radial-gradient(900px 500px at 85% 0%, rgba(96,165,250,0.10), transparent 60%),
-      linear-gradient(120deg, rgba(2,6,23,0.95), rgba(2,6,23,1));
+      linear-gradient(120deg, rgba(2,6,23,0.85), rgba(2,6,23,0.95));
     background-size: 200% 200%;
     animation: aurora-shift 22s ease-in-out infinite;
   }
@@ -108,7 +108,7 @@ html { scroll-behavior: smooth; }
 
   /* Gentle vignette to protect text contrast */
   .bg-vignette {
-    background: radial-gradient(ellipse at center, rgba(2,6,23,0) 30%, rgba(2,6,23,0.7) 80%);
+    background: radial-gradient(ellipse at center, rgba(2,6,23,0) 30%, rgba(2,6,23,0.5) 80%);
   }
 }
 
