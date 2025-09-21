@@ -16,3 +16,29 @@ html { scroll-behavior: smooth; }
 @media (min-width: 769px) {
   [aria-label="Sticky actions"] { display: none !important; }
 }
+
+/* Typing + caret blink animations */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+@keyframes caret-blink {
+  50% { border-color: transparent; }
+}
+
+/* Utilities for hero wordmark */
+@layer utilities {
+  /* Animate width from 0 to the element’s set width, with a blinking caret */
+  .animate-typing-7 {
+    animation:
+      typing 1.6s steps(7, end) 0.2s 1 both,
+      caret-blink .8s step-end 8;
+  }
+
+  /* Soft cyan glow for text */
+  .glow-cyan {
+    text-shadow:
+      0 0 10px rgba(34, 211, 238, 0.30),
+      0 0 22px rgba(34, 211, 238, 0.18);
+  }
+}
