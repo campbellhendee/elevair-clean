@@ -38,16 +38,16 @@ export default function Header() {
           ? "bg-slate-950/80 border-white/10 shadow-[0_6px_20px_rgba(0,0,0,.35)] backdrop-blur"
           : "bg-transparent border-transparent"
       }`}>
-      <div className="mx-auto w-full max-w-7xl px-4 py-3.5 flex items-center justify-between">
+      <div className="mx-auto w-full max-w-screen-2xl px-2 md:px-4 py-3.5 flex items-center justify-between">
         <Link href="/" className={`inline-flex items-center gap-4 text-xl font-bold tracking-wide ${focus} group`}>
           <span className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-gradient-to-br from-cyan-400/10 to-blue-500/10 ring-1 ring-cyan-400/20 group-hover:ring-cyan-400/40 transition-all duration-300">
             <Bolt className="h-6 w-6 text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300" aria-hidden="true" />
           </span>
-          <span className="bg-gradient-to-r from-white via-cyan-100 to-cyan-200 bg-clip-text text-transparent font-extrabold tracking-widest text-3xl leading-none">
+          <span className="bg-gradient-to-r from-white via-cyan-100 to-cyan-200 bg-clip-text text-transparent font-extrabold tracking-[0.18em] sm:tracking-[0.22em] md:tracking-[0.28em] text-3xl sm:text-4xl leading-none">
             ELEVAIR
           </span>
         </Link>
-        <nav aria-label="Primary" className="hidden md:flex items-center gap-6 text-sm text-slate-300">
+        <nav aria-label="Primary" className="hidden md:flex items-center gap-5 text-sm text-slate-300">
           {links.map((l) => {
             const active = isActive(pathname, l.href);
             return (
@@ -61,7 +61,7 @@ export default function Header() {
               </Link>
             );
           })}
-          <CTAButton href="/book" placement="header" className="ml-4">
+          <CTAButton href="/book" placement="header" className="ml-5">
             Book
           </CTAButton>
         </nav>
