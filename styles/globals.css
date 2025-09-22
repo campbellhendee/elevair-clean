@@ -60,12 +60,15 @@ html { scroll-behavior: smooth; }
   /* Per-letter spectral animation (stronger colors, faster flow) */
   .spectral-letter {
     display: inline-block;
-    /* Cyan is primary; other hues appear as brief pulses */
+    /* Cyan is primary; purple/pink pulses slightly stronger */
     background-image: linear-gradient(90deg,
-      #22d3ee, #22d3ee, #38bdf8, #22d3ee,
-      #8b5cf6, #22d3ee, #f472b6, #22d3ee
+      #22d3ee, #22d3ee, /* cyan lead */
+      #8b5cf6, #a78bfa, /* purple pulse */
+      #22d3ee, /* back to cyan */
+      #ec4899, #f472b6, /* pink pulse */
+      #22d3ee, #38bdf8 /* cyan tail */
     );
-    background-size: 500% 500%;
+    background-size: 520% 520%;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -76,12 +79,15 @@ html { scroll-behavior: smooth; }
   }
   /* Alternate letters get vertical drift for extra color motion */
   .spectral-letter-alt {
-    /* Alternate vertical sweep; still cyan-dominant */
+    /* Alternate vertical sweep; cyan base with boosted purple/pink */
     background-image: linear-gradient(90deg,
-      #22d3ee, #38bdf8, #22d3ee, #8b5cf6,
-      #22d3ee, #f472b6, #22d3ee, #38bdf8
+      #22d3ee, #38bdf8, /* cyan */
+      #8b5cf6, #a78bfa, /* purple */
+      #22d3ee, /* cyan */
+      #ec4899, #f472b6, /* pink */
+      #22d3ee /* cyan */
     );
-    background-size: 520% 520%;
+    background-size: 540% 540%;
     animation:
       spectrum-y 4.8s linear infinite,
       letter-wave 2.2s ease-in-out infinite;
