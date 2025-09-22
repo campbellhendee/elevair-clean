@@ -49,28 +49,34 @@ function Hero() {
   return (
     <section className="relative z-10 px-6 sm:px-8 pt-24 sm:pt-32 md:pt-40 pb-20">
       <div className="mx-auto max-w-7xl">
-        {/* Brand Mark - HUGE with glowing animations */}
+        {/* Brand Logo - Clean and Professional */}
         <div className="text-center mb-12 animate-fade-in">
-          {/* Glowing animated logo */}
-          <div className="inline-flex items-center gap-4 mb-8 group">
+          {/* New Elevair Logo */}
+          <div className="inline-flex items-center justify-center mb-8 group">
             <div className="relative">
-              <div className="absolute inset-0 rounded-2xl bg-cyan-400/40 blur-2xl animate-pulse-glow" />
-              <div className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-2xl bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 p-4 shadow-2xl shadow-cyan-500/40 animate-pulse-slow transform transition-transform group-hover:scale-110">
-                <Zap className="h-full w-full text-slate-900" />
+              {/* Glow effect behind logo */}
+              <div className="absolute inset-0 bg-cyan-400/30 blur-3xl rounded-3xl animate-pulse-glow" />
+              
+              {/* Logo container */}
+              <div className="relative flex items-center gap-3 transform transition-transform group-hover:scale-105">
+                {/* Icon part */}
+                <div className="relative h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 rounded-2xl bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 shadow-2xl shadow-cyan-500/40 animate-pulse-slow flex items-center justify-center">
+                  {/* Four-pointed star icon matching the logo */}
+                  <svg 
+                    viewBox="0 0 100 100" 
+                    fill="currentColor" 
+                    className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 text-slate-900"
+                  >
+                    <path d="M50 10 L60 40 L90 50 L60 60 L50 90 L40 60 L10 50 L40 40 Z" />
+                  </svg>
+                </div>
+                
+                {/* Text part */}
+                <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-cyan-400 tracking-wide">
+                  Elevair
+                </div>
               </div>
             </div>
-          </div>
-
-          {/* ELEVAIR - Massive glowing animated brand name (per-letter spectral) */}
-          <div className="relative mb-6">
-            <span className="absolute inset-0 text-6xl sm:text-8xl md:text-9xl font-black tracking-wider text-cyan-400/30 blur-2xl animate-pulse-text select-none" aria-hidden="true">
-              ELEVAIR
-            </span>
-            <span className="relative text-6xl sm:text-8xl md:text-9xl font-black tracking-wider glow-cyan-strong cursor-default wordmark">
-              {"ELEVAIR".split("").map((ch, i) => (
-                <span key={i} className={i % 2 === 0 ? "spectral-letter" : "spectral-letter spectral-letter-alt"}>{ch}</span>
-              ))}
-            </span>
           </div>
           
           {/* Tagline with enhanced visibility */}
@@ -254,7 +260,9 @@ function ServicesPreview() {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="group relative rounded-2xl border border-white/10 bg-white/[0.02] p-6 hover:bg-white/[0.05] hover:border-cyan-400/30 transition-all">
               <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-400">
-                <Zap className="h-6 w-6" />
+                <svg viewBox="0 0 100 100" fill="currentColor" className="h-6 w-6">
+                  <path d="M50 10 L60 40 L90 50 L60 60 L50 90 L40 60 L10 50 L40 40 Z" />
+                </svg>
               </div>
               <h3 className="text-xl font-bold mb-2">AI Receptionist</h3>
               <p className="text-slate-400 text-sm mb-4">
