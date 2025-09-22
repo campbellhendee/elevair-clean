@@ -423,6 +423,29 @@ html { scroll-behavior: smooth; }
     will-change: background-position;
   }
 
+  /* Home-specific beam (brighter and slightly faster) */
+  .bg-aurora-beam-home {
+    pointer-events: none;
+    background-image:
+      linear-gradient(
+        130deg,
+        rgba(34,211,238,0.00) 42%,
+        rgba(34,211,238,0.22) 50%,
+        rgba(34,211,238,0.00) 58%
+      ),
+      linear-gradient(
+        130deg,
+        rgba(96,165,250,0.00) 38%,
+        rgba(96,165,250,0.12) 50%,
+        rgba(96,165,250,0.00) 62%
+      );
+    background-size: 360% 360%, 400% 400%;
+    animation: aurora-beam-shift 16s ease-in-out infinite;
+    mix-blend-mode: screen;
+    opacity: 0.32;
+    will-change: background-position;
+  }
+
   /* Extra-strong, noticeable beam (home page) */
   .bg-aurora-beam-strong {
     pointer-events: none;
