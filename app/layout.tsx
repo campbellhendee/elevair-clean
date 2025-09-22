@@ -22,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Global background layers (fixed behind content) */}
         <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
           <div className="absolute inset-0 bg-aurora bg-aurora-fast bg-aurora-diagonal bg-aurora-bold" />
+          <div className="absolute inset-0 bg-aurora-front" />
           <div className="absolute inset-0 bg-grid" />
           <div className="absolute inset-0 bg-vignette" />
         </div>
