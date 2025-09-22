@@ -34,51 +34,32 @@ html { scroll-behavior: smooth; }
     color: transparent;
     animation: spectrum 8s ease-in-out infinite;
   }
+  /* Slower animated gradient for wordmark */
+  .text-spectral-slow { animation: spectrum 10s ease-in-out infinite; }
+  /* Stronger cyan glow for wordmark */
+  .glow-cyan-strong {
+    text-shadow:
+      0 0 20px rgba(34,211,238,0.55),
+      0 0 36px rgba(34,211,238,0.35),
+      0 0 60px rgba(34,211,238,0.25);
+  }
 }
 
 /* Hero background utility using provided abstract image with gradient fallback */
 @layer utilities {
   .bg-hero {
-    /* Enhanced visibility with less overlay and better sizing */
+    /* Gradient overlay first for readability */
     background-image:
-      radial-gradient(ellipse at 30% 0%, rgba(2, 6, 23, 0.0), rgba(2, 6, 23, 0.2) 55%, rgba(2, 6, 23, 0.5) 100%),
+      radial-gradient(ellipse at 30% 0%, rgba(2, 6, 23, 0.0), rgba(2, 6, 23, 0.55) 55%, rgba(2, 6, 23, 0.85) 100%),
       image-set(
         url('/bg/hero-abstract-2560.webp') 2x,
         url('/bg/hero-abstract-1536.webp') 1x,
         url('/bg/hero-abstract.jpg') 2x,
         url('/bg/hero-abstract.jpg') 1x
       );
-    background-size: 100% 100%, contain; /* Changed from cover to contain - shows full image */
-    background-position: center top, center center; /* Better positioning */
+    background-size: 100% 100%, cover;
+    background-position: center top, center top;
     background-repeat: no-repeat;
-    background-attachment: fixed; /* Parallax effect on desktop */
-    filter: contrast(1.1) brightness(1.2); /* Make image pop more */
-    animation: bg-fade-in 1.5s ease-out;
-  }
-  
-  /* Radial gradient for vignette effect - lighter */
-  .bg-radial-gradient {
-    background: radial-gradient(
-      ellipse at center,
-      transparent 0%,
-      rgba(2, 6, 23, 0.1) 50%,
-      rgba(2, 6, 23, 0.4) 100%
-    );
-  }
-  
-  /* Mobile-specific adjustments */
-  @media (max-width: 640px) {
-    .bg-hero {
-      background-attachment: scroll; /* Disable parallax on mobile */
-      background-size: 100% 100%, cover; /* Use cover on mobile for better fit */
-      background-position: center top, center 30%; /* Adjust mobile positioning */
-      background-image:
-        radial-gradient(ellipse at 30% 0%, rgba(2, 6, 23, 0.1), rgba(2, 6, 23, 0.3) 55%, rgba(2, 6, 23, 0.6) 100%),
-        image-set(
-          url('/bg/hero-abstract-1536.webp') 1x,
-          url('/bg/hero-abstract.jpg') 1x
-        );
-    }
   }
 }
 

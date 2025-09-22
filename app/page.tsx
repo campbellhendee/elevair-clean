@@ -59,23 +59,21 @@ function Hero() {
           {/* Glowing animated logo */}
           <div className="inline-flex items-center gap-4 mb-8 group">
             <div className="relative">
-              {/* Glow effect behind logo */}
-              <div className="absolute inset-0 rounded-2xl bg-cyan-400/50 blur-2xl animate-pulse-glow" />
+              <div className="absolute inset-0 rounded-2xl bg-cyan-400/40 blur-2xl animate-pulse-glow" />
               <div className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-2xl bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 p-4 shadow-2xl shadow-cyan-500/40 animate-pulse-slow transform transition-transform group-hover:scale-110">
                 <Zap className="h-full w-full text-slate-900" />
               </div>
             </div>
           </div>
-          
-          {/* ELEVAIR - Massive glowing animated brand name */}
+
+          {/* ELEVAIR - Massive glowing animated brand name (classic glow) */}
           <div className="relative mb-6">
-            {/* Glow effect behind text */}
-            <h1 className="absolute inset-0 text-6xl sm:text-8xl md:text-9xl font-black tracking-wider text-cyan-400/30 blur-2xl animate-pulse-text select-none" aria-hidden="true">
+            <span className="absolute inset-0 text-6xl sm:text-8xl md:text-9xl font-black tracking-wider text-cyan-400/30 blur-2xl animate-pulse-text select-none" aria-hidden="true">
               ELEVAIR
-            </h1>
-            <h1 className="relative text-6xl sm:text-8xl md:text-9xl font-black tracking-wider bg-gradient-to-r from-white via-cyan-400 to-white bg-clip-text text-transparent animate-gradient-x drop-shadow-2xl hover:scale-105 transition-transform cursor-default">
+            </span>
+            <span className="relative text-6xl sm:text-8xl md:text-9xl font-black tracking-wider text-spectral text-spectral-slow glow-cyan-strong cursor-default">
               ELEVAIR
-            </h1>
+            </span>
           </div>
           
           {/* Tagline with enhanced visibility */}
