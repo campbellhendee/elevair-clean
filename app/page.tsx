@@ -10,40 +10,32 @@ import ProgressBar from "../components/ProgressBar";
 import MetricCard from "../components/MetricCard";
 import ImplementationTimeline from "../components/ImplementationTimeline";
 import SectionReveal from "../components/SectionReveal";
+import StatsTiles from "../components/StatsTiles";
 
 export default function Page() {
   return (
     <div className="min-h-screen text-slate-100 relative">
       <ProgressBar />
       
-      {/* Enhanced background layers for better visibility */}
+      {/* Background with animated effects */}
       <div className="fixed inset-0 z-0">
-        {/* Primary background image - less zoomed with contain */}
-        <div 
-          aria-hidden 
-          className="absolute inset-0 bg-hero opacity-70 bg-contain bg-center bg-no-repeat"
-        />
-        
-        {/* Lighter overlay gradient so more background shows */}
+        {/* Photo background above aurora */}
+        <div aria-hidden className="absolute inset-0 bg-hero opacity-70 pointer-events-none" />
+        {/* Gentle gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/20 via-slate-950/40 to-slate-950/70" />
-
-        {/* Home beam sweep (brighter) */}
-        <div aria-hidden className="absolute inset-0 bg-aurora-beam-home" />
-        
-        {/* Animated orbs on top of background */}
+        {/* Aurora beam sweep */}
+        <div aria-hidden className="absolute inset-0 bg-aurora-beam-home pointer-events-none" />
+        {/* Animated orbs */}
         <AnimatedHeroBg />
-        
-        {/* Lighter vignette effect to focus center */}
+        {/* Subtle vignette */}
         <div className="absolute inset-0 bg-radial-gradient" />
       </div>
       
-      {/* Content with relative positioning */}
+      {/* Clean content structure */}
       <div className="relative z-10">
         <Hero />
-        <ProblemSolution />
-        <ResultsPreview />
+        <TechnologyCapabilities />
         <ServicesPreview />
-        <ProcessOverview />
         <FinalCTA />
       </div>
       
@@ -227,6 +219,24 @@ function ResultsPreview() {
               timeframe="your business voice"
             />
           </div>
+        </div>
+      </section>
+    </SectionReveal>
+  );
+}
+
+function TechnologyCapabilities() {
+  return (
+    <SectionReveal>
+      <section className="px-6 sm:px-8 py-20">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-4xl sm:text-5xl font-bold text-center mb-4">
+            Powered by Advanced AI
+          </h2>
+          <p className="text-center text-slate-400 mb-12 text-lg">
+            Technology that works while you sleep
+          </p>
+          <StatsTiles />
         </div>
       </section>
     </SectionReveal>
