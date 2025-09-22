@@ -66,13 +66,15 @@ function Hero() {
             </div>
           </div>
 
-          {/* ELEVAIR - Massive glowing animated brand name (classic glow) */}
+          {/* ELEVAIR - Massive glowing animated brand name (per-letter spectral) */}
           <div className="relative mb-6">
             <span className="absolute inset-0 text-6xl sm:text-8xl md:text-9xl font-black tracking-wider text-cyan-400/30 blur-2xl animate-pulse-text select-none" aria-hidden="true">
               ELEVAIR
             </span>
-            <span className="relative text-6xl sm:text-8xl md:text-9xl font-black tracking-wider text-spectral text-spectral-slow glow-cyan-strong cursor-default">
-              ELEVAIR
+            <span className="relative text-6xl sm:text-8xl md:text-9xl font-black tracking-wider glow-cyan-strong cursor-default wordmark">
+              {"ELEVAIR".split("").map((ch, i) => (
+                <span key={i} className="spectral-letter">{ch}</span>
+              ))}
             </span>
           </div>
           
