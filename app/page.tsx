@@ -26,6 +26,9 @@ export default function Page() {
         
         {/* Lighter overlay gradient so more background shows */}
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/20 via-slate-950/40 to-slate-950/70" />
+
+        {/* Subtle diagonal beam sweep (brought back) */}
+        <div aria-hidden className="absolute inset-0 bg-aurora-beam-soft" />
         
         {/* Animated orbs on top of background */}
         <AnimatedHeroBg />
