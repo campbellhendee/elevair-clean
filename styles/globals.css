@@ -186,6 +186,29 @@ html { scroll-behavior: smooth; }
   }
 }
 
+/* Enhanced ELEVAIR glow and animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes pulse-text {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.01);
+  }
+}
+
 .animate-gradient-x {
   background-size: 200% 200%;
   animation: gradient-x 4s ease infinite;
@@ -199,9 +222,17 @@ html { scroll-behavior: smooth; }
   animation: fade-in 1s ease-out;
 }
 
+.animate-pulse-glow {
+  animation: pulse-glow 2.5s ease-in-out infinite;
+}
+
+.animate-pulse-text {
+  animation: pulse-text 4s ease-in-out infinite;
+}
+
 /* Enhanced text shadows for better readability */
 .drop-shadow-2xl {
-  filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.5));
+  filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.5)) drop-shadow(0 0 20px rgba(34, 211, 238, 0.3));
 }
 
 .drop-shadow-lg {
@@ -210,6 +241,16 @@ html { scroll-behavior: smooth; }
 
 .drop-shadow-md {
   filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.3));
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse-glow,
+  .animate-pulse-text,
+  .animate-gradient-x,
+  .animate-pulse-slow {
+    animation: none;
+  }
 }
 
 /* Mobile optimizations for brand */

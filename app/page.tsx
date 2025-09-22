@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Zap, CheckCircle, Clock, Shield, TrendingUp } from "lucide-react";
+import { ArrowRight, Zap, CheckCircle, Clock, Shield, TrendingUp, Bot, Gauge, Cpu } from "lucide-react";
 import AnimatedHeroBg from "../components/AnimatedHeroBg";
 import StickyBar from "../components/StickyBar";
 import BackToTop from "../components/BackToTop";
@@ -54,60 +54,76 @@ function Hero() {
   return (
     <section className="relative z-10 px-6 sm:px-8 pt-24 sm:pt-32 md:pt-40 pb-20">
       <div className="mx-auto max-w-7xl">
-        {/* Brand Mark - HUGE without floating backdrop */}
+        {/* Brand Mark - HUGE with glowing animations */}
         <div className="text-center mb-12 animate-fade-in">
-          <div className="inline-flex items-center gap-4 mb-8">
-            <div className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-2xl bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 p-4 shadow-2xl shadow-cyan-500/40 animate-pulse-slow">
-              <Zap className="h-full w-full text-slate-900" />
+          {/* Glowing animated logo */}
+          <div className="inline-flex items-center gap-4 mb-8 group">
+            <div className="relative">
+              {/* Glow effect behind logo */}
+              <div className="absolute inset-0 rounded-2xl bg-cyan-400/50 blur-2xl animate-pulse-glow" />
+              <div className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-2xl bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 p-4 shadow-2xl shadow-cyan-500/40 animate-pulse-slow transform transition-transform group-hover:scale-110">
+                <Zap className="h-full w-full text-slate-900" />
+              </div>
             </div>
           </div>
           
-          {/* ELEVAIR - Massive brand name with better text shadows */}
-          <h1 className="text-6xl sm:text-8xl md:text-9xl font-black tracking-wider bg-gradient-to-r from-white via-cyan-400 to-white bg-clip-text text-transparent animate-gradient-x mb-6 drop-shadow-2xl">
-            ELEVAIR
-          </h1>
+          {/* ELEVAIR - Massive glowing animated brand name */}
+          <div className="relative mb-6">
+            {/* Glow effect behind text */}
+            <h1 className="absolute inset-0 text-6xl sm:text-8xl md:text-9xl font-black tracking-wider text-cyan-400/30 blur-2xl animate-pulse-text select-none" aria-hidden="true">
+              ELEVAIR
+            </h1>
+            <h1 className="relative text-6xl sm:text-8xl md:text-9xl font-black tracking-wider bg-gradient-to-r from-white via-cyan-400 to-white bg-clip-text text-transparent animate-gradient-x drop-shadow-2xl hover:scale-105 transition-transform cursor-default">
+              ELEVAIR
+            </h1>
+          </div>
           
           {/* Tagline with enhanced visibility */}
           <p className="text-xl sm:text-2xl md:text-3xl font-light text-white mb-2 drop-shadow-lg">
-            Stop hiring. Start converting.
+            AI That Converts Visitors Into Customers
           </p>
           
-          {/* Value prop - authentic startup messaging */}
+          {/* Value prop with beta badge */}
           <p className="text-base sm:text-lg text-slate-200 max-w-2xl mx-auto drop-shadow-md">
-            AI systems that handle customer messages, book appointments, and follow up automatically. 
-            <span className="text-cyan-400 font-semibold"> Currently in beta - limited availability.</span>
+            Intelligent automation that handles inquiries, books appointments, and follows up automatically. 
+            <span className="inline-block ml-2 text-xs bg-cyan-400/20 text-cyan-400 px-3 py-1 rounded-full font-semibold animate-pulse border border-cyan-400/30">
+              BETA ACCESS
+            </span>
           </p>
         </div>
 
-        {/* CTAs - bigger and clearer */}
+        {/* CTAs with glow effects */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
           <Link
             href="/book"
-            className="group inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-400 to-cyan-500 px-10 py-5 text-lg font-bold text-slate-900 hover:from-cyan-300 hover:to-cyan-400 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950 shadow-2xl shadow-cyan-500/30 transition-all transform hover:scale-105"
+            className="group relative inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-400 to-cyan-500 px-10 py-5 text-lg font-bold text-slate-900 hover:from-cyan-300 hover:to-cyan-400 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950 shadow-2xl shadow-cyan-500/30 transition-all transform hover:scale-105"
           >
-            Book Free Strategy Call
-            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            <span className="absolute inset-0 rounded-2xl bg-cyan-400/20 blur-xl animate-pulse-glow" />
+            <span className="relative flex items-center gap-2">
+              Join Beta Program
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </span>
           </Link>
           <Link
             href="/services"
             className="group inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-white/20 px-10 py-5 text-lg font-medium text-slate-100 hover:bg-white/10 hover:border-cyan-400/50 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950 transition-all"
           >
-            See What We Build
+            See Technology
             <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
 
-        {/* Trust badges */}
+        {/* Trust badges with subtle glow */}
         <div className="flex flex-wrap justify-center gap-6 text-sm text-slate-400">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 hover:text-cyan-400 transition-colors">
             <Shield className="h-4 w-4 text-cyan-400" />
-            <span>30-Day Guarantee</span>
+            <span>Early Access</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 hover:text-cyan-400 transition-colors">
             <Clock className="h-4 w-4 text-cyan-400" />
-            <span>Setup in 7-14 Days</span>
+            <span>Setup in Days</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 hover:text-cyan-400 transition-colors">
             <TrendingUp className="h-4 w-4 text-cyan-400" />
             <span>No Contracts</span>
           </div>
