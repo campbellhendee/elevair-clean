@@ -39,30 +39,30 @@ html { scroll-behavior: smooth; }
 /* Hero background utility using provided abstract image with gradient fallback */
 @layer utilities {
   .bg-hero {
-    /* Enhanced visibility with less overlay */
+    /* Enhanced visibility with less overlay and better sizing */
     background-image:
-      radial-gradient(ellipse at 30% 0%, rgba(2, 6, 23, 0.0), rgba(2, 6, 23, 0.3) 55%, rgba(2, 6, 23, 0.65) 100%),
+      radial-gradient(ellipse at 30% 0%, rgba(2, 6, 23, 0.0), rgba(2, 6, 23, 0.2) 55%, rgba(2, 6, 23, 0.5) 100%),
       image-set(
         url('/bg/hero-abstract-2560.webp') 2x,
         url('/bg/hero-abstract-1536.webp') 1x,
         url('/bg/hero-abstract.jpg') 2x,
         url('/bg/hero-abstract.jpg') 1x
       );
-    background-size: 100% 100%, cover;
-    background-position: center top, center top;
+    background-size: 100% 100%, contain; /* Changed from cover to contain - shows full image */
+    background-position: center top, center center; /* Better positioning */
     background-repeat: no-repeat;
     background-attachment: fixed; /* Parallax effect on desktop */
     filter: contrast(1.1) brightness(1.2); /* Make image pop more */
     animation: bg-fade-in 1.5s ease-out;
   }
   
-  /* Radial gradient for vignette effect */
+  /* Radial gradient for vignette effect - lighter */
   .bg-radial-gradient {
     background: radial-gradient(
       ellipse at center,
       transparent 0%,
-      rgba(2, 6, 23, 0.2) 50%,
-      rgba(2, 6, 23, 0.6) 100%
+      rgba(2, 6, 23, 0.1) 50%,
+      rgba(2, 6, 23, 0.4) 100%
     );
   }
   
@@ -70,8 +70,10 @@ html { scroll-behavior: smooth; }
   @media (max-width: 640px) {
     .bg-hero {
       background-attachment: scroll; /* Disable parallax on mobile */
+      background-size: 100% 100%, cover; /* Use cover on mobile for better fit */
+      background-position: center top, center 30%; /* Adjust mobile positioning */
       background-image:
-        radial-gradient(ellipse at 30% 0%, rgba(2, 6, 23, 0.1), rgba(2, 6, 23, 0.4) 55%, rgba(2, 6, 23, 0.75) 100%),
+        radial-gradient(ellipse at 30% 0%, rgba(2, 6, 23, 0.1), rgba(2, 6, 23, 0.3) 55%, rgba(2, 6, 23, 0.6) 100%),
         image-set(
           url('/bg/hero-abstract-1536.webp') 1x,
           url('/bg/hero-abstract.jpg') 1x

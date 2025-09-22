@@ -18,19 +18,19 @@ export default function Page() {
       
       {/* Enhanced background layers for better visibility */}
       <div className="fixed inset-0 z-0">
-        {/* Primary background image - more visible */}
+        {/* Primary background image - less zoomed with contain */}
         <div 
           aria-hidden 
-          className="absolute inset-0 bg-hero opacity-60 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-hero opacity-70 bg-contain bg-center bg-no-repeat"
         />
         
-        {/* Overlay gradient for depth and readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-slate-950/50 to-slate-950/80" />
+        {/* Lighter overlay gradient so more background shows */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/20 via-slate-950/40 to-slate-950/70" />
         
         {/* Animated orbs on top of background */}
         <AnimatedHeroBg />
         
-        {/* Vignette effect to focus center */}
+        {/* Lighter vignette effect to focus center */}
         <div className="absolute inset-0 bg-radial-gradient" />
       </div>
       
