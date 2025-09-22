@@ -73,7 +73,7 @@ function Hero() {
             </span>
             <span className="relative text-6xl sm:text-8xl md:text-9xl font-black tracking-wider glow-cyan-strong cursor-default wordmark">
               {"ELEVAIR".split("").map((ch, i) => (
-                <span key={i} className="spectral-letter">{ch}</span>
+                <span key={i} className={i % 2 === 0 ? "spectral-letter" : "spectral-letter spectral-letter-alt"}>{ch}</span>
               ))}
             </span>
           </div>
