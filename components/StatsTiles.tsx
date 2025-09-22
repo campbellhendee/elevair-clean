@@ -1,8 +1,8 @@
 export default function StatsTiles() {
   const stats = [
-    { label: "Reply time", before: "12h", after: "5m" },
-    { label: "Bookings per week", before: "8", after: "19" },
-    { label: "Show-up rate", before: "62%", after: "81%" }
+    { label: "AI Response", before: "Manual", after: "Instant" },
+    { label: "Availability", before: "9-5", after: "24/7" },
+    { label: "Training Data", before: "Generic", after: "Custom" }
   ];
 
   return (

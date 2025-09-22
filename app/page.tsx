@@ -72,10 +72,10 @@ function Hero() {
             Stop hiring. Start converting.
           </p>
           
-          {/* Value prop - clearer with better contrast */}
+          {/* Value prop - authentic startup messaging */}
           <p className="text-base sm:text-lg text-slate-200 max-w-2xl mx-auto drop-shadow-md">
             AI systems that handle customer messages, book appointments, and follow up automatically. 
-            <span className="text-cyan-400 font-semibold"> See results in 30 days.</span>
+            <span className="text-cyan-400 font-semibold"> Currently in beta - limited availability.</span>
           </p>
         </div>
 
@@ -166,7 +166,7 @@ function ProblemSolution() {
                 </p>
                 <p className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-cyan-400 mt-0.5 flex-shrink-0" />
-                  <span>Smart reminders reduce no-shows by 60%+</span>
+                  <span>Smart reminders and confirmations</span>
                 </p>
               </div>
             </div>
@@ -183,29 +183,29 @@ function ResultsPreview() {
       <section className="px-6 sm:px-8 py-20 bg-gradient-to-b from-transparent via-cyan-400/5 to-transparent">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-4xl sm:text-5xl font-bold text-center mb-4">
-            Typical results in 30 days
+            Built for performance
           </h2>
           <p className="text-center text-slate-400 mb-12 text-lg">
-            Real improvements from businesses like yours
+            Powered by cutting-edge AI technology, designed for your success
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <MetricCard 
-              before="18 hrs" 
-              after="4 min" 
-              metric="Response Time"
-              timeframe="immediate improvement"
+              before="Hours" 
+              after="Seconds" 
+              metric="AI Response Time"
+              timeframe="powered by GPT-4"
             />
             <MetricCard 
-              before="$247" 
-              after="$89" 
-              metric="Cost Per Lead"
-              timeframe="within 45 days"
+              before="Manual" 
+              after="24/7 AI" 
+              metric="Availability"
+              timeframe="never sleeps"
             />
             <MetricCard 
-              before="2.1%" 
-              after="8.3%" 
-              metric="Conversion Rate"
-              timeframe="within 30 days"
+              before="Generic" 
+              after="Custom" 
+              metric="AI Training"
+              timeframe="your business voice"
             />
           </div>
         </div>
@@ -326,7 +326,7 @@ function FinalCTA() {
             </Link>
           </div>
           <p className="mt-6 text-sm text-slate-500">
-            30-day results guarantee • No contracts • Cancel anytime
+            Beta program • Limited spots available • No setup fees
           </p>
         </div>
       </section>

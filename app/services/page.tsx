@@ -21,7 +21,7 @@ export default function ServicesPage() {
         "Checkout process streamlining",
         "User behavior tracking and insights"
       ],
-      results: "Typically see 25-40% improvement in conversion rates within 30 days",
+      results: "AI-powered optimization with continuous learning and adaptation",
       timeframe: "2-4 weeks"
     },
     {
@@ -35,7 +35,7 @@ export default function ServicesPage() {
         "Lead scoring and qualification",
         "Automated follow-up sequences"
       ],
-      results: "Average 3x increase in qualified leads per month",
+      results: "Intelligent lead scoring and automated nurture sequences",
       timeframe: "3-6 weeks"
     },
     {
@@ -49,7 +49,7 @@ export default function ServicesPage() {
         "Segmentation strategies",
         "Performance tracking and optimization"
       ],
-      results: "Save 15+ hours per week while improving customer engagement",
+      results: "24/7 automated support with human-like interactions",
       timeframe: "4-8 weeks"
     },
     {
@@ -63,7 +63,7 @@ export default function ServicesPage() {
         "Revenue funnel analysis",
         "Competitive analysis and positioning"
       ],
-      results: "Achieve 20-50% reduction in customer acquisition costs",
+      results: "Data-driven insights with advanced analytics and reporting",
       timeframe: "6-12 weeks"
     }
   ];
@@ -71,15 +71,15 @@ export default function ServicesPage() {
   const faqItems = [
     {
       question: "How quickly will I see results?",
-      answer: "Most clients see initial improvements within 2-4 weeks. We focus on quick wins first - like optimizing your highest-traffic pages - while building longer-term growth systems. Our 30-day guarantee means if you don't see measurable progress, you get your money back."
+      answer: "As a beta partner, you'll see immediate improvements in response times and availability. While we're still gathering data on long-term outcomes, our AI systems are designed for instant 24/7 coverage and sub-second response times."
     },
     {
       question: "Do you work with businesses in my industry?",
-      answer: "Yes! Our strategies work across industries because we focus on fundamental conversion principles. Whether you're in e-commerce, SaaS, professional services, or local business, the core principles of turning visitors into customers remain the same."
+      answer: "Our AI technology is industry-agnostic and can be trained on any business model. We're currently focusing on service-based businesses and e-commerce as our beta partners, but the underlying technology works across industries."
     },
     {
-      question: "What's included in the free teardown?",
-      answer: "In your 30-minute session, we'll analyze your current funnel, identify the biggest conversion bottlenecks, and give you 2-3 specific improvements you can implement immediately. No sales pitch - just actionable insights you can use whether you work with us or not."
+      question: "What's included in the free strategy call?",
+      answer: "We'll analyze your current customer communication process, identify automation opportunities, and show you exactly how our AI would handle your typical customer interactions. It's a technical demonstration, not a sales pitch."
     },
     {
       question: "How much involvement is required from my team?",
@@ -87,11 +87,11 @@ export default function ServicesPage() {
     },
     {
       question: "What if I'm not technical?",
-      answer: "Perfect! Most of our clients aren't technical. We handle all the implementation and explain everything in plain English. You'll understand what we're doing and why, without needing to know the technical details."
+      answer: "Perfect! Our whole mission is making advanced AI accessible to non-technical business owners. We handle all the technical complexity - you just need to tell us about your business and we'll train the AI to represent you accurately."
     },
     {
-      question: "Can you guarantee specific results?",
-      answer: "We guarantee you'll see measurable improvements within 30 days, or you get your money back. While we can't predict exact numbers (every business is different), our typical clients see 25-40% improvements in their key metrics."
+      question: "Is this a proven system?",
+      answer: "We're currently in beta, which means you'll get early access to cutting-edge AI technology at a significant discount. While we're still building our track record, our technology is built on proven AI models and we're confident in the capabilities."
     }
   ];
 
@@ -109,18 +109,18 @@ export default function ServicesPage() {
                 <span className="text-cyan-400">Start converting.</span>
               </h1>
               <p className="mt-6 text-xl leading-8 text-slate-300 max-w-3xl mx-auto">
-                We help small businesses turn more visitors into customers using proven strategies. 
-                No complicated tech, no endless meetings - just results you can measure.
+                We're building AI systems that automate customer communication for small businesses. 
+                Currently in beta - join early and help shape the future of business automation.
               </p>
               <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
                   href="/book"
                   className="rounded-xl bg-cyan-400 px-8 py-4 text-lg font-semibold text-slate-900 shadow-lg hover:bg-cyan-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 transition-all duration-200"
                 >
-                  Get Your Free Business Teardown
+                  Join Our Beta Program
                 </Link>
                 <span className="text-slate-400 text-sm">
-                  30 minutes • No sales pitch • Actionable insights
+                  Limited spots • Free setup • Early access pricing
                 </span>
               </div>
             </div>
@@ -132,10 +132,10 @@ export default function ServicesPage() {
           <div className="mx-auto max-w-7xl">
             <div className="text-center mb-12">
               <h2 className="text-headline font-bold text-white mb-4">
-                Typical Results for Small Businesses
+                Technology Capabilities
               </h2>
               <p className="text-slate-300 text-lg max-w-2xl mx-auto">
-                Here's what businesses like yours typically see when they stop leaving money on the table
+                Built on cutting-edge AI, designed for the future of business automation
               </p>
             </div>
             <StatsTiles />
@@ -147,11 +147,11 @@ export default function ServicesPage() {
           <div className="mx-auto max-w-7xl">
             <div className="text-center mb-16">
               <h2 className="text-headline font-bold text-white mb-4">
-                How We Help Small Businesses Grow
+                How Our AI Technology Works
               </h2>
               <p className="text-slate-300 text-lg max-w-3xl mx-auto">
-                We focus on four key areas that drive real results. No fluff, no buzzwords - 
-                just proven strategies that work for businesses at your stage.
+                Four core systems that work together to automate your customer communication.
+                Currently in beta with early access pricing.
               </p>
             </div>
             

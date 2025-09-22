@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { ArrowRight, LineChart } from "lucide-react";
-import Carousel from "../../components/Carousel";
 import SectionReveal from "../../components/SectionReveal";
 
 export const metadata = {
-  title: "Results - Elevair",
-  description: "Real results from real clients. See the revenue impact we deliver.",
+  title: "Technology Demo - Elevair",
+  description: "See our AI technology in action. Currently in beta development.",
 };
 
 export default function ResultsPage() {
@@ -15,53 +14,49 @@ export default function ResultsPage() {
         <SectionReveal>
           <div className="text-center mb-16">
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
-              Results That Matter
+              Technology Demonstration
             </h1>
             <p className="text-lg text-slate-300 max-w-2xl mx-auto">
-              Real results from real clients. We only sell what we can point to for revenue impact.
+              Currently building the future of business automation. Join our beta program to experience cutting-edge AI technology.
             </p>
           </div>
         </SectionReveal>
 
         <SectionReveal delay={200}>
-          <Carousel
-            className="mb-16"
-            autoplay={true}
-            autoplayInterval={8000}
-          >
-            {caseStudies.map((study, index) => (
-              <div key={index} className="border border-white/10 rounded-2xl p-8 h-full">
+          <div className="space-y-8 mb-16">
+            {techDemos.map((demo, index) => (
+              <div key={index} className="border border-white/10 rounded-2xl p-8">
                 <div className="flex items-start gap-4 mb-6">
                   <div className="p-3 rounded-xl bg-cyan-400/10">
                     <LineChart className="h-6 w-6 text-cyan-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2">{study.company}</h3>
-                    <p className="text-slate-400 text-sm">{study.industry}</p>
+                    <h3 className="text-xl font-semibold mb-2">{demo.feature}</h3>
+                    <p className="text-slate-400 text-sm">{demo.status}</p>
                   </div>
                 </div>
                 
                 <div className="mb-6">
                   <div className="text-2xl font-bold text-cyan-400 mb-2">
-                    {study.kpi}
+                    {demo.capability}
                   </div>
-                  <p className="text-slate-300">{study.result}</p>
+                  <p className="text-slate-300">{demo.description}</p>
                 </div>
 
-                <div className="border-t border-white/10 pt-6">
-                  <h4 className="font-semibold mb-3">What we implemented:</h4>
-                  <ul className="space-y-2">
-                    {study.implementation.map((item) => (
-                      <li key={item} className="flex items-start gap-2 text-sm text-slate-400">
+                <div>
+                  <h4 className="font-semibold mb-3 text-slate-300">Technical Details:</h4>
+                  <ul className="space-y-2 text-sm text-slate-400">
+                    {demo.techSpecs.map((spec, i) => (
+                      <li key={i} className="flex items-start gap-2">
                         <span className="text-cyan-400 mt-1">•</span>
-                        {item}
+                        {spec}
                       </li>
                     ))}
                   </ul>
                 </div>
               </div>
             ))}
-          </Carousel>
+          </div>
         </SectionReveal>
 
         <div className="text-center mt-16">
@@ -69,7 +64,7 @@ export default function ResultsPage() {
             href="/book"
             className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-8 py-4 text-lg font-semibold text-slate-900 hover:bg-cyan-300 shadow-lg shadow-cyan-500/20 transition"
           >
-            Get similar results
+            Join Beta Program
             <ArrowRight className="h-5 w-5" />
           </Link>
         </div>
@@ -78,41 +73,41 @@ export default function ResultsPage() {
   );
 }
 
-const caseStudies = [
+const techDemos = [
   {
-    company: "SaaS Startup",
-    industry: "B2B Software",
-    kpi: "+340% qualified leads",
-    result: "Went from 12 to 53 qualified leads per month within 6 weeks of implementation.",
-    implementation: [
-      "Custom lead scoring and qualification system",
-      "Automated follow-up sequences for trial users",
-      "Integration with existing CRM and email tools",
-      "Response time optimization (under 5 minutes)"
+    feature: "AI Customer Service",
+    status: "Beta - Active Development",
+    capability: "Sub-second Response Time",
+    description: "Our AI can respond to customer inquiries instantly, trained on your specific business knowledge and tone.",
+    techSpecs: [
+      "GPT-4 powered natural language processing",
+      "Custom knowledge base training for your business",
+      "Multi-channel support (email, chat, SMS)",
+      "Seamless human handoff when needed"
     ]
   },
   {
-    company: "Consulting Agency",
-    industry: "Professional Services",
-    kpi: "+180% booked calls",
-    result: "Increased discovery calls from 8 to 22 per month, with 65% show-up rate.",
-    implementation: [
-      "Website form optimization and A/B testing",
-      "Calendar booking automation with reminders",
-      "Lead nurturing sequence for warm prospects",
-      "Sales pipeline tracking and reporting"
+    feature: "Appointment Booking System",
+    status: "Beta - Testing Phase",
+    capability: "Fully Automated Scheduling",
+    description: "AI handles the entire booking process from initial inquiry to calendar confirmation and reminders.",
+    techSpecs: [
+      "Calendar integration with all major platforms",
+      "Intelligent availability management",
+      "Automated confirmation and reminder system",
+      "No-show prediction and prevention"
     ]
   },
   {
-    company: "E-commerce Brand",
-    industry: "Retail",
-    kpi: "+250% email conversion",
-    result: "Email marketing revenue increased from $15K to $52K monthly within 8 weeks.",
-    implementation: [
-      "Abandoned cart recovery automation",
-      "Segmented email campaigns based on behavior",
-      "Post-purchase follow-up sequences",
-      "Customer lifetime value optimization"
+    feature: "Lead Qualification Engine",
+    status: "Beta - Early Access",
+    capability: "Smart Lead Scoring",
+    description: "Advanced AI evaluates and scores leads automatically, prioritizing your highest-value prospects.",
+    techSpecs: [
+      "Machine learning based qualification criteria",
+      "Real-time lead scoring and routing",
+      "CRM integration and data synchronization",
+      "Behavioral analysis and predictive modeling"
     ]
   }
 ];
