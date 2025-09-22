@@ -54,32 +54,29 @@ function Hero() {
   return (
     <section className="relative z-10 px-6 sm:px-8 pt-24 sm:pt-32 md:pt-40 pb-20">
       <div className="mx-auto max-w-7xl">
-        {/* Brand Mark - HUGE with enhanced backdrop */}
+        {/* Brand Mark - HUGE without floating backdrop */}
         <div className="text-center mb-12 animate-fade-in">
-          {/* Add subtle backdrop for better readability */}
-          <div className="inline-block backdrop-blur-sm bg-slate-950/20 rounded-3xl p-8 mb-8">
-            <div className="inline-flex items-center gap-4 mb-8">
-              <div className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-2xl bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 p-4 shadow-2xl shadow-cyan-500/40 animate-pulse-slow">
-                <Zap className="h-full w-full text-slate-900" />
-              </div>
+          <div className="inline-flex items-center gap-4 mb-8">
+            <div className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-2xl bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 p-4 shadow-2xl shadow-cyan-500/40 animate-pulse-slow">
+              <Zap className="h-full w-full text-slate-900" />
             </div>
-            
-            {/* ELEVAIR - Massive brand name with better contrast */}
-            <h1 className="text-6xl sm:text-8xl md:text-9xl font-black tracking-wider bg-gradient-to-r from-white via-cyan-400 to-white bg-clip-text text-transparent animate-gradient-x mb-6 drop-shadow-2xl">
-              ELEVAIR
-            </h1>
-            
-            {/* Tagline with enhanced visibility */}
-            <p className="text-xl sm:text-2xl md:text-3xl font-light text-white mb-2 drop-shadow-lg">
-              Stop hiring. Start converting.
-            </p>
-            
-            {/* Value prop - clearer with better contrast */}
-            <p className="text-base sm:text-lg text-slate-200 max-w-2xl mx-auto drop-shadow-md">
-              AI systems that handle customer messages, book appointments, and follow up automatically. 
-              <span className="text-cyan-400 font-semibold"> See results in 30 days.</span>
-            </p>
           </div>
+          
+          {/* ELEVAIR - Massive brand name with better text shadows */}
+          <h1 className="text-6xl sm:text-8xl md:text-9xl font-black tracking-wider bg-gradient-to-r from-white via-cyan-400 to-white bg-clip-text text-transparent animate-gradient-x mb-6 drop-shadow-2xl">
+            ELEVAIR
+          </h1>
+          
+          {/* Tagline with enhanced visibility */}
+          <p className="text-xl sm:text-2xl md:text-3xl font-light text-white mb-2 drop-shadow-lg">
+            Stop hiring. Start converting.
+          </p>
+          
+          {/* Value prop - clearer with better contrast */}
+          <p className="text-base sm:text-lg text-slate-200 max-w-2xl mx-auto drop-shadow-md">
+            AI systems that handle customer messages, book appointments, and follow up automatically. 
+            <span className="text-cyan-400 font-semibold"> See results in 30 days.</span>
+          </p>
         </div>
 
         {/* CTAs - bigger and clearer */}
