@@ -1,6 +1,8 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Zap, CheckCircle, Clock, Shield, TrendingUp } from "lucide-react";
 import AnimatedHeroBg from "../components/AnimatedHeroBg";
 import StickyBar from "../components/StickyBar";
 import BackToTop from "../components/BackToTop";
@@ -14,11 +16,14 @@ export default function Page() {
     <div className="min-h-screen text-slate-100 relative">
       <ProgressBar />
       {/* Page photo background (sits above global aurora, below content) */}
-      <div aria-hidden className="absolute inset-0 z-0 bg-hero opacity-50 pointer-events-none" />
+      <div aria-hidden className="absolute inset-0 z-0 bg-hero opacity-30 pointer-events-none" />
       <AnimatedHeroBg />
       <Hero />
+      <ProblemSolution />
       <ResultsPreview />
+      <ServicesPreview />
       <ProcessOverview />
+      <FinalCTA />
       <StickyBar />
       <BackToTop />
     </div>
@@ -27,68 +32,148 @@ export default function Page() {
 
 function Hero() {
   return (
-    <section className="relative z-10 section-spacing">
-      <div className="mx-auto w-full max-w-5xl px-6 sm:px-8 text-center">
-        {/* Brand wordmark - smaller, less prominent */}
-        <div aria-hidden="true" className="mb-6">
-          <span
-            className="inline-block font-bold tracking-wide text-spectral text-4xl sm:text-5xl md:text-6xl opacity-75"
-            title="Elevair"
-          >
-            Elevair
-          </span>
+    <section className="relative z-10 px-6 sm:px-8 pt-24 sm:pt-32 md:pt-40 pb-20">
+      <div className="mx-auto max-w-7xl">
+        {/* Brand Mark - HUGE */}
+        <div className="text-center mb-12 animate-fade-in">
+          <div className="inline-flex items-center gap-4 mb-8">
+            <div className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-2xl bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 p-4 shadow-2xl shadow-cyan-500/40 animate-pulse-slow">
+              <Zap className="h-full w-full text-slate-900" />
+            </div>
+          </div>
+          
+          {/* ELEVAIR - Massive brand name */}
+          <h1 className="text-6xl sm:text-8xl md:text-9xl font-black tracking-wider bg-gradient-to-r from-white via-cyan-400 to-white bg-clip-text text-transparent animate-gradient-x mb-6">
+            ELEVAIR
+          </h1>
+          
+          {/* Tagline */}
+          <p className="text-xl sm:text-2xl md:text-3xl font-light text-slate-200 mb-2">
+            Stop hiring. Start converting.
+          </p>
+          
+          {/* Value prop - clearer */}
+          <p className="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto">
+            AI systems that handle customer messages, book appointments, and follow up automatically. 
+            <span className="text-cyan-400 font-semibold"> See results in 30 days.</span>
+          </p>
         </div>
 
-        {/* Stronger, results-focused headline */}
-        <h1 className="text-display mb-6">
-          Stop hiring. <span className="text-cyan-300">Start converting.</span>
-        </h1>
-
-        {/* More specific subhead */}
-        <p className="text-subhead text-slate-300 max-w-3xl mx-auto mb-8">
-          Get measurable lift in qualified leads within 30 days. We build the systems, you see the results.
-        </p>
-
-        {/* Single primary CTA */}
-        <div className="mb-6">
+        {/* CTAs - bigger and clearer */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
           <Link
             href="/book"
-            className="inline-flex items-center justify-center gap-3 rounded-2xl bg-cyan-400 px-8 py-5 text-xl font-semibold text-slate-900 hover:bg-cyan-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 shadow-lg shadow-cyan-500/20 transition-all duration-200 hover:scale-105"
+            className="group inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-400 to-cyan-500 px-10 py-5 text-lg font-bold text-slate-900 hover:from-cyan-300 hover:to-cyan-400 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950 shadow-2xl shadow-cyan-500/30 transition-all transform hover:scale-105"
           >
             Book Free Strategy Call
-            <ArrowRight className="h-6 w-6" />
+            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+          </Link>
+          <Link
+            href="/services"
+            className="group inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-white/20 px-10 py-5 text-lg font-medium text-slate-100 hover:bg-white/10 hover:border-cyan-400/50 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950 transition-all"
+          >
+            See What We Build
+            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
 
-        {/* Stronger proof line */}
-        <p className="text-supporting">
-          30-day results guarantee. If we can't show measurable improvement, we refund 50% of the project fee.
-        </p>
+        {/* Trust badges */}
+        <div className="flex flex-wrap justify-center gap-6 text-sm text-slate-400">
+          <div className="flex items-center gap-2">
+            <Shield className="h-4 w-4 text-cyan-400" />
+            <span>30-Day Guarantee</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Clock className="h-4 w-4 text-cyan-400" />
+            <span>Setup in 7-14 Days</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <TrendingUp className="h-4 w-4 text-cyan-400" />
+            <span>No Contracts</span>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
 
+function ProblemSolution() {
+  return (
+    <SectionReveal>
+      <section className="px-6 sm:px-8 py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-6">
+                Your team is drowning in repetitive tasks
+              </h2>
+              <div className="space-y-4 text-slate-300">
+                <p className="flex items-start gap-3">
+                  <span className="text-red-400 mt-1">✗</span>
+                  <span>Customers wait hours (or days) for responses</span>
+                </p>
+                <p className="flex items-start gap-3">
+                  <span className="text-red-400 mt-1">✗</span>
+                  <span>Phone tag wastes everyone's time</span>
+                </p>
+                <p className="flex items-start gap-3">
+                  <span className="text-red-400 mt-1">✗</span>
+                  <span>Good leads go cold from slow follow-up</span>
+                </p>
+                <p className="flex items-start gap-3">
+                  <span className="text-red-400 mt-1">✗</span>
+                  <span>No-shows kill your calendar efficiency</span>
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-gradient-to-br from-cyan-400/10 to-blue-500/10 rounded-2xl p-8 border border-cyan-400/20">
+              <h3 className="text-2xl font-bold mb-6 text-cyan-400">
+                AI handles it. You focus on growth.
+              </h3>
+              <div className="space-y-4 text-slate-300">
+                <p className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-cyan-400 mt-0.5 flex-shrink-0" />
+                  <span>Instant responses to every inquiry</span>
+                </p>
+                <p className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-cyan-400 mt-0.5 flex-shrink-0" />
+                  <span>Customers book themselves directly</span>
+                </p>
+                <p className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-cyan-400 mt-0.5 flex-shrink-0" />
+                  <span>Automatic follow-ups that convert</span>
+                </p>
+                <p className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-cyan-400 mt-0.5 flex-shrink-0" />
+                  <span>Smart reminders reduce no-shows by 60%+</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </SectionReveal>
+  );
+}
+
 function ResultsPreview() {
   return (
-    <section className="relative z-10 section-spacing-sm bg-slate-900/50">
-      <div className="mx-auto w-full max-w-6xl px-6 sm:px-8">
-        <SectionReveal>
-          <div className="text-center mb-12">
-            <h2 className="text-headline mb-4">Typical Results for B2B Service Businesses</h2>
-            <p className="text-subhead text-slate-300 max-w-2xl mx-auto">
-              Real improvements our clients see within 30 days of implementation
-            </p>
-          </div>
-        </SectionReveal>
-
-        <SectionReveal delay={200}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+    <SectionReveal>
+      <section className="px-6 sm:px-8 py-20 bg-gradient-to-b from-transparent via-cyan-400/5 to-transparent">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-4xl sm:text-5xl font-bold text-center mb-4">
+            Typical results in 30 days
+          </h2>
+          <p className="text-center text-slate-400 mb-12 text-lg">
+            Real improvements from businesses like yours
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <MetricCard 
-              before="2.1%" 
-              after="8.3%" 
-              metric="Lead Conversion Rate"
-              timeframe="within 30 days"
+              before="18 hrs" 
+              after="4 min" 
+              metric="Response Time"
+              timeframe="immediate improvement"
             />
             <MetricCard 
               before="$247" 
@@ -97,50 +182,135 @@ function ResultsPreview() {
               timeframe="within 45 days"
             />
             <MetricCard 
-              before="18 hrs" 
-              after="4 min" 
-              metric="Response Time"
-              timeframe="immediate improvement"
+              before="2.1%" 
+              after="8.3%" 
+              metric="Conversion Rate"
+              timeframe="within 30 days"
             />
           </div>
-        </SectionReveal>
+        </div>
+      </section>
+    </SectionReveal>
+  );
+}
 
-        <SectionReveal delay={400}>
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 text-slate-300 px-6 py-3 rounded-xl text-sm">
-              <svg className="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              Results may vary. We only work with businesses we believe we can help.
+function ServicesPreview() {
+  return (
+    <SectionReveal>
+      <section className="px-6 sm:px-8 py-20">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-4xl sm:text-5xl font-bold text-center mb-12">
+            Pick what you need
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="group relative rounded-2xl border border-white/10 bg-white/[0.02] p-6 hover:bg-white/[0.05] hover:border-cyan-400/30 transition-all">
+              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-400">
+                <Zap className="h-6 w-6" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">AI Receptionist</h3>
+              <p className="text-slate-400 text-sm mb-4">
+                Answers inquiries, books appointments, and qualifies leads 24/7
+              </p>
+              <Link href="/services" className="text-cyan-400 text-sm font-medium hover:text-cyan-300 transition-colors">
+                Learn more →
+              </Link>
+            </div>
+            
+            <div className="group relative rounded-2xl border border-white/10 bg-white/[0.02] p-6 hover:bg-white/[0.05] hover:border-cyan-400/30 transition-all">
+              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-400">
+                <Clock className="h-6 w-6" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Smart Scheduling</h3>
+              <p className="text-slate-400 text-sm mb-4">
+                Self-booking, reminders, and follow-ups that reduce no-shows
+              </p>
+              <Link href="/services" className="text-cyan-400 text-sm font-medium hover:text-cyan-300 transition-colors">
+                Learn more →
+              </Link>
+            </div>
+            
+            <div className="group relative rounded-2xl border border-white/10 bg-white/[0.02] p-6 hover:bg-white/[0.05] hover:border-cyan-400/30 transition-all">
+              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-400">
+                <TrendingUp className="h-6 w-6" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Lead Automation</h3>
+              <p className="text-slate-400 text-sm mb-4">
+                Instant responses, smart follow-ups, and pipeline management
+              </p>
+              <Link href="/services" className="text-cyan-400 text-sm font-medium hover:text-cyan-300 transition-colors">
+                Learn more →
+              </Link>
             </div>
           </div>
-        </SectionReveal>
-      </div>
-    </section>
+          
+          <div className="text-center mt-12">
+            <Link
+              href="/services"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-400 to-cyan-500 px-8 py-4 text-lg font-bold text-slate-900 hover:from-cyan-300 hover:to-cyan-400 shadow-xl shadow-cyan-500/20 transition-all transform hover:scale-105"
+            >
+              See All Services
+              <ArrowRight className="h-5 w-5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+    </SectionReveal>
   );
 }
 
 function ProcessOverview() {
   return (
-    <section className="relative z-10 section-spacing">
-      <div className="mx-auto w-full max-w-6xl px-6 sm:px-8">
-        <SectionReveal>
+    <SectionReveal>
+      <section className="px-6 sm:px-8 py-20">
+        <div className="mx-auto max-w-5xl">
+          <h2 className="text-4xl sm:text-5xl font-bold text-center mb-4">
+            We handle everything
+          </h2>
+          <p className="text-center text-slate-400 mb-12 text-lg">
+            From setup to training, you're covered
+          </p>
           <ImplementationTimeline />
-        </SectionReveal>
-        
-        <SectionReveal delay={400}>
           <div className="text-center mt-12">
             <Link
-              href="/book"
-              className="inline-flex items-center justify-center gap-3 rounded-2xl border border-cyan-400/30 bg-cyan-400/5 px-8 py-4 text-lg font-semibold text-cyan-400 hover:bg-cyan-400/10 hover:border-cyan-400/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 transition-all duration-200"
+              href="/process"
+              className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-medium transition-colors"
             >
-              Start Your 30-Day Implementation
-              <ArrowRight className="h-5 w-5" />
+              See the full process
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-        </SectionReveal>
-      </div>
-    </section>
+        </div>
+      </section>
+    </SectionReveal>
+  );
+}
+
+function FinalCTA() {
+  return (
+    <SectionReveal>
+      <section className="px-6 sm:px-8 py-24">
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="text-4xl sm:text-5xl font-bold mb-6">
+            Ready to scale without hiring?
+          </h2>
+          <p className="text-xl text-slate-300 mb-8">
+            Get a free strategy call. We'll show you exactly what we can automate.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/book"
+              className="group inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-400 to-cyan-500 px-10 py-5 text-lg font-bold text-slate-900 hover:from-cyan-300 hover:to-cyan-400 shadow-2xl shadow-cyan-500/30 transition-all transform hover:scale-105"
+            >
+              Book Your Free Call
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+          <p className="mt-6 text-sm text-slate-500">
+            30-day results guarantee • No contracts • Cancel anytime
+          </p>
+        </div>
+      </section>
+    </SectionReveal>
   );
 }
 
