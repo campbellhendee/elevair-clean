@@ -39,9 +39,9 @@ html { scroll-behavior: smooth; }
 /* Hero background utility using provided abstract image with gradient fallback */
 @layer utilities {
   .bg-hero {
-    /* Brighter overlay for better mobile readability */
+    /* Enhanced visibility with less overlay */
     background-image:
-      radial-gradient(ellipse at 30% 0%, rgba(2, 6, 23, 0.0), rgba(2, 6, 23, 0.4) 55%, rgba(2, 6, 23, 0.75) 100%),
+      radial-gradient(ellipse at 30% 0%, rgba(2, 6, 23, 0.0), rgba(2, 6, 23, 0.3) 55%, rgba(2, 6, 23, 0.65) 100%),
       image-set(
         url('/bg/hero-abstract-2560.webp') 2x,
         url('/bg/hero-abstract-1536.webp') 1x,
@@ -51,13 +51,27 @@ html { scroll-behavior: smooth; }
     background-size: 100% 100%, cover;
     background-position: center top, center top;
     background-repeat: no-repeat;
+    background-attachment: fixed; /* Parallax effect on desktop */
+    filter: contrast(1.1) brightness(1.2); /* Make image pop more */
+    animation: bg-fade-in 1.5s ease-out;
+  }
+  
+  /* Radial gradient for vignette effect */
+  .bg-radial-gradient {
+    background: radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      rgba(2, 6, 23, 0.2) 50%,
+      rgba(2, 6, 23, 0.6) 100%
+    );
   }
   
   /* Mobile-specific adjustments */
   @media (max-width: 640px) {
     .bg-hero {
+      background-attachment: scroll; /* Disable parallax on mobile */
       background-image:
-        radial-gradient(ellipse at 30% 0%, rgba(2, 6, 23, 0.1), rgba(2, 6, 23, 0.5) 55%, rgba(2, 6, 23, 0.8) 100%),
+        radial-gradient(ellipse at 30% 0%, rgba(2, 6, 23, 0.1), rgba(2, 6, 23, 0.4) 55%, rgba(2, 6, 23, 0.75) 100%),
         image-set(
           url('/bg/hero-abstract-1536.webp') 1x,
           url('/bg/hero-abstract.jpg') 1x
@@ -158,6 +172,18 @@ html { scroll-behavior: smooth; }
   }
 }
 
+/* Background fade-in animation for better loading */
+@keyframes bg-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .animate-gradient-x {
   background-size: 200% 200%;
   animation: gradient-x 4s ease infinite;
@@ -169,6 +195,19 @@ html { scroll-behavior: smooth; }
 
 .animate-fade-in {
   animation: fade-in 1s ease-out;
+}
+
+/* Enhanced text shadows for better readability */
+.drop-shadow-2xl {
+  filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.5));
+}
+
+.drop-shadow-lg {
+  filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.4));
+}
+
+.drop-shadow-md {
+  filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.3));
 }
 
 /* Mobile optimizations for brand */
