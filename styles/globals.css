@@ -44,11 +44,11 @@ html { scroll-behavior: smooth; }
   .text-spectral-slow { animation: spectrum 10s ease-in-out infinite; }
   /* Stronger cyan glow for wordmark */
   .glow-cyan-strong {
-    /* Tone down cyan — shift to balanced, cooler white/blue glow */
+    /* Cyan-forward glow with soft halo */
     text-shadow:
-      0 0 14px rgba(255,255,255,0.25),
-      0 0 28px rgba(147,197,253,0.22),
-      0 0 44px rgba(168,85,247,0.18);
+      0 0 18px rgba(34,211,238,0.60),
+      0 0 36px rgba(34,211,238,0.38),
+      0 0 64px rgba(34,211,238,0.28);
   }
 
   /* Subtle vertical wave for letters */
@@ -60,25 +60,31 @@ html { scroll-behavior: smooth; }
   /* Per-letter spectral animation (stronger colors, faster flow) */
   .spectral-letter {
     display: inline-block;
-    /* Balanced rainbow palette with less cyan dominance */
-    background-image: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #fb7185, #f59e0b, #84cc16, #14b8a6, #60a5fa);
-    background-size: 650% 650%;
+    /* Cyan is primary; other hues appear as brief pulses */
+    background-image: linear-gradient(90deg,
+      #22d3ee, #22d3ee, #38bdf8, #22d3ee,
+      #8b5cf6, #22d3ee, #f472b6, #22d3ee
+    );
+    background-size: 500% 500%;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     animation:
-      spectrum 4.8s linear infinite,
-      letter-wave 2.6s ease-in-out infinite;
+      spectrum 4.6s linear infinite,
+      letter-wave 2.4s ease-in-out infinite;
     will-change: background-position, transform;
   }
   /* Alternate letters get vertical drift for extra color motion */
   .spectral-letter-alt {
-    /* Alternate vertical sweep with complementary palette */
-    background-image: linear-gradient(90deg, #a78bfa, #f472b6, #fb7185, #f59e0b, #84cc16, #14b8a6, #60a5fa, #a78bfa);
-    background-size: 650% 650%;
+    /* Alternate vertical sweep; still cyan-dominant */
+    background-image: linear-gradient(90deg,
+      #22d3ee, #38bdf8, #22d3ee, #8b5cf6,
+      #22d3ee, #f472b6, #22d3ee, #38bdf8
+    );
+    background-size: 520% 520%;
     animation:
-      spectrum-y 5.0s linear infinite,
-      letter-wave 2.4s ease-in-out infinite;
+      spectrum-y 4.8s linear infinite,
+      letter-wave 2.2s ease-in-out infinite;
   }
   /* Staggered delays so each letter moves side-to-side offset */
   .wordmark > span:nth-child(1) { animation-delay: 0s, 0s; }
