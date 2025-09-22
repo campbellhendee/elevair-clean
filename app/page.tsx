@@ -59,6 +59,7 @@ function Hero() {
           </span>
         </div>
         
+          <div>
           {/* Tagline with enhanced visibility */}
           <p className="text-xl sm:text-2xl md:text-3xl font-light text-white mb-2 drop-shadow-lg">
             AI That Converts Visitors Into Customers
@@ -71,7 +72,7 @@ function Hero() {
               BETA ACCESS
             </span>
           </p>
-        </div>
+          </div>
 
         {/* CTAs with glow effects */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
@@ -109,7 +110,6 @@ function Hero() {
             <span>No Contracts</span>
           </div>
         </div>
-      </div>
     </section>
   );
 }
