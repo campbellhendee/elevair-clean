@@ -20,11 +20,11 @@ export default function Page() {
       {/* Background with animated effects */}
       <div className="fixed inset-0 z-0">
         {/* Photo background above aurora */}
-        <div aria-hidden className="absolute inset-0 bg-hero opacity-70 pointer-events-none" />
+        <div aria-hidden className="absolute inset-0 bg-hero opacity-90 pointer-events-none" />
         {/* Gentle gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/20 via-slate-950/40 to-slate-950/70" />
-        {/* Aurora beam sweep */}
-        <div aria-hidden className="absolute inset-0 bg-aurora-beam-home pointer-events-none" />
+        {/* Aurora beam sweep removed for cleaner look */}
+        {/* <div aria-hidden className="absolute inset-0 bg-aurora-beam-home pointer-events-none" /> */}
         {/* Animated orbs */}
         <AnimatedHeroBg />
         {/* Subtle vignette */}
@@ -49,36 +49,16 @@ function Hero() {
   return (
     <section className="relative z-10 px-6 sm:px-8 pt-24 sm:pt-32 md:pt-40 pb-20">
       <div className="mx-auto max-w-7xl">
-        {/* Brand Logo - Clean and Professional */}
-        <div className="text-center mb-12 animate-fade-in">
-          {/* New Elevair Logo */}
-          <div className="inline-flex items-center justify-center mb-8 group">
-            <div className="relative">
-              {/* Glow effect behind logo */}
-              <div className="absolute inset-0 bg-cyan-400/30 blur-3xl rounded-3xl animate-pulse-glow" />
-              
-              {/* Logo container */}
-              <div className="relative flex items-center gap-3 transform transition-transform group-hover:scale-105">
-                {/* Icon part */}
-                <div className="relative h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 rounded-2xl bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 shadow-2xl shadow-cyan-500/40 animate-pulse-slow flex items-center justify-center">
-                  {/* Four-pointed star icon matching the logo */}
-                  <svg 
-                    viewBox="0 0 100 100" 
-                    fill="currentColor" 
-                    className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 text-slate-900"
-                  >
-                    <path d="M50 10 L60 40 L90 50 L60 60 L50 90 L40 60 L10 50 L40 40 Z" />
-                  </svg>
-                </div>
-                
-                {/* Text part */}
-                <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-cyan-400 tracking-wide">
-                  Elevair
-                </div>
-              </div>
-            </div>
-          </div>
-          
+        {/* Brand wordmark — animated gradient + glow (keeps header logo separate) */}
+        <div className="text-center mb-10 animate-fade-in">
+          <span
+            className="inline-block font-extrabold tracking-tight text-spectral text-spectral-slow glow-cyan-strong text-7xl sm:text-8xl md:text-9xl"
+            title="Elevair"
+          >
+            Elevair
+          </span>
+        </div>
+        
           {/* Tagline with enhanced visibility */}
           <p className="text-xl sm:text-2xl md:text-3xl font-light text-white mb-2 drop-shadow-lg">
             AI That Converts Visitors Into Customers
