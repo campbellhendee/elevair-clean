@@ -11,6 +11,7 @@ import MetricCard from "../components/MetricCard";
 import ImplementationTimeline from "../components/ImplementationTimeline";
 import SectionReveal from "../components/SectionReveal";
 import StatsTiles from "../components/StatsTiles";
+import TrustedBy from "../components/TrustedBy";
 
 export default function Page() {
   return (
@@ -39,6 +40,7 @@ export default function Page() {
       <div className="relative z-10">
         <Hero />
         <TechnologyCapabilities />
+  <TrustedBy />
         <ServicesPreview />
         <FinalCTA />
       </div>
