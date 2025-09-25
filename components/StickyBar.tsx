@@ -37,7 +37,7 @@ export default function StickyBar({
   return (
     <div 
       className={`
-        fixed bottom-0 left-0 right-0 z-40 transition-all duration-300 ease-out
+        fixed bottom-0 left-0 right-0 z-40 transition-all duration-300 ease-out md:hidden
         ${isVisible 
           ? 'translate-y-0 opacity-100' 
           : 'translate-y-full opacity-0 pointer-events-none'
@@ -45,7 +45,7 @@ export default function StickyBar({
         ${className}
       `}
     >
-      <div className="bg-slate-900/95 backdrop-blur-md border-t border-white/10 px-4 py-3">
+      <div className="bg-slate-900/95 backdrop-blur-md border-t border-white/10 px-4 py-3 safe-area-inset">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />

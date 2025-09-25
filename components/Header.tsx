@@ -46,6 +46,20 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Lock body scroll and close on ESC for mobile drawer
+  useEffect(() => {
+    if (open) {
+      const original = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
+      window.addEventListener('keydown', onKey);
+      return () => {
+        document.body.style.overflow = original;
+        window.removeEventListener('keydown', onKey);
+      };
+    }
+  }, [open]);
+
   return (
     <header
       role="banner"
