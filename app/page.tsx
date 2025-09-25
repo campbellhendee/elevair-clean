@@ -102,18 +102,14 @@ function Hero() {
           </p>
         </div>
 
-        {/* CTAs with glow effects */}
+        {/* CTAs with metallic shimmer primary */}
         <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
           <Link
             href="/book"
-            className="group relative inline-flex items-center justify-center gap-3 rounded-2xl px-12 py-6 text-xl font-bold text-slate-100 transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-400/50 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950"
+            className="group relative inline-flex items-center justify-center gap-3 rounded-2xl px-12 py-6 text-xl font-semibold btn-metallic backdrop-blur-sm transition-all duration-300 transform hover:scale-[1.01]"
           >
-            {/* Subtle gradient aura (softened) */}
-            <span className="absolute -inset-0.5 gradient-elevair rounded-2xl blur-md opacity-40 group-hover:opacity-70 transition duration-200" />
-            <span className="relative flex items-center gap-3 bg-slate-950/90 rounded-2xl px-8 py-3 ring-1 ring-cyan-400/30">
-              Get Early Access
-              <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1" />
-            </span>
+            Get Early Access
+            <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1" />
           </Link>
           <Link
             href="/services"
