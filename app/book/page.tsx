@@ -30,12 +30,11 @@ export default function BookPage() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
-      <div className="mx-auto w-full max-w-4xl px-6 py-12">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-center">Book your free consultation</h1>
-        <p className="text-center text-slate-300 mt-2">
-          Pick a time. We’ll review your website, forms, follow-ups, and response speed.
-          You leave with a short plan and quick wins.
-        </p>
+      <div className="container-section max-w-4xl">
+        <div className="page-header">
+          <h1>Book your free consultation</h1>
+          <p>Pick a time. We’ll review your website, forms, follow-ups, and response speed. You leave with a short plan and quick wins.</p>
+        </div>
         {hasCalendly ? (
           <>
             <div className="calendly-inline-widget mt-8" data-url={url} style={{ minWidth: '320px', height: '820px' }} />
@@ -46,7 +45,7 @@ export default function BookPage() {
             </p>
           </>
         ) : (
-          <div className="mt-8 rounded-2xl border border-white/10 bg-white/[.02] p-6 text-center">
+          <div className="mt-8 card-surface p-6 text-center">
             <p className="text-slate-300">
               Our booking calendar is temporarily unavailable. Please email{' '}
               <a className="underline" href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL || 'growth@elevair.org'}`}>

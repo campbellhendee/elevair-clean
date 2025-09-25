@@ -97,26 +97,25 @@ export default function ServicesPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800">
+      <div className="min-h-screen bg-slate-950 text-slate-100">
         {/* Hero Section */}
         <section className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0.6))]"></div>
-          <div className="relative px-6 pt-20 pb-16 lg:px-8 lg:pt-32 lg:pb-24">
+          <div className="absolute inset-0 animated-grid"></div>
+          <div className="absolute inset-0 bg-vignette"></div>
+          <div className="relative container-section">
             <div className="mx-auto max-w-4xl text-center">
-              <h1 className="text-display font-bold tracking-tight text-white">
-                Stop guessing.
-                <br />
-                <span className="text-cyan-400">Start converting.</span>
-              </h1>
-              <p className="mt-6 text-xl leading-8 text-slate-300 max-w-3xl mx-auto">
-                We're building AI systems that automate customer communication for small businesses. 
-                Currently in beta - join early and help shape the future of business automation.
-              </p>
-              <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link
-                  href="/book"
-                  className="rounded-xl bg-cyan-400 px-8 py-4 text-lg font-semibold text-slate-900 shadow-lg hover:bg-cyan-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 transition-all duration-200"
-                >
+              <div className="page-header">
+                <h1 className="">
+                  Stop guessing.
+                  <br />
+                  <span className="text-cyan-400">Start converting.</span>
+                </h1>
+                <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+                  We're building AI systems that automate customer communication for small businesses. Currently in beta — join early and help shape the future of business automation.
+                </p>
+              </div>
+              <div className="mt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link href="/book" className="btn-primary px-8 py-4 text-lg">
                   Join Our Beta Program
                 </Link>
                 <span className="text-slate-400 text-sm">
@@ -128,7 +127,7 @@ export default function ServicesPage() {
         </section>
 
         {/* Stats Section */}
-        <section className="py-16 px-6 lg:px-8">
+        <section className="container-section">
           <div className="mx-auto max-w-7xl">
             <div className="text-center mb-12">
               <h2 className="text-headline font-bold text-white mb-4">
@@ -143,7 +142,7 @@ export default function ServicesPage() {
         </section>
 
         {/* Services Section */}
-        <section className="py-16 px-6 lg:px-8">
+        <section className="container-section">
           <div className="mx-auto max-w-7xl">
             <div className="text-center mb-16">
               <h2 className="text-headline font-bold text-white mb-4">
@@ -164,7 +163,7 @@ export default function ServicesPage() {
         </section>
 
         {/* Process Overview */}
-        <section className="py-16 px-6 lg:px-8 bg-slate-800/50">
+        <section className="container-section bg-slate-800/30">
           <div className="mx-auto max-w-4xl text-center">
             <h2 className="text-headline font-bold text-white mb-6">
               Our Simple 3-Step Process
@@ -174,7 +173,7 @@ export default function ServicesPage() {
             </p>
             
             <div className="grid gap-8 md:grid-cols-3">
-              <div className="text-center">
+              <div className="text-center card-surface p-6">
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cyan-400 text-slate-900 font-bold text-xl mb-4">
                   1
                 </div>
@@ -184,7 +183,7 @@ export default function ServicesPage() {
                 </p>
               </div>
               
-              <div className="text-center">
+              <div className="text-center card-surface p-6">
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cyan-400 text-slate-900 font-bold text-xl mb-4">
                   2
                 </div>
@@ -194,7 +193,7 @@ export default function ServicesPage() {
                 </p>
               </div>
               
-              <div className="text-center">
+              <div className="text-center card-surface p-6">
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cyan-400 text-slate-900 font-bold text-xl mb-4">
                   3
                 </div>
@@ -205,7 +204,7 @@ export default function ServicesPage() {
               </div>
             </div>
             
-            <div className="mt-12 p-6 bg-slate-700/50 rounded-xl border border-slate-600">
+            <div className="mt-12 p-6 card-surface">
               <div className="flex items-center justify-center gap-2 mb-3">
                 <CheckCircle className="h-5 w-5 text-green-400" />
                 <span className="font-semibold text-green-400">30-Day Results Guarantee</span>
@@ -219,7 +218,7 @@ export default function ServicesPage() {
         </section>
 
         {/* FAQ Section */}
-        <section className="py-16 px-6 lg:px-8">
+        <section className="container-section">
           <div className="mx-auto max-w-4xl">
             <div className="text-center mb-12">
               <h2 className="text-headline font-bold text-white mb-4">
@@ -234,7 +233,7 @@ export default function ServicesPage() {
         </section>
 
         {/* Final CTA */}
-        <section className="py-16 px-6 lg:px-8">
+        <section className="container-section">
           <CTASection
             title="Ready to Stop Leaving Money on the Table?"
             description="Get your free 30-minute business teardown and discover exactly how to turn more visitors into customers."

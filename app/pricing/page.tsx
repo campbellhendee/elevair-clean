@@ -11,15 +11,11 @@ export const metadata = {
 export default function PricingPage() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
-      <div className="mx-auto max-w-4xl px-6 py-16">
+      <div className="container-section">
         <SectionReveal>
-          <div className="text-center mb-16">
-            <h1 className="text-headline mb-6">
-              Transparent Investment
-            </h1>
-            <p className="text-subhead text-slate-300 max-w-3xl mx-auto">
-              One project fee covers everything. Optional ongoing support. 30-day results guarantee or 50% refund.
-            </p>
+          <div className="page-header">
+            <h1>Transparent Investment</h1>
+            <p>One project fee covers everything. Optional ongoing support. 30-day results guarantee or 50% refund.</p>
           </div>
         </SectionReveal>
 
@@ -73,12 +69,8 @@ export default function PricingPage() {
             <p className="text-slate-400 mb-6">
               Questions about pricing or need a custom solution?
             </p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition"
-            >
-              Get in touch
-              <ArrowRight className="h-4 w-4" />
+            <Link href="/contact" className="btn-secondary inline-flex items-center gap-2">
+              Get in touch <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </SectionReveal>

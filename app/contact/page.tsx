@@ -15,17 +15,15 @@ export default function ContactPage() {
   const hasTally = base.trim().length > 0;
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
-      <div className="mx-auto w-full max-w-4xl px-6 py-14 md:py-20 pb-28">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-center">Contact us</h1>
-        <p className="text-center text-slate-300 mt-3">
-          Prefer email? Reach out at{' '}
-          <a className="underline" href={`mailto:${email}`}>{email ? email : 'Growth@Elevair.org'}</a>
-          {' '}or go ahead and <Link className="underline" href="/book">book a call</Link> now.
-        </p>
+      <div className="container-section max-w-4xl pb-28">
+        <div className="page-header">
+          <h1>Contact us</h1>
+          <p>Prefer email? Reach out at <a className="underline" href={`mailto:${email}`}>{email ? email : 'Growth@Elevair.org'}</a> or go ahead and <Link className="underline" href="/book">book a call</Link> now.</p>
+        </div>
 
         {hasTally && (
           <>
-            <div className="mt-10 md:mt-12 rounded-2xl border border-white/10 bg-white/[.02] overflow-hidden">
+            <div className="mt-10 md:mt-12 card-surface overflow-hidden">
               <iframe
                 data-tally-src={url}
                 width="100%"
@@ -50,7 +48,9 @@ export default function ContactPage() {
               ? <>Email us or use the simple form below. Or <Link href="/book" className="underline">book a call</Link> now.</>
               : <>No problem — use the simple form below. Or <Link href="/book" className="underline">book a call</Link> now.</>}
           </p>
-          <FallbackForm email={email} />
+          <div className="mt-4 card-surface p-6">
+            <FallbackForm email={email} />
+          </div>
         </div>
       </div>
     </main>
