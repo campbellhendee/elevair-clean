@@ -10,13 +10,9 @@ export default function FAQPage() {
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <div className="mx-auto max-w-3xl px-6 py-16">
         <SectionReveal>
-          <div className="text-center mb-16">
-            <h1 className="text-headline mb-6">
-              Common Questions
-            </h1>
-            <p className="text-subhead text-slate-300 max-w-2xl mx-auto">
-              Everything you need to know about our 30-day implementation process.
-            </p>
+          <div className="page-header">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Common Questions</h1>
+            <p className="text-lg text-slate-300 max-w-2xl mx-auto">Everything you need to know about our 30-day implementation process.</p>
           </div>
         </SectionReveal>
 
@@ -41,10 +37,7 @@ export default function FAQPage() {
             <p className="text-slate-400 mb-6">
               Still have questions?
             </p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-8 py-4 text-lg font-semibold text-slate-900 hover:bg-cyan-300 shadow-lg shadow-cyan-500/20 transition"
-            >
+            <Link href="/contact" className="btn-secondary inline-flex items-center gap-2">
               Get in touch
               <ArrowRight className="h-5 w-5" />
             </Link>

@@ -12,7 +12,7 @@ export default function ResultsPage() {
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <div className="mx-auto max-w-4xl px-6 py-16">
         <SectionReveal>
-          <div className="text-center mb-16">
+          <div className="page-header">
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
               Technology Demonstration
             </h1>
@@ -62,7 +62,7 @@ export default function ResultsPage() {
         <div className="text-center mt-16">
           <Link
             href="/book"
-            className="inline-flex items-center gap-2 rounded-2xl bg-cyan-400 px-8 py-4 text-lg font-semibold text-slate-900 hover:bg-cyan-300 shadow-lg shadow-cyan-500/20 transition"
+            className="btn-primary px-8 py-4 text-lg"
           >
             Join Beta Program
             <ArrowRight className="h-5 w-5" />
