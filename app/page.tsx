@@ -27,6 +27,10 @@ export default function Page() {
         {/* <div aria-hidden className="absolute inset-0 bg-aurora-beam-home pointer-events-none" /> */}
         {/* Animated orbs */}
         <AnimatedHeroBg />
+        {/* Animated grid overlay (very subtle) */}
+        <div className="absolute inset-0 animated-grid opacity-[0.06]" aria-hidden />
+        {/* Floating particles for life */}
+        <FloatingParticles count={18} />
         {/* Subtle vignette */}
         <div className="absolute inset-0 bg-radial-gradient" />
       </div>
@@ -45,6 +49,27 @@ export default function Page() {
   );
 }
 
+/* Minimal, local visual helpers to avoid new files */
+function FloatingParticles({ count = 14 }: { count?: number }) {
+  const items = Array.from({ length: count });
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
+      {items.map((_, i) => (
+        <div
+          key={i}
+          className="absolute w-1 h-1 bg-cyan-400/70 rounded-full animate-float-random"
+          style={{
+            left: `${(i * 73) % 100}%`,
+            top: `${(i * 37) % 100}%`,
+            // @ts-ignore custom CSS var consumed by utility
+            "--float-duration": `${16 + (i % 7)}s`,
+          } as React.CSSProperties}
+        />
+      ))}
+    </div>
+  );
+}
+
 function Hero() {
   return (
     <section className="relative z-10 px-6 sm:px-8 pt-32 sm:pt-40 md:pt-48 pb-24">
@@ -53,7 +78,7 @@ function Hero() {
         <div className="text-center mb-16 animate-fade-in-up">
           <h1 className="mb-6 leading-none">
             <span
-              className="inline-block font-black tracking-tighter text-spectral text-spectral-slow glow-cyan-strong text-8xl sm:text-9xl md:text-[12rem]"
+              className="inline-block font-black tracking-tighter text-elevair-animated glow-cyan-strong text-8xl sm:text-9xl md:text-[12rem]"
               title="Elevair"
             >
               Elevair
@@ -81,10 +106,11 @@ function Hero() {
         <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
           <Link
             href="/book"
-            className="group relative inline-flex items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-500 px-12 py-6 text-xl font-bold text-slate-900 hover:shadow-[0_20px_80px_-15px_rgba(34,211,238,0.5)] transition-all duration-300 transform hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950"
+            className="group relative inline-flex items-center justify-center gap-3 rounded-2xl px-12 py-6 text-xl font-bold text-slate-100 transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-400/50 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950"
           >
-            <span className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400/40 to-blue-400/40 blur-2xl opacity-70 group-hover:opacity-100 transition-opacity" />
-            <span className="relative flex items-center gap-3">
+            {/* Subtle gradient aura (softened) */}
+            <span className="absolute -inset-0.5 gradient-elevair rounded-2xl blur-md opacity-40 group-hover:opacity-70 transition duration-200" />
+            <span className="relative flex items-center gap-3 bg-slate-950/90 rounded-2xl px-8 py-3 ring-1 ring-cyan-400/30">
               Get Early Access
               <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1" />
             </span>

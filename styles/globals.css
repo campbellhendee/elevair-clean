@@ -400,6 +400,58 @@ html { scroll-behavior: smooth; }
     will-change: background-position;
   }
 
+
+/* === Elevair Design Differentiators (utilities) === */
+/* Signature color accents and gradients */
+:root {
+  --primary-cyan: #06b6d4; /* cyan-500 */
+  --accent-purple: #a855f7; /* purple-500 */
+  --accent-pink: #ec4899; /* pink-500 */
+}
+
+@layer utilities {
+  .gradient-elevair { background: linear-gradient(135deg, var(--primary-cyan) 0%, var(--accent-purple) 50%, var(--accent-pink) 100%); }
+
+  /* Animated grid background */
+  @keyframes grid-move { 0% { background-position: 0 0, 0 0; } 100% { background-position: 1000px 0, 0 1000px; } }
+  .animated-grid {
+    background-image: linear-gradient(rgba(34,211,238,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,0.08) 1px, transparent 1px);
+    background-size: 56px 56px, 56px 56px;
+    animation: grid-move 60s linear infinite;
+    mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8), transparent 70%);
+  }
+
+  /* Floating particles */
+  @keyframes float-random { 0% { transform: translateY(0) translateX(0); opacity: .4; } 50% { transform: translateY(-30px) translateX(10px); opacity: .8; } 100% { transform: translateY(0) translateX(0); opacity: .4; } }
+  .animate-float-random { animation: float-random var(--float-duration, 18s) ease-in-out infinite; }
+
+  /* Neon glow helpers */
+  .neon-glow {
+    box-shadow: 0 0 20px rgba(6,182,212,.35), 0 0 60px rgba(168,85,247,.25), 0 0 100px rgba(236,72,153,.2);
+  }
+  .neon-ring { box-shadow: inset 0 0 0 1px rgba(6,182,212,.5); }
+
+  /* Animated typography */
+  @keyframes text-shimmer { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+  .text-elevair-animated {
+    background: linear-gradient(90deg, var(--primary-cyan) 0%, var(--accent-purple) 25%, var(--accent-pink) 50%, var(--accent-purple) 75%, var(--primary-cyan) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+    animation: text-shimmer 6s linear infinite;
+  }
+
+  /* Shimmer overlay (for glassmorphism hover) */
+  @keyframes shimmer { 0% { transform: translateX(-150%); } 100% { transform: translateX(150%); } }
+  .shimmer-iris {
+    background: linear-gradient(105deg, transparent 40%, rgba(168,85,247,0.18) 50%, transparent 60%);
+    filter: blur(0.2px);
+    animation: shimmer 2.2s ease-in-out infinite;
+  }
+
+  /* 3D hover utility */
+  .card-3d { transform-style: preserve-3d; transform: perspective(1000px) rotateY(0deg); transition: transform .6s; }
+  .card-3d:hover { transform: perspective(1000px) rotateY(5deg) translateZ(12px); }
+}
   /* --- Visual polish utilities (added) --- */
   /* Smooth fade-in-up (slightly stronger than fade-in) */
   @keyframes fade-in-up {
