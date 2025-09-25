@@ -400,6 +400,18 @@ html { scroll-behavior: smooth; }
     will-change: background-position;
   }
 
+  /* --- Visual polish utilities (added) --- */
+  /* Smooth fade-in-up (slightly stronger than fade-in) */
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in-up { animation: fade-in-up 1s ease-out both; }
+
+  /* Card hover lift with glow */
+  .card-hover-lift { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+  .card-hover-lift:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3), 0 0 60px -15px rgba(34, 211, 238, 0.2); }
+
   /* Subtle background beam (home page overlay) */
   .bg-aurora-beam-soft {
     pointer-events: none;

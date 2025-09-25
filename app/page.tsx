@@ -47,67 +47,66 @@ export default function Page() {
 
 function Hero() {
   return (
-    <section className="relative z-10 px-6 sm:px-8 pt-24 sm:pt-32 md:pt-40 pb-20">
+    <section className="relative z-10 px-6 sm:px-8 pt-32 sm:pt-40 md:pt-48 pb-24">
       <div className="mx-auto max-w-7xl">
         {/* Brand wordmark — animated gradient + glow (keeps header logo separate) */}
-        <div className="text-center mb-10 animate-fade-in">
-          <span
-            className="inline-block font-extrabold tracking-tight text-spectral text-spectral-slow glow-cyan-strong text-7xl sm:text-8xl md:text-9xl"
-            title="Elevair"
-          >
-            Elevair
-          </span>
+        <div className="text-center mb-16 animate-fade-in-up">
+          <h1 className="mb-6 leading-none">
+            <span
+              className="inline-block font-black tracking-tighter text-spectral text-spectral-slow glow-cyan-strong text-8xl sm:text-9xl md:text-[12rem]"
+              title="Elevair"
+            >
+              Elevair
+            </span>
+          </h1>
         </div>
         
-        <div className="text-center mb-12">
+        <div className="text-center mb-14">
           {/* Tagline with enhanced visibility */}
-          <p className="text-xl sm:text-2xl md:text-3xl font-light text-white mb-2 drop-shadow-lg">
+          <p className="text-2xl sm:text-3xl md:text-4xl font-light text-white mb-6 max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
             AI That Converts Visitors Into Customers
           </p>
           
           {/* Value prop with beta badge */}
-          <p className="text-base sm:text-lg text-slate-200 max-w-2xl mx-auto drop-shadow-md">
-            Intelligent automation that handles inquiries, books appointments, and follows up automatically. 
-            <span className="inline-block ml-2 text-xs bg-cyan-400/20 text-cyan-400 px-3 py-1 rounded-full font-semibold animate-pulse border border-cyan-400/30">
+          <p className="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto">
+            Intelligent automation that handles inquiries, books appointments, and follows up automatically.
+            <span className="inline-flex items-center ml-3 text-sm bg-gradient-to-r from-cyan-400/20 to-blue-400/20 text-cyan-300 px-4 py-1.5 rounded-full font-medium border border-cyan-400/30 backdrop-blur-sm">
+              <span className="w-2 h-2 bg-cyan-400 rounded-full mr-2 animate-pulse" />
               BETA ACCESS
             </span>
           </p>
         </div>
 
         {/* CTAs with glow effects */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+        <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
           <Link
             href="/book"
-            className="group relative inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-400 to-cyan-500 px-10 py-5 text-lg font-bold text-slate-900 hover:from-cyan-300 hover:to-cyan-400 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950 shadow-2xl shadow-cyan-500/30 transition-all transform hover:scale-105"
+            className="group relative inline-flex items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-500 px-12 py-6 text-xl font-bold text-slate-900 hover:shadow-[0_20px_80px_-15px_rgba(34,211,238,0.5)] transition-all duration-300 transform hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950"
           >
-            <span className="absolute inset-0 rounded-2xl bg-cyan-400/20 blur-xl animate-pulse-glow" />
-            <span className="relative flex items-center gap-2">
-              Join Beta Program
-              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            <span className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400/40 to-blue-400/40 blur-2xl opacity-70 group-hover:opacity-100 transition-opacity" />
+            <span className="relative flex items-center gap-3">
+              Get Early Access
+              <ArrowRight className="h-6 w-6 transition-transform group-hover:translate-x-1" />
             </span>
           </Link>
           <Link
             href="/services"
-            className="group inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-white/20 px-10 py-5 text-lg font-medium text-slate-100 hover:bg-white/10 hover:border-cyan-400/50 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-4 focus-visible:ring-offset-slate-950 transition-all"
+            className="group inline-flex items-center justify-center gap-3 rounded-2xl border-2 border-white/10 backdrop-blur-sm px-12 py-6 text-xl font-medium text-white hover:bg-white/5 hover:border-cyan-400/30 transition-all duration-300"
           >
-            See Technology
-            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            Explore Technology
+            <ArrowRight className="h-6 w-6 opacity-50 group-hover:opacity-100 transition-all group-hover:translate-x-1" />
           </Link>
         </div>
 
-        {/* Trust badges with subtle glow */}
-        <div className="flex flex-wrap justify-center gap-6 text-sm text-slate-400">
-          <div className="flex items-center gap-2 hover:text-cyan-400 transition-colors">
-            <Shield className="h-4 w-4 text-cyan-400" />
-            <span>Early Access</span>
-          </div>
-          <div className="flex items-center gap-2 hover:text-cyan-400 transition-colors">
-            <Clock className="h-4 w-4 text-cyan-400" />
-            <span>Setup in Days</span>
-          </div>
-          <div className="flex items-center gap-2 hover:text-cyan-400 transition-colors">
-            <TrendingUp className="h-4 w-4 text-cyan-400" />
-            <span>No Contracts</span>
+        {/* Trust badges - floating card style */}
+        <div className="flex justify-center">
+          <div className="inline-flex flex-wrap justify-center gap-8 backdrop-blur-sm bg-white/[0.02] rounded-2xl px-8 py-4 border border-white/10">
+            {[{ icon: Shield, text: "Early Access" }, { icon: Clock, text: "Setup in Days" }, { icon: TrendingUp, text: "No Contracts" }].map((item, i) => (
+              <div key={i} className="flex items-center gap-2 text-sm">
+                <item.icon className="h-4 w-4 text-cyan-400" />
+                <span className="text-slate-300">{item.text}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -239,44 +238,64 @@ function ServicesPreview() {
             Pick what you need
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="group relative rounded-2xl border border-white/10 bg-white/[0.02] p-6 hover:bg-white/[0.05] hover:border-cyan-400/30 transition-all">
-              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-400">
-                <svg viewBox="0 0 100 100" fill="currentColor" className="h-6 w-6">
-                  <path d="M50 10 L60 40 L90 50 L60 60 L50 90 L40 60 L10 50 L40 40 Z" />
-                </svg>
+            {/* Card 1 */}
+            <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.02] to-white/[0.01] p-8 hover:border-cyan-400/20 transition-all duration-500 card-hover-lift">
+              {/* Hover gradient wash */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-cyan-400/0 to-blue-500/0 group-hover:from-cyan-400/5 group-hover:to-blue-500/5 transition-all duration-500" />
+              {/* Icon */}
+              <div className="relative mb-6">
+                <div className="absolute inset-0 bg-cyan-400/20 blur-xl scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative inline-flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400/10 to-blue-500/10 border border-cyan-400/20 text-cyan-400">
+                  <svg viewBox="0 0 100 100" fill="currentColor" className="h-7 w-7">
+                    <path d="M50 10 L60 40 L90 50 L60 60 L50 90 L40 60 L10 50 L40 40 Z" />
+                  </svg>
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-2">AI Receptionist</h3>
-              <p className="text-slate-400 text-sm mb-4">
+              <h3 className="text-2xl font-bold mb-3 text-white">AI Receptionist</h3>
+              <p className="text-base text-slate-300 leading-relaxed mb-5">
                 Answers inquiries, books appointments, and qualifies leads 24/7
               </p>
-              <Link href="/services" className="text-cyan-400 text-sm font-medium hover:text-cyan-300 transition-colors">
-                Learn more →
+              <Link href="/services" className="inline-flex items-center gap-2 text-cyan-400 font-medium group/link">
+                <span>Learn more</span>
+                <ArrowRight className="h-4 w-4 transition-transform group-hover/link:translate-x-2" />
               </Link>
             </div>
-            
-            <div className="group relative rounded-2xl border border-white/10 bg-white/[0.02] p-6 hover:bg-white/[0.05] hover:border-cyan-400/30 transition-all">
-              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-400">
-                <Clock className="h-6 w-6" />
+
+            {/* Card 2 */}
+            <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.02] to-white/[0.01] p-8 hover:border-cyan-400/20 transition-all duration-500 card-hover-lift">
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-cyan-400/0 to-blue-500/0 group-hover:from-cyan-400/5 group-hover:to-blue-500/5 transition-all duration-500" />
+              <div className="relative mb-6">
+                <div className="absolute inset-0 bg-cyan-400/20 blur-xl scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative inline-flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400/10 to-blue-500/10 border border-cyan-400/20 text-cyan-400">
+                  <Clock className="h-7 w-7" />
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-2">Smart Scheduling</h3>
-              <p className="text-slate-400 text-sm mb-4">
+              <h3 className="text-2xl font-bold mb-3 text-white">Smart Scheduling</h3>
+              <p className="text-base text-slate-300 leading-relaxed mb-5">
                 Self-booking, reminders, and follow-ups that reduce no-shows
               </p>
-              <Link href="/services" className="text-cyan-400 text-sm font-medium hover:text-cyan-300 transition-colors">
-                Learn more →
+              <Link href="/services" className="inline-flex items-center gap-2 text-cyan-400 font-medium group/link">
+                <span>Learn more</span>
+                <ArrowRight className="h-4 w-4 transition-transform group-hover/link:translate-x-2" />
               </Link>
             </div>
-            
-            <div className="group relative rounded-2xl border border-white/10 bg-white/[0.02] p-6 hover:bg-white/[0.05] hover:border-cyan-400/30 transition-all">
-              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-400">
-                <TrendingUp className="h-6 w-6" />
+
+            {/* Card 3 */}
+            <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.02] to-white/[0.01] p-8 hover:border-cyan-400/20 transition-all duration-500 card-hover-lift">
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-cyan-400/0 to-blue-500/0 group-hover:from-cyan-400/5 group-hover:to-blue-500/5 transition-all duration-500" />
+              <div className="relative mb-6">
+                <div className="absolute inset-0 bg-cyan-400/20 blur-xl scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative inline-flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400/10 to-blue-500/10 border border-cyan-400/20 text-cyan-400">
+                  <TrendingUp className="h-7 w-7" />
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-2">Lead Automation</h3>
-              <p className="text-slate-400 text-sm mb-4">
+              <h3 className="text-2xl font-bold mb-3 text-white">Lead Automation</h3>
+              <p className="text-base text-slate-300 leading-relaxed mb-5">
                 Instant responses, smart follow-ups, and pipeline management
               </p>
-              <Link href="/services" className="text-cyan-400 text-sm font-medium hover:text-cyan-300 transition-colors">
-                Learn more →
+              <Link href="/services" className="inline-flex items-center gap-2 text-cyan-400 font-medium group/link">
+                <span>Learn more</span>
+                <ArrowRight className="h-4 w-4 transition-transform group-hover/link:translate-x-2" />
               </Link>
             </div>
           </div>
