@@ -81,26 +81,78 @@ export default function DemoAssistant() {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, streamed]);
 
-  const onSend = (q?: string) => {
+  const onSend = async (q?: string) => {
     const content = (q ?? input).trim();
-    if (!content) return;
+    if (!content || loading) return;
     const user: Msg = { id: cryptoRandom(), role: "user", content };
     setMessages((m) => [...m, user]);
     setInput("");
     setLoading(true);
-    const answer = pickResponse(content);
     setRawAssistant("");
-    // Simulate thinking delay
-    setTimeout(() => {
-      setRawAssistant(answer);
-      const assistant: Msg = { id: cryptoRandom(), role: "assistant", content: answer };
-      // finalize after streaming finishes
-      setTimeout(() => {
-        setMessages((m) => [...m, assistant]);
+
+    // Try live API first
+    try {
+      const history = messages
+        .filter((m) => m.role !== "system")
+        .map((m) => ({ role: m.role, content: m.content }));
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: [...history, { role: "user", content }] }),
+      });
+
+      if (!res.ok || !res.body) throw new Error("no-stream");
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let buffer = "";
+      let full = "";
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+
+        let idx;
+        while ((idx = buffer.indexOf("\n")) >= 0) {
+          const line = buffer.slice(0, idx).trim();
+          buffer = buffer.slice(idx + 1);
+          if (!line.startsWith("data:")) continue;
+          const data = line.slice(5).trim();
+          if (!data || data === "[DONE]") continue;
+          try {
+            const json = JSON.parse(data);
+            const delta = json?.choices?.[0]?.delta?.content || "";
+            if (delta) {
+              full += delta;
+              setRawAssistant(full);
+            }
+          } catch {}
+        }
+      }
+
+      // finalize
+      if (full) {
+        setMessages((m) => [...m, { id: cryptoRandom(), role: "assistant", content: full }]);
         setRawAssistant("");
         setLoading(false);
-      }, Math.min(2500, Math.max(600, answer.length * 8)));
-    }, 420);
+        return;
+      }
+      // fall through to demo if nothing streamed
+      throw new Error("empty");
+    } catch (err) {
+      // Demo fallback
+      const answer = pickResponse(content);
+      setRawAssistant("");
+      setTimeout(() => {
+        setRawAssistant(answer);
+        const assistant: Msg = { id: cryptoRandom(), role: "assistant", content: answer };
+        setTimeout(() => {
+          setMessages((m) => [...m, assistant]);
+          setRawAssistant("");
+          setLoading(false);
+        }, Math.min(2500, Math.max(600, answer.length * 8)));
+      }, 380);
+    }
   };
 
   const pendingAssistant = useMemo<Msg | null>(() => {
@@ -119,8 +171,8 @@ export default function DemoAssistant() {
                 <Sparkles className="h-5 w-5 text-slate-900" />
               </div>
               <div>
-                <div className="font-semibold">Ask Elevair (Demo)</div>
-                <div className="text-xs text-slate-400">Simulated responses for a quick feel</div>
+                <div className="font-semibold">Ask Elevair</div>
+                <div className="text-xs text-slate-400">Live AI when available; otherwise a quick simulation</div>
               </div>
             </div>
             <div className="hidden sm:flex items-center gap-3 text-xs text-slate-400">
@@ -182,7 +234,7 @@ export default function DemoAssistant() {
             {/* Footer note */}
             <div className="mt-3 text-xs text-slate-400 flex items-center gap-2">
               <MessageSquare className="h-3.5 w-3.5" />
-              <span>Demo only—responses are simulated to showcase the experience.</span>
+              <span>Powered by a live API if configured; falls back to a demo.</span>
             </div>
           </div>
         </div>
@@ -233,4 +285,3 @@ function cryptoRandom() {
     return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
   }
 }
-
