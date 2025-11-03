@@ -16,10 +16,10 @@ function teamSrc(base: string, fallback: string) {
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
-      <div className="container-section max-w-4xl">
+      <div className="container-section max-w-5xl">
         <div className="page-header text-left">
           <h1>About Elevair</h1>
-          <p>We exist to fix slow follow‑ups and leaky funnels for owner‑led teams. Simple systems, fast results.</p>
+          <p>We help owner‑led teams accelerate follow‑ups and build connected pipelines. Simple systems, real growth.</p>
         </div>
         <div className="mt-8 grid md:grid-cols-2 gap-6">
           <div className="card-surface p-6">
@@ -60,7 +60,7 @@ export default function AboutPage() {
             </p>
         </div>
         {/* Our Story (moved below team) */}
-        <div className="card-surface p-6 mt-8 max-w-3xl mx-auto text-center relative">
+        <div className="card-surface p-6 mt-8 max-w-4xl md:max-w-5xl mx-auto text-center relative">
           {/* Subtle glow background */}
           <div aria-hidden className="pointer-events-none absolute -inset-20 opacity-70">
             <div className="absolute inset-0 bg-[radial-gradient(600px_220px_at_50%_0%,rgba(34,211,238,.14),transparent_60%)]" />
