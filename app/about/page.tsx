@@ -2,11 +2,14 @@ import Image from "next/image";
 import fs from "fs";
 import path from "path";
 
-function teamSrc(filename: string, fallback: string) {
-  try {
-    const p = path.join(process.cwd(), "public", "team", filename);
-    if (fs.existsSync(p)) return `/team/${filename}`;
-  } catch {}
+function teamSrc(base: string, fallback: string) {
+  const exts = ["jpg", "jpeg", "png", "webp", "avif"] as const;
+  for (const ext of exts) {
+    try {
+      const p = path.join(process.cwd(), "public", "team", `${base}.${ext}`);
+      if (fs.existsSync(p)) return `/team/${base}.${ext}`;
+    } catch {}
+  }
   return fallback;
 }
 
@@ -22,7 +25,7 @@ export default function AboutPage() {
           <div className="card-surface p-6">
             <div className="mb-4">
               <Image
-                src={teamSrc("campbell-hendee.jpg", "/team/campbell-placeholder.svg")}
+                src={teamSrc("campbell-hendee", "/team/campbell-placeholder.svg")}
                 alt="Team headshot"
                 width={640}
                 height={640}
@@ -36,7 +39,7 @@ export default function AboutPage() {
           <div className="card-surface p-6">
             <div className="mb-4">
               <Image
-                src={teamSrc("walker-deyo.jpg", "/team/walker-placeholder.svg")}
+                src={teamSrc("walker-deyo", "/team/walker-placeholder.svg")}
                 alt="Team headshot"
                 width={640}
                 height={640}
