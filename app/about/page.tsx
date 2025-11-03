@@ -59,6 +59,8 @@ export default function AboutPage() {
               busywork.
             </p>
         </div>
+        {/* Close team grid before Our Story to center below */}
+        </div>
         {/* Our Story (moved below team) */}
         <div className="card-surface p-6 mt-8 max-w-4xl md:max-w-5xl mx-auto text-center relative">
           {/* Subtle glow background */}
@@ -79,7 +81,6 @@ export default function AboutPage() {
             an hour of busywork, we’ll chase that hour—and give it back to your
             customers.
           </p>
-        </div>
         </div>
         <div className="mt-10">
           <a href="/book" className="btn-primary">Book a call</a>
