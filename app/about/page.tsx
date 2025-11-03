@@ -60,7 +60,7 @@ export default function AboutPage() {
             </p>
         </div>
         {/* Our Story (moved below team) */}
-        <div className="card-surface p-6 mt-8">
+        <div className="card-surface p-6 mt-8 max-w-3xl mx-auto text-center">
           <h2 className="text-xl font-semibold">Our Story</h2>
           <p className="text-slate-300 mt-2">
             We’re high‑school friends building in Austin. Over the last four years
