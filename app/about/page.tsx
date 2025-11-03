@@ -60,16 +60,21 @@ export default function AboutPage() {
             </p>
         </div>
         {/* Our Story (moved below team) */}
-        <div className="card-surface p-6 mt-8 max-w-3xl mx-auto text-center">
-          <h2 className="text-xl font-semibold">Our Story</h2>
-          <p className="text-slate-300 mt-2">
+        <div className="card-surface p-6 mt-8 max-w-3xl mx-auto text-center relative">
+          {/* Subtle glow background */}
+          <div aria-hidden className="pointer-events-none absolute -inset-20 opacity-70">
+            <div className="absolute inset-0 bg-[radial-gradient(600px_220px_at_50%_0%,rgba(34,211,238,.14),transparent_60%)]" />
+          </div>
+          <h2 className="text-xl font-semibold bg-gradient-to-r from-white to-cyan-300 bg-clip-text text-transparent">Our Story</h2>
+          <div aria-hidden className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent" />
+          <p className="text-slate-300 mt-3 leading-relaxed">
             We’re high‑school friends building in Austin. Over the last four years
             we’ve worked hands‑on with AI—learning to code with models, prototyping
             nights and weekends, and turning experiments into tools that actually
             get used. Elevair is our way of giving owner‑led teams the same edge:
             faster follow‑ups, clean handoffs, and systems that quietly do the work.
           </p>
-          <p className="text-slate-300 mt-3">
+          <p className="text-slate-300 mt-4 leading-relaxed">
             We believe small teams should feel bigger than they are. If AI can save
             an hour of busywork, we’ll chase that hour—and give it back to your
             customers.
