@@ -34,7 +34,13 @@ export default function AboutPage() {
               />
             </div>
             <h2 className="text-xl font-semibold">Campbell Hendee</h2>
-            <p className="text-slate-300 mt-2">Co‑founder. Ops and systems. Placeholder bio here.</p>
+            <p className="text-slate-300 mt-2">
+              Co‑founder focused on ops and systems. Currently taking an AI
+              course offered by UT Austin’s McCombs School of Business and
+              working toward a certificate (not enrolled in the program). Loves
+              building simple, reliable automations that help owner‑led teams
+              grow.
+            </p>
           </div>
           <div className="card-surface p-6">
             <div className="mb-4">
@@ -47,7 +53,12 @@ export default function AboutPage() {
               />
             </div>
             <h2 className="text-xl font-semibold">Walker Deyo</h2>
-            <p className="text-slate-300 mt-2">Co‑founder. Growth and product. Placeholder bio here.</p>
+            <p className="text-slate-300 mt-2">
+              Co‑founder focused on growth and product. Has worked hands‑on
+              with AI for about four years and learned to code by
+              collaborating with AI models. Passionate about helping
+              businesses convert more leads and automate the busywork.
+            </p>
           </div>
         </div>
         <div className="mt-10">
