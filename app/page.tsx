@@ -12,6 +12,7 @@ import ImplementationTimeline from "../components/ImplementationTimeline";
 import SectionReveal from "../components/SectionReveal";
 import StatsTiles from "../components/StatsTiles";
 import TrustedBy from "../components/TrustedBy";
+import DemoAssistant from "../components/DemoAssistant";
 
 export default function Page() {
   return (
@@ -40,7 +41,8 @@ export default function Page() {
       <div className="relative z-10">
         <Hero />
         <TechnologyCapabilities />
-  <TrustedBy />
+        <TrustedBy />
+        <DemoAssistant />
         <ServicesPreview />
         <FinalCTA />
       </div>
@@ -394,4 +396,3 @@ function FinalCTA() {
     </SectionReveal>
   );
 }
-
