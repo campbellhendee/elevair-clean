@@ -31,6 +31,9 @@ export default function AboutPage() {
                 height={640}
                 className="w-full aspect-square object-cover rounded-xl"
                 priority
+                placeholder="blur"
+                blurDataURL={BLUR}
+                sizes="(min-width: 768px) 360px, 100vw"
               />
             </div>
             <h2 className="text-xl font-semibold">Campbell Hendee</h2>
@@ -49,6 +52,9 @@ export default function AboutPage() {
                 width={640}
                 height={640}
                 className="w-full aspect-square object-cover rounded-xl"
+                placeholder="blur"
+                blurDataURL={BLUR}
+                sizes="(min-width: 768px) 360px, 100vw"
               />
             </div>
             <h2 className="text-xl font-semibold">Walker Deyo</h2>
@@ -89,3 +95,5 @@ export default function AboutPage() {
     </main>
   );
 }
+// Tiny blur placeholder (fast-embed SVG)
+const BLUR = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+PHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPScjMTExJy8+PC9zdmc+";

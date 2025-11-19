@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Send, Sparkles, Clock, Bot, User, Loader2, Rocket, BookOpenCheck, PlugZap, MessageSquare } from "lucide-react";
+import Link from "next/link";
+import { Send, Sparkles, Clock, Bot, User, Loader2, Rocket, BookOpenCheck, PlugZap, MessageSquare, RotateCcw, Square } from "lucide-react";
 
 type Msg = { id: string; role: "user" | "assistant" | "system"; content: string };
 
@@ -35,6 +36,7 @@ export default function DemoAssistant() {
   const [rawAssistant, setRawAssistant] = useState("");
   const [mode, setMode] = useState<"live" | "unavailable">("live");
   const [apiError, setApiError] = useState<string | null>(null);
+  const [ctaVisible, setCtaVisible] = useState(false);
   // Only auto-scroll after user interacts; avoid jumping the page on first render
   const [shouldStickToBottom, setShouldStickToBottom] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([
@@ -46,6 +48,7 @@ export default function DemoAssistant() {
     },
   ]);
   const endRef = useRef<HTMLDivElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
   const streamed = useStreamedText(rawAssistant);
 
@@ -53,6 +56,10 @@ export default function DemoAssistant() {
     if (!shouldStickToBottom) return;
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages, streamed, shouldStickToBottom]);
+
+  function hasBookingIntent(text: string) {
+    return /(price|pricing|cost|book|booking|demo|walkthrough|schedule|meeting|call)/i.test(text);
+  }
 
   const onSend = async (q?: string) => {
     const content = (q ?? input).trim();
@@ -64,6 +71,7 @@ export default function DemoAssistant() {
     setRawAssistant("");
     setApiError(null);
     setShouldStickToBottom(true);
+    if (hasBookingIntent(content)) setCtaVisible(true);
     // ensure we stick to end immediately on send
     try { endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }); } catch {}
 
@@ -72,10 +80,13 @@ export default function DemoAssistant() {
       const history = messages
         .filter((m) => m.role !== "system")
         .map((m) => ({ role: m.role, content: m.content }));
+      const controller = new AbortController();
+      abortRef.current = controller;
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: [...history, { role: "user", content }] }),
+        signal: controller.signal,
       });
 
       if (!res.ok || !res.body) throw new Error("no-stream");
@@ -105,6 +116,7 @@ export default function DemoAssistant() {
               full += delta;
               setRawAssistant(full);
               if (mode !== "live") setMode("live");
+              if (!ctaVisible && hasBookingIntent(full)) setCtaVisible(true);
             }
           } catch {}
         }
@@ -130,6 +142,34 @@ export default function DemoAssistant() {
       setRawAssistant("");
       setLoading(false);
     }
+  };
+
+  const onStop = () => {
+    try { abortRef.current?.abort(); } catch {}
+    setLoading(false);
+    setRawAssistant("");
+  };
+
+  const onRetry = () => {
+    if (loading) return;
+    const lastUser = [...messages].reverse().find((m) => m.role === "user");
+    if (lastUser) onSend(lastUser.content);
+  };
+
+  const onReset = () => {
+    setMessages([
+      {
+        id: "s1",
+        role: "assistant",
+        content:
+          "Elevair’s AI responds in seconds, books meetings automatically, and keeps your pipeline moving — ask me anything.",
+      },
+    ]);
+    setApiError(null);
+    setCtaVisible(false);
+    setMode("live");
+    setRawAssistant("");
+    setInput("");
   };
 
   const pendingAssistant = useMemo<Msg | null>(() => {
@@ -204,6 +244,12 @@ export default function DemoAssistant() {
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    onSend();
+                  }
+                }}
                 placeholder="Ask about automation, follow‑ups, or pricing…"
                 className={`flex-1 bg-white/5 border border-white/10 rounded-lg px-3.5 py-2.5 outline-none focus:border-cyan-400/40 ${loading ? "opacity-60 cursor-not-allowed" : ""}`}
                 disabled={loading}
@@ -218,6 +264,22 @@ export default function DemoAssistant() {
               </button>
             </form>
 
+            {/* Controls: Stop/Retry/Reset */}
+            <div className="mt-3 flex items-center gap-2 justify-end">
+              {loading ? (
+                <button onClick={onStop} className="btn-secondary !py-1.5 !px-3 text-sm inline-flex items-center gap-1">
+                  <Square className="h-4 w-4" /> Stop
+                </button>
+              ) : (
+                <>
+                  <button onClick={onRetry} className="btn-secondary !py-1.5 !px-3 text-sm">Retry</button>
+                  <button onClick={onReset} className="btn-ghost !py-1.5 !px-3 text-sm inline-flex items-center gap-1">
+                    <RotateCcw className="h-4 w-4" /> Reset
+                  </button>
+                </>
+              )}
+            </div>
+
             {/* Footer note + error */}
             {apiError && (
               <div className="mt-3 text-xs text-amber-300/90 bg-amber-500/10 border border-amber-500/20 rounded-md px-2 py-1.5">
@@ -228,6 +290,15 @@ export default function DemoAssistant() {
               <MessageSquare className="h-3.5 w-3.5" />
               <span>Powered by live API.</span>
             </div>
+
+            {/* Intent-based CTA */}
+            {ctaVisible && (
+              <div className="mt-4">
+                <Link href="/book" className="btn-primary inline-flex items-center gap-2">
+                  Book a walkthrough
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
