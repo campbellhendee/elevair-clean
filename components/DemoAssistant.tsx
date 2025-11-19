@@ -42,7 +42,7 @@ export default function DemoAssistant() {
       id: "s1",
       role: "assistant",
       content:
-        "I’m Elevair’s assistant. Ask how we automate follow‑ups, integrations, or pricing.",
+        "Elevair’s AI responds in seconds, books meetings automatically, and keeps your pipeline moving — ask me anything.",
     },
   ]);
   const endRef = useRef<HTMLDivElement>(null);
