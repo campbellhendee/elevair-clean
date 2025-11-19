@@ -65,6 +65,8 @@ export default function DemoAssistant() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [rawAssistant, setRawAssistant] = useState("");
+  const [mode, setMode] = useState<"live" | "demo">("demo");
+  const [apiError, setApiError] = useState<string | null>(null);
   const [messages, setMessages] = useState<Msg[]>([
     {
       id: "s1",
@@ -89,6 +91,7 @@ export default function DemoAssistant() {
     setInput("");
     setLoading(true);
     setRawAssistant("");
+    setApiError(null);
 
     // Try live API first
     try {
@@ -125,6 +128,7 @@ export default function DemoAssistant() {
             if (delta) {
               full += delta;
               setRawAssistant(full);
+              if (mode !== "live") setMode("live");
             }
           } catch {}
         }
@@ -141,6 +145,8 @@ export default function DemoAssistant() {
       throw new Error("empty");
     } catch (err) {
       // Demo fallback
+      if (mode !== "demo") setMode("demo");
+      setApiError("Live AI is unavailable right now — showing a quick demo response instead.");
       const answer = pickResponse(content);
       setRawAssistant("");
       setTimeout(() => {
@@ -178,6 +184,14 @@ export default function DemoAssistant() {
             <div className="hidden sm:flex items-center gap-3 text-xs text-slate-400">
               <PlugZap className="h-4 w-4" />
               <span>CRM, calendar, and messaging friendly</span>
+              <span className={`ml-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full border ${
+                mode === "live"
+                  ? "text-emerald-300 border-emerald-500/30 bg-emerald-500/10"
+                  : "text-slate-300 border-white/15 bg-white/5"
+              }`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${mode === "live" ? "bg-emerald-400" : "bg-slate-300"}`} />
+                {mode === "live" ? "Live AI" : "Demo"}
+              </span>
             </div>
           </div>
 
@@ -231,7 +245,12 @@ export default function DemoAssistant() {
               </button>
             </form>
 
-            {/* Footer note */}
+            {/* Footer note + error */}
+            {apiError && (
+              <div className="mt-3 text-xs text-amber-300/90 bg-amber-500/10 border border-amber-500/20 rounded-md px-2 py-1.5">
+                {apiError}
+              </div>
+            )}
             <div className="mt-3 text-xs text-slate-400 flex items-center gap-2">
               <MessageSquare className="h-3.5 w-3.5" />
               <span>Powered by a live API if configured; falls back to a demo.</span>

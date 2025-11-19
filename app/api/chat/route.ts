@@ -1,4 +1,4 @@
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 type ChatMessage = { role: "system" | "user" | "assistant"; content: string };
 
@@ -26,6 +26,7 @@ export async function POST(req: Request) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Accept: "text/event-stream",
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
@@ -52,4 +53,3 @@ export async function POST(req: Request) {
     return new Response("Bad request", { status: 400 });
   }
 }
-
