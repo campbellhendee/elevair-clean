@@ -22,13 +22,21 @@ export async function POST(req: Request) {
         "When appropriate, suggest visiting /book for a quick walkthrough.",
     };
 
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      Accept: "text/event-stream",
+      Authorization: `Bearer ${apiKey}`,
+    };
+    if (process.env.OPENAI_PROJECT_ID) {
+      headers["OpenAI-Project"] = process.env.OPENAI_PROJECT_ID as string;
+    }
+    if (process.env.OPENAI_ORG_ID) {
+      headers["OpenAI-Organization"] = process.env.OPENAI_ORG_ID as string;
+    }
+
     const upstream = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "text/event-stream",
-        Authorization: `Bearer ${apiKey}`,
-      },
+      headers,
       body: JSON.stringify({
         model: "gpt-4o-mini",
         temperature: 0.4,
