@@ -24,7 +24,14 @@ export async function POST(req: Request) {
     // Lightweight company knowledge retrieval
     const lastUser = [...messages].reverse().find((m) => m.role === "user");
     const query = (lastUser?.content ?? "").slice(0, 800);
-    const knowledge = await getCompanyKnowledge(query);
+    let knowledge = await getCompanyKnowledge(query);
+    // Ensure people-related queries include the Team section
+    if (/\b(name|names|who|founder|founders|team|member|members|owner|owners)\b/i.test(query)) {
+      const team = await getCompanySection("Team");
+      if (team && (!knowledge || !knowledge.includes(team))) {
+        knowledge = knowledge ? `${knowledge}\n\n${team}` : team;
+      }
+    }
     const knowledgeMsg: ChatMessage | null = knowledge
       ? {
           role: "system",
@@ -122,4 +129,21 @@ function scoreOverlap(a: string, b: string): number {
     if (bw.has(w)) hit++;
   });
   return hit;
+}
+
+// Return a single named section by its top-level heading (e.g., "Team")
+async function getCompanySection(title: string): Promise<string | null> {
+  try {
+    if (!COMPANY_MD_CACHE) {
+      const p = path.join(process.cwd(), "content", "company.md");
+      COMPANY_MD_CACHE = fs.existsSync(p) ? fs.readFileSync(p, "utf8") : "";
+    }
+    const md = COMPANY_MD_CACHE || "";
+    if (!md) return null;
+    const parts = md.split(/\n(?=# )/g).map((s) => s.trim());
+    const match = parts.find((s) => s.toLowerCase().startsWith(`# ${title.toLowerCase()}`));
+    return match || null;
+  } catch {
+    return null;
+  }
 }
