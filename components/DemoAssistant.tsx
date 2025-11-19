@@ -33,7 +33,7 @@ export default function DemoAssistant() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [rawAssistant, setRawAssistant] = useState("");
-  const [mode, setMode] = useState<"live" | "unavailable">("unavailable");
+  const [mode, setMode] = useState<"live" | "unavailable">("live");
   const [apiError, setApiError] = useState<string | null>(null);
   // Only auto-scroll after user interacts; avoid jumping the page on first render
   const [shouldStickToBottom, setShouldStickToBottom] = useState(false);
@@ -79,6 +79,8 @@ export default function DemoAssistant() {
       });
 
       if (!res.ok || !res.body) throw new Error("no-stream");
+      // API reachable — mark as live immediately
+      if (mode !== "live") setMode("live");
 
       const reader = res.body.getReader();
       const decoder = new TextDecoder("utf-8");
