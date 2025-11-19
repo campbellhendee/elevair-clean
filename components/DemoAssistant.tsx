@@ -13,38 +13,6 @@ const SUGGESTIONS = [
   "Book a quick walkthrough",
 ];
 
-function pickResponse(q: string): string {
-  const s = q.toLowerCase();
-  if (/(price|cost|pricing|plan)/.test(s)) {
-    return (
-      "We keep pricing simple: start with a focused rollout (inbound capture + instant follow‑ups), then expand only if it drives results. Most teams begin on a monthly plan that includes setup, tuning, and ongoing improvements. Want a quick rundown or a tailored estimate?"
-    );
-  }
-  if (/(follow.?up|speed|response)/.test(s)) {
-    return (
-      "We capture leads instantly, reply within seconds with context‑aware messages, and keep nudging until a meeting is booked. Missed calls and web forms are routed into one clean queue with automatic reminders and handoffs. You choose tone; we handle consistency."
-    );
-  }
-  if (/(integrat|tool|hubspot|zapier|make|twilio|calendar)/.test(s)) {
-    return (
-      "Yes. Common integrations: HubSpot/CRM, calendars, Twilio, email, and web chat. We’ll map your current flow, then connect only what matters so the system stays simple and measurable."
-    );
-  }
-  if (/(automate|do|capabilit|what can you)/.test(s)) {
-    return (
-      "Typical wins: capture web traffic, qualify, route by rules, and book meetings automatically. We also standardize notes and create clean CRM entries so your pipeline stays accurate without extra clicks."
-    );
-  }
-  if (/(book|demo|call|walkthrough)/.test(s)) {
-    return (
-      "Happy to show a 10‑minute walkthrough. Pick a time on the Book page—we’ll review your current funnel and outline a simple first win."
-    );
-  }
-  return (
-    "Great question. We start with a quick discovery, then ship a small automation that proves value in days—not weeks. From there, we expand carefully so it stays reliable and easy to maintain."
-  );
-}
-
 function useStreamedText(target: string) {
   const [text, setText] = useState("");
   useEffect(() => {
@@ -65,7 +33,7 @@ export default function DemoAssistant() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [rawAssistant, setRawAssistant] = useState("");
-  const [mode, setMode] = useState<"live" | "demo">("demo");
+  const [mode, setMode] = useState<"live" | "unavailable">("unavailable");
   const [apiError, setApiError] = useState<string | null>(null);
   // Only auto-scroll after user interacts; avoid jumping the page on first render
   const [shouldStickToBottom, setShouldStickToBottom] = useState(false);
@@ -74,7 +42,7 @@ export default function DemoAssistant() {
       id: "s1",
       role: "assistant",
       content:
-        "I’m Elevair’s demo assistant. Ask how we automate follow‑ups, integrations, or pricing—this is a simulated preview (no backend).",
+        "I’m Elevair’s assistant. Ask how we automate follow‑ups, integrations, or pricing.",
     },
   ]);
   const endRef = useRef<HTMLDivElement>(null);
@@ -147,23 +115,18 @@ export default function DemoAssistant() {
         setLoading(false);
         return;
       }
-      // fall through to demo if nothing streamed
+      // fall through to error if nothing streamed
       throw new Error("empty");
     } catch (err) {
-      // Demo fallback
-      if (mode !== "demo") setMode("demo");
-      setApiError("Live AI is unavailable right now — showing a quick demo response instead.");
-      const answer = pickResponse(content);
+      // No demo fallback — show friendly error and stop
+      setMode("unavailable");
+      setApiError("Live AI is unavailable right now. Please try again in a bit or book a quick walkthrough at /book.");
+      setMessages((m) => [
+        ...m,
+        { id: cryptoRandom(), role: "assistant", content: "Sorry — I can’t reach the AI right now. Please try again shortly." },
+      ]);
       setRawAssistant("");
-      setTimeout(() => {
-        setRawAssistant(answer);
-        const assistant: Msg = { id: cryptoRandom(), role: "assistant", content: answer };
-        setTimeout(() => {
-          setMessages((m) => [...m, assistant]);
-          setRawAssistant("");
-          setLoading(false);
-        }, Math.min(2500, Math.max(600, answer.length * 8)));
-      }, 380);
+      setLoading(false);
     }
   };
 
@@ -184,7 +147,7 @@ export default function DemoAssistant() {
               </div>
               <div>
                 <div className="font-semibold">Ask Elevair</div>
-                <div className="text-xs text-slate-400">Live AI when available; otherwise a quick simulation</div>
+                <div className="text-xs text-slate-400">Live AI assistant for quick answers</div>
               </div>
             </div>
             <div className="hidden sm:flex items-center gap-3 text-xs text-slate-400">
@@ -193,10 +156,10 @@ export default function DemoAssistant() {
               <span className={`ml-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full border ${
                 mode === "live"
                   ? "text-emerald-300 border-emerald-500/30 bg-emerald-500/10"
-                  : "text-slate-300 border-white/15 bg-white/5"
+                  : "text-amber-300 border-amber-500/30 bg-amber-500/10"
               }`}>
-                <span className={`w-1.5 h-1.5 rounded-full ${mode === "live" ? "bg-emerald-400" : "bg-slate-300"}`} />
-                {mode === "live" ? "Live AI" : "Demo"}
+                <span className={`w-1.5 h-1.5 rounded-full ${mode === "live" ? "bg-emerald-400" : "bg-amber-400"}`} />
+                {mode === "live" ? "Live AI" : "Unavailable"}
               </span>
             </div>
           </div>
@@ -261,7 +224,7 @@ export default function DemoAssistant() {
             )}
             <div className="mt-3 text-xs text-slate-400 flex items-center gap-2">
               <MessageSquare className="h-3.5 w-3.5" />
-              <span>Powered by a live API if configured; falls back to a demo.</span>
+              <span>Powered by live API.</span>
             </div>
           </div>
         </div>
