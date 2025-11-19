@@ -11,7 +11,7 @@ import MetricCard from "../components/MetricCard";
 import ImplementationTimeline from "../components/ImplementationTimeline";
 import SectionReveal from "../components/SectionReveal";
 import StatsTiles from "../components/StatsTiles";
-import TrustedBy from "../components/TrustedBy";
+// import TrustedBy from "../components/TrustedBy"; // temporarily disabled until we have clients
 import DemoAssistant from "../components/DemoAssistant";
 
 export default function Page() {
@@ -41,7 +41,7 @@ export default function Page() {
       <div className="relative z-10">
         <Hero />
         <TechnologyCapabilities />
-        <TrustedBy />
+  {/* <TrustedBy /> */}
         <DemoAssistant />
         <ServicesPreview />
         <FinalCTA />
