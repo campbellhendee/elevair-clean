@@ -189,12 +189,13 @@ async function notifyTeam(brief: string): Promise<void> {
 
   // Send all notifications in parallel
   await Promise.allSettled([
-    // Push notifications via ntfy.sh (instant, free, no signup)
-    sendPush(shortMsg, businessName, brief),
+    // Push notification — Campbell's phone
+    sendPush("elevair-campbell", shortMsg, businessName, brief),
+    // Push notification — Walker's phone
+    sendPush("elevair-walker", shortMsg, businessName, brief),
     // SMS via Twilio (if configured)
     sendSMS("7138269548", shortMsg),  // Campbell
     sendSMS("7138594127", shortMsg),  // Walker
-    // Email via Resend (if configured)
     sendEmail(
       ["campbellhendee@gmail.com", "campbellhendee@elevair.org", "williamdeyo@elevair.org"],
       `New onboarding: ${businessName}`,
@@ -204,8 +205,8 @@ async function notifyTeam(brief: string): Promise<void> {
 }
 
 /* ── Push notifications via ntfy.sh ── */
-async function sendPush(message: string, title: string, body: string): Promise<void> {
-  await fetch("https://ntfy.sh/elevair-leads", {
+async function sendPush(topic: string, message: string, title: string, _brief: string): Promise<void> {
+  await fetch(`https://ntfy.sh/${topic}`, {
     method: "POST",
     headers: {
       Title: `New Client: ${title}`,
@@ -215,6 +216,10 @@ async function sendPush(message: string, title: string, body: string): Promise<v
     body: message,
   }).catch(() => {});
 }
+
+/* ── Email via ntfy.sh unified topic (sends push which forwards to email in app settings) ── */
+// Note: actual email delivery requires Twilio SendGrid, Resend, or Mailgun.
+// For now, push notifications are the primary alert. Set up Resend ($0) for email.
 
 /* ── SMS via Twilio ── */
 async function sendSMS(to: string, message: string): Promise<void> {
