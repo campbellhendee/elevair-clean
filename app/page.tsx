@@ -313,11 +313,11 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="min-h-screen text-white overflow-x-hidden">
+    <div className="text-white">
       {/* ────────────────────────────────────────────────────────────── */}
       {/*  HERO                                                         */}
       {/* ────────────────────────────────────────────────────────────── */}
-      <section className="relative flex min-h-screen flex-col items-center justify-center px-6 pt-24 pb-12 text-center overflow-hidden">
+      <section className="relative flex min-h-[100svh] flex-col items-center justify-center px-6 pt-24 pb-12 text-center overflow-clip">
         {/* Aurora gradient mesh background */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="aurora-blob aurora-blob-1" />
@@ -329,7 +329,7 @@ export default function Page() {
           {/* Pill badge */}
           <div
             className="hero-badge animate-fade-up mb-8 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2"
-            style={{ animationDelay: "0.1s" }}
+            style={{ animationDelay: "0s" }}
           >
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
             <span className="text-xs font-mono tracking-wider text-slate-400 uppercase">
@@ -340,7 +340,7 @@ export default function Page() {
           {/* Headline */}
           <h1
             className="hero-headline animate-fade-up font-heading text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold tracking-tight leading-[1.05] mb-6 max-w-5xl"
-            style={{ animationDelay: "0.3s" }}
+            style={{ animationDelay: "0.1s" }}
           >
             AI That Works
             <br />
@@ -355,7 +355,7 @@ export default function Page() {
           {/* Sub-headline */}
           <p
             className="hero-sub animate-fade-up text-lg sm:text-xl text-slate-400 max-w-xl leading-relaxed mb-10 mx-auto"
-            style={{ animationDelay: "0.5s" }}
+            style={{ animationDelay: "0.2s" }}
           >
             AI that answers every call, books every appointment, and follows up with every lead. Automatically.
           </p>
@@ -363,7 +363,7 @@ export default function Page() {
           {/* CTAs */}
           <div
             className="hero-ctas animate-fade-up flex flex-col sm:flex-row gap-4 justify-center mb-10"
-            style={{ animationDelay: "0.7s" }}
+            style={{ animationDelay: "0.3s" }}
           >
             <MagneticButton
               href="/book"
@@ -383,7 +383,7 @@ export default function Page() {
           {/* Trust signals */}
           <div
             className="hero-trust animate-fade-up flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-sm text-slate-500 mb-16"
-            style={{ animationDelay: "0.9s" }}
+            style={{ animationDelay: "0.4s" }}
           >
             <span>3-second response time</span>
             <span className="hidden sm:block h-4 w-px bg-white/[0.08]" />
@@ -396,7 +396,7 @@ export default function Page() {
         {/* Chat mockup */}
         <div
           className="hero-mockup animate-fade-up w-full max-w-lg mx-auto"
-          style={{ animationDelay: "1.1s" }}
+          style={{ animationDelay: "0.5s" }}
         >
           <div className="bg-white/[0.04] border border-white/[0.08] rounded-2xl p-1 shadow-[0_0_80px_rgba(99,102,241,0.12)]">
             {/* Mockup inner */}
