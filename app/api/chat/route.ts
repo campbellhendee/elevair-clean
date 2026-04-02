@@ -1,26 +1,31 @@
 export const runtime = "nodejs";
 
-type ChatMessage = { role: "system" | "user" | "assistant"; content: string };
+type ChatMessage = { role: "user" | "assistant"; content: string };
 
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<Response> {
   try {
     const { messages } = (await req.json()) as { messages?: ChatMessage[] };
     if (!messages || !Array.isArray(messages)) {
       return new Response("Invalid payload", { status: 400 });
     }
 
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) {
-      return new Response("Missing OPENAI_API_KEY", { status: 500 });
+      return new Response("Missing ANTHROPIC_API_KEY", { status: 500 });
     }
 
-    const system: ChatMessage = {
-      role: "system",
-      content:
-        "You are Elevair’s website assistant. Be concise, friendly, and helpful. " +
-        "Focus on automation, follow-ups, integrations, and pricing. " +
-        "When appropriate, suggest visiting /onboarding.html to get started.",
-    };
+    // Build system prompt
+    const baseSystem =
+      `You are Elevair's AI assistant on our website. Be concise, friendly, and helpful.\n` +
+      `You help visitors understand what Elevair does: we build AI automation for local businesses — AI receptionists, smart scheduling, and lead follow-up systems.\n\n` +
+      `Key facts:\n` +
+      `- Pricing: Starter $497/mo, Growth $997/mo, Scale $1,997/mo\n` +
+      `- No setup fees, no contracts, cancel anytime\n` +
+      `- Systems go live within 1-2 weeks\n` +
+      `- Founded by Campbell Hendee and Walker Deyo in Austin, TX\n\n` +
+      `Keep responses to 2-3 sentences max unless asked for detail.\n` +
+      `When someone seems interested, suggest booking a call at /book.`;
+
     // Lightweight company knowledge retrieval
     const lastUser = [...messages].reverse().find((m) => m.role === "user");
     const query = (lastUser?.content ?? "").slice(0, 800);
@@ -32,35 +37,29 @@ export async function POST(req: Request) {
         knowledge = knowledge ? `${knowledge}\n\n${team}` : team;
       }
     }
-    const knowledgeMsg: ChatMessage | null = knowledge
-      ? {
-          role: "system",
-          content:
-            "Company knowledge (use for Elevair-specific answers; do not invent unknown details):\n\n" +
-            knowledge,
-        }
-      : null;
 
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-      Accept: "text/event-stream",
-      Authorization: `Bearer ${apiKey}`,
-    };
-    if (process.env.OPENAI_PROJECT_ID) {
-      headers["OpenAI-Project"] = process.env.OPENAI_PROJECT_ID as string;
-    }
-    if (process.env.OPENAI_ORG_ID) {
-      headers["OpenAI-Organization"] = process.env.OPENAI_ORG_ID as string;
-    }
+    const systemPrompt = knowledge
+      ? `${baseSystem}\n\nCompany knowledge (use for Elevair-specific answers; do not invent unknown details):\n\n${knowledge}`
+      : baseSystem;
 
-    const upstream = await fetch("https://api.openai.com/v1/chat/completions", {
+    // Filter messages to only user/assistant roles for Anthropic
+    const anthropicMessages = messages
+      .filter((m) => m.role === "user" || m.role === "assistant")
+      .map((m) => ({ role: m.role, content: m.content }));
+
+    const upstream = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
-      headers,
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
+      },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
-        temperature: 0.4,
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 1024,
+        system: systemPrompt,
+        messages: anthropicMessages,
         stream: true,
-        messages: knowledgeMsg ? [system, knowledgeMsg, ...messages] : [system, ...messages],
       }),
     });
 
@@ -69,15 +68,100 @@ export async function POST(req: Request) {
       return new Response(text, { status: upstream.status || 500 });
     }
 
-    return new Response(upstream.body, {
+    // Transform Anthropic SSE stream to OpenAI-compatible format
+    const reader = upstream.body.getReader();
+    const decoder = new TextDecoder();
+    const encoder = new TextEncoder();
+    let buffer = "";
+
+    const stream = new ReadableStream({
+      async pull(controller): Promise<void> {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) {
+            // Flush any remaining buffer
+            if (buffer.trim()) {
+              processBuffer(buffer, controller, encoder);
+            }
+            controller.enqueue(encoder.encode("data: [DONE]\n\n"));
+            controller.close();
+            return;
+          }
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\n");
+          // Keep the last potentially incomplete line in the buffer
+          buffer = lines.pop() ?? "";
+
+          for (const line of lines) {
+            if (line.startsWith("data: ")) {
+              const data = line.slice(6).trim();
+              if (!data) continue;
+              try {
+                const parsed = JSON.parse(data) as {
+                  type?: string;
+                  delta?: { type?: string; text?: string };
+                };
+                if (
+                  parsed.type === "content_block_delta" &&
+                  parsed.delta?.type === "text_delta" &&
+                  parsed.delta.text
+                ) {
+                  const openaiChunk = JSON.stringify({
+                    choices: [{ delta: { content: parsed.delta.text } }],
+                  });
+                  controller.enqueue(encoder.encode(`data: ${openaiChunk}\n\n`));
+                }
+              } catch {
+                // Skip unparseable lines
+              }
+            }
+          }
+        }
+      },
+    });
+
+    return new Response(stream, {
       headers: {
         "Content-Type": "text/event-stream",
         "Cache-Control": "no-cache, no-transform",
         Connection: "keep-alive",
       },
     });
-  } catch (err) {
+  } catch {
     return new Response("Bad request", { status: 400 });
+  }
+}
+
+function processBuffer(
+  buffer: string,
+  controller: ReadableStreamDefaultController,
+  encoder: TextEncoder,
+): void {
+  const lines = buffer.split("\n");
+  for (const line of lines) {
+    if (line.startsWith("data: ")) {
+      const data = line.slice(6).trim();
+      if (!data) continue;
+      try {
+        const parsed = JSON.parse(data) as {
+          type?: string;
+          delta?: { type?: string; text?: string };
+        };
+        if (
+          parsed.type === "content_block_delta" &&
+          parsed.delta?.type === "text_delta" &&
+          parsed.delta.text
+        ) {
+          const openaiChunk = JSON.stringify({
+            choices: [{ delta: { content: parsed.delta.text } }],
+          });
+          controller.enqueue(encoder.encode(`data: ${openaiChunk}\n\n`));
+        }
+      } catch {
+        // Skip unparseable lines
+      }
+    }
   }
 }
 
