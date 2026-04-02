@@ -11,6 +11,25 @@ import {
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
+/*  Declare GSAP on window for TypeScript                              */
+/* ------------------------------------------------------------------ */
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    gsap: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ScrollTrigger: any;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Utility: promisified delay                                         */
+/* ------------------------------------------------------------------ */
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/* ------------------------------------------------------------------ */
 /*  Interactive mesh gradient canvas — responds to mouse movement      */
 /* ------------------------------------------------------------------ */
 function HeroCanvas() {
@@ -43,7 +62,7 @@ function HeroCanvas() {
 
     // Nodes that form the mesh
     const nodes: { x: number; y: number; vx: number; vy: number; baseX: number; baseY: number }[] = [];
-    const count = 40;
+    const count = 65;
     for (let i = 0; i < count; i++) {
       const x = Math.random() * w;
       const y = Math.random() * h;
@@ -70,9 +89,9 @@ function HeroCanvas() {
         const dx = mx - n.x;
         const dy = my - n.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 300) {
-          n.x += dx * 0.002;
-          n.y += dy * 0.002;
+        if (dist < 400) {
+          n.x += dx * 0.004;
+          n.y += dy * 0.004;
         }
 
         // Soft bounds
@@ -88,8 +107,8 @@ function HeroCanvas() {
           const dx = nodes[i].x - nodes[j].x;
           const dy = nodes[i].y - nodes[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 200) {
-            const alpha = (1 - dist / 200) * 0.12;
+          if (dist < 250) {
+            const alpha = (1 - dist / 250) * 0.12;
             ctx.beginPath();
             ctx.moveTo(nodes[i].x, nodes[i].y);
             ctx.lineTo(nodes[j].x, nodes[j].y);
@@ -130,44 +149,88 @@ function HeroCanvas() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  SectionReveal — IntersectionObserver entrance animation            */
+/*  InteractiveCard — 3D tilt + spotlight on hover                     */
 /* ------------------------------------------------------------------ */
-interface SectionRevealProps {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-}
+function InteractiveCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const spotlightRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number>(0);
+  const pos = useRef({ x: 0.5, y: 0.5 });
 
-function SectionReveal({ children, className = "", delay = 0 }: SectionRevealProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  const handleMove = useCallback((e: React.MouseEvent) => {
+    if (!window.matchMedia("(hover: hover)").matches) return;
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    pos.current = {
+      x: (e.clientX - rect.left) / rect.width,
+      y: (e.clientY - rect.top) / rect.height,
+    };
+    cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      const rotY = (pos.current.x - 0.5) * 6; // max 3deg each side
+      const rotX = (pos.current.y - 0.5) * -6;
+      card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+      if (spotlightRef.current) {
+        spotlightRef.current.style.background = `radial-gradient(600px circle at ${pos.current.x * 100}% ${pos.current.y * 100}%, rgba(99,102,241,0.06), transparent 40%)`;
+      }
+    });
+  }, []);
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setVisible(true);
-          obs.disconnect();
-        }
-      },
-      { threshold: 0.15 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
+  const handleLeave = useCallback(() => {
+    const card = cardRef.current;
+    if (card) card.style.transform = "perspective(800px) rotateX(0deg) rotateY(0deg)";
   }, []);
 
   return (
     <div
-      ref={ref}
-      className={`transition-all duration-700 ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-      } ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      ref={cardRef}
+      className={`interactive-card ${className}`}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
     >
+      <div ref={spotlightRef} className="card-spotlight" />
       {children}
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  MagneticButton — CTA that drifts toward cursor                     */
+/* ------------------------------------------------------------------ */
+function MagneticButton({ children, className = "", href }: { children: React.ReactNode; className?: string; href: string }) {
+  const btnRef = useRef<HTMLAnchorElement>(null);
+
+  const handleMove = useCallback((e: React.MouseEvent) => {
+    if (!window.matchMedia("(hover: hover)").matches) return;
+    const btn = btnRef.current;
+    if (!btn) return;
+    const rect = btn.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = e.clientX - cx;
+    const dy = e.clientY - cy;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < 100) {
+      const strength = (1 - dist / 100) * 5;
+      btn.style.transform = `translate(${dx * strength / dist * 0.8}px, ${dy * strength / dist * 0.8}px)`;
+    }
+  }, []);
+
+  const handleLeave = useCallback(() => {
+    if (btnRef.current) btnRef.current.style.transform = "translate(0, 0)";
+  }, []);
+
+  return (
+    <Link
+      ref={btnRef}
+      href={href}
+      className={`magnetic-btn ${className}`}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+    >
+      {children}
+    </Link>
   );
 }
 
@@ -202,9 +265,28 @@ const CHAT_MESSAGES = [
   },
   {
     from: "ai" as const,
-    text: "Done! You're booked for tomorrow at 2:00 PM. You'll receive a confirmation text shortly. ✓",
+    text: "Done! You're booked for tomorrow at 2:00 PM. You'll receive a confirmation text shortly.",
     time: "2:42 PM",
   },
+];
+
+/* ------------------------------------------------------------------ */
+/*  Stats data                                                         */
+/* ------------------------------------------------------------------ */
+interface StatItem {
+  prefix?: string;
+  value?: number;
+  suffix?: string;
+  display?: string;
+  label: string;
+  flash?: boolean;
+}
+
+const STATS: StatItem[] = [
+  { prefix: "< ", value: 3, suffix: "s", label: "Response time" },
+  { display: "24/7", label: "Availability" },
+  { value: 0, suffix: "", label: "Missed inquiries", flash: true },
+  { value: 48, suffix: "hrs", label: "Time to go live" },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -258,6 +340,21 @@ export default function Page() {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [fadingIn, setFadingIn] = useState(true);
 
+  /* Chat typing sequence state */
+  const [visibleMsgs, setVisibleMsgs] = useState(0);
+  const [showTyping, setShowTyping] = useState(false);
+
+  /* Refs for GSAP */
+  const cursorGlowRef = useRef<HTMLDivElement>(null);
+  const heroContentRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLElement>(null);
+  const statNumRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const servicesRef = useRef<HTMLElement>(null);
+  const processRef = useRef<HTMLElement>(null);
+  const processLineRef = useRef<HTMLDivElement>(null);
+  const pricingRef = useRef<HTMLElement>(null);
+  const ctaRef = useRef<HTMLElement>(null);
+
   /* Rotating headline phrases */
   useEffect(() => {
     const interval = setInterval(() => {
@@ -270,8 +367,304 @@ export default function Page() {
     return () => clearInterval(interval);
   }, []);
 
+  /* Chat typing sequence */
+  useEffect(() => {
+    let cancelled = false;
+    const sequence = async () => {
+      await delay(1500);
+      for (let i = 0; i < CHAT_MESSAGES.length; i++) {
+        if (cancelled) return;
+        if (CHAT_MESSAGES[i].from === "ai") {
+          setShowTyping(true);
+          await delay(600);
+          if (cancelled) return;
+          setShowTyping(false);
+        }
+        setVisibleMsgs(i + 1);
+        await delay(800);
+      }
+    };
+    sequence();
+    return () => { cancelled = true; };
+  }, []);
+
+  /* Cursor glow */
+  useEffect(() => {
+    if (!window.matchMedia("(hover: hover)").matches) return;
+    const glow = cursorGlowRef.current;
+    if (!glow) return;
+    let rafId = 0;
+    const onMove = (e: MouseEvent) => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        glow.style.transform = `translate(${e.clientX - 250}px, ${e.clientY - 250}px)`;
+      });
+    };
+    window.addEventListener("mousemove", onMove);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  /* GSAP master setup */
+  useEffect(() => {
+    let attempts = 0;
+    let rafId = 0;
+    const cleanups: (() => void)[] = [];
+
+    const tryInit = () => {
+      attempts++;
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      const gsap = (window as any).gsap;
+      const ST = (window as any).ScrollTrigger;
+      /* eslint-enable @typescript-eslint/no-explicit-any */
+
+      if (!gsap || !ST) {
+        if (attempts < 240) {
+          rafId = requestAnimationFrame(tryInit);
+        } else {
+          // Fallback: make everything visible
+          document.body.classList.add("gsap-failed");
+        }
+        return;
+      }
+
+      gsap.registerPlugin(ST);
+
+      /* -- Stats: fade in + count up -- */
+      if (statsRef.current) {
+        gsap.fromTo(
+          statsRef.current,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: statsRef.current,
+              start: "top 85%",
+              once: true,
+            },
+            onComplete: () => {
+              // Count up each numeric stat
+              STATS.forEach((stat, idx) => {
+                const el = statNumRefs.current[idx];
+                if (!el || stat.display) return;
+                const target = stat.value ?? 0;
+                const prefix = stat.prefix || "";
+                const suffix = stat.suffix || "";
+                const obj = { val: 0 };
+                gsap.to(obj, {
+                  val: target,
+                  duration: 1.2,
+                  ease: "power2.out",
+                  onUpdate: () => {
+                    el.textContent = `${prefix}${Math.round(obj.val)}${suffix}`;
+                  },
+                  onComplete: () => {
+                    if (stat.flash) {
+                      el.classList.add("stat-flash");
+                    }
+                  },
+                });
+              });
+            },
+          }
+        );
+      }
+
+      /* -- Service cards: stagger -- */
+      if (servicesRef.current) {
+        const cards = servicesRef.current.querySelectorAll(".service-card");
+        gsap.fromTo(
+          cards,
+          { opacity: 0, y: 60 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            stagger: 0.15,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: servicesRef.current,
+              start: "top 80%",
+              once: true,
+            },
+          }
+        );
+        gsap.fromTo(
+          servicesRef.current,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            duration: 0.01,
+            scrollTrigger: {
+              trigger: servicesRef.current,
+              start: "top 85%",
+              once: true,
+            },
+          }
+        );
+      }
+
+      /* -- Process: line draw + step stagger -- */
+      if (processRef.current) {
+        gsap.fromTo(
+          processRef.current,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            duration: 0.01,
+            scrollTrigger: {
+              trigger: processRef.current,
+              start: "top 85%",
+              once: true,
+            },
+          }
+        );
+
+        if (processLineRef.current) {
+          gsap.fromTo(
+            processLineRef.current,
+            { scaleX: 0 },
+            {
+              scaleX: 1,
+              ease: "none",
+              scrollTrigger: {
+                trigger: processRef.current,
+                start: "top 70%",
+                end: "bottom 60%",
+                scrub: 1,
+              },
+            }
+          );
+        }
+
+        const steps = processRef.current.querySelectorAll(".process-step");
+        gsap.fromTo(
+          steps,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            stagger: 0.15,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: processRef.current,
+              start: "top 75%",
+              once: true,
+            },
+          }
+        );
+      }
+
+      /* -- Pricing cards: stagger -- */
+      if (pricingRef.current) {
+        const cards = pricingRef.current.querySelectorAll(".pricing-card");
+        gsap.fromTo(
+          cards,
+          { opacity: 0, y: 80 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            stagger: 0.12,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: pricingRef.current,
+              start: "top 80%",
+              once: true,
+            },
+          }
+        );
+        gsap.fromTo(
+          pricingRef.current,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            duration: 0.01,
+            scrollTrigger: {
+              trigger: pricingRef.current,
+              start: "top 85%",
+              once: true,
+            },
+          }
+        );
+      }
+
+      /* -- Final CTA: fade up -- */
+      if (ctaRef.current) {
+        gsap.fromTo(
+          ctaRef.current,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: ctaRef.current,
+              start: "top 85%",
+              once: true,
+            },
+          }
+        );
+      }
+
+      /* -- Hero parallax -- */
+      if (heroContentRef.current) {
+        gsap.to(heroContentRef.current, {
+          y: -40,
+          ease: "none",
+          scrollTrigger: {
+            trigger: heroContentRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      }
+
+      /* -- Orb parallax -- */
+      const orb1 = document.querySelector(".orb-1");
+      const orb2 = document.querySelector(".orb-2");
+      if (orb1) {
+        gsap.to(orb1, {
+          y: -80,
+          ease: "none",
+          scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: 1 },
+        });
+      }
+      if (orb2) {
+        gsap.to(orb2, {
+          y: 60,
+          ease: "none",
+          scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: 1 },
+        });
+      }
+
+      /* Store cleanup for ScrollTrigger instances */
+      cleanups.push(() => {
+        ST.getAll().forEach((t: { kill: () => void }) => t.kill());
+      });
+    };
+
+    rafId = requestAnimationFrame(tryInit);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      cleanups.forEach((fn) => fn());
+    };
+  }, []);
+
   return (
     <div className="min-h-screen text-white overflow-x-hidden">
+      {/* Cursor glow */}
+      <div ref={cursorGlowRef} className="cursor-glow" />
+
       {/* ────────────────────────────────────────────────────────────── */}
       {/*  HERO                                                         */}
       {/* ────────────────────────────────────────────────────────────── */}
@@ -281,70 +674,72 @@ export default function Page() {
         {/* Ambient glow */}
         <div className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[700px] w-[700px] rounded-full bg-indigo-500/[0.045] blur-[140px]" />
 
-        {/* Pill badge */}
-        <div
-          className="hero-badge animate-fade-up mb-8 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2"
-          style={{ animationDelay: "0.1s" }}
-        >
-          <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-xs font-mono tracking-wider text-slate-400 uppercase">
-            Now Accepting Clients
-          </span>
-        </div>
-
-        {/* Headline */}
-        <h1
-          className="hero-headline animate-fade-up font-heading text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold tracking-tight leading-[1.05] mb-6 max-w-5xl"
-          style={{ animationDelay: "0.3s" }}
-        >
-          AI That Works
-          <br />
-          <span
-            className="inline-block bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent transition-opacity duration-400"
-            style={{ opacity: fadingIn ? 1 : 0 }}
+        <div ref={heroContentRef}>
+          {/* Pill badge */}
+          <div
+            className="hero-badge animate-fade-up mb-8 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2"
+            style={{ animationDelay: "0.1s" }}
           >
-            {ROTATING_PHRASES[phraseIndex]}
-          </span>
-        </h1>
+            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-xs font-mono tracking-wider text-slate-400 uppercase">
+              Now Accepting Clients
+            </span>
+          </div>
 
-        {/* Sub-headline */}
-        <p
-          className="hero-sub animate-fade-up text-lg sm:text-xl text-slate-400 max-w-xl leading-relaxed mb-10"
-          style={{ animationDelay: "0.5s" }}
-        >
-          AI that answers every call, books every appointment, and follows up with every lead. Automatically.
-        </p>
-
-        {/* CTAs */}
-        <div
-          className="hero-ctas animate-fade-up flex flex-col sm:flex-row gap-4 justify-center mb-10"
-          style={{ animationDelay: "0.7s" }}
-        >
-          <Link
-            href="/onboarding.html"
-            className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full px-8 py-4 font-semibold hover:shadow-[0_8px_30px_rgba(99,102,241,0.4)] hover:-translate-y-0.5 transition-all duration-300"
+          {/* Headline */}
+          <h1
+            className="hero-headline animate-fade-up font-heading text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold tracking-tight leading-[1.05] mb-6 max-w-5xl"
+            style={{ animationDelay: "0.3s" }}
           >
-            Get Started
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-          <Link
-            href="/services"
-            className="inline-flex items-center justify-center gap-2 border border-white/[0.1] text-white rounded-full px-8 py-4 font-medium hover:bg-white/[0.03] hover:border-white/[0.15] transition-all duration-300"
-          >
-            See How It Works
-          </Link>
-        </div>
+            AI That Works
+            <br />
+            <span
+              className="inline-block bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent transition-opacity duration-400"
+              style={{ opacity: fadingIn ? 1 : 0 }}
+            >
+              {ROTATING_PHRASES[phraseIndex]}
+            </span>
+          </h1>
 
-        {/* Trust signals */}
-        <div
-          className="hero-trust animate-fade-up flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-sm text-slate-500 mb-16"
-          style={{ animationDelay: "0.9s" }}
-        >
-          <span>3-second response time</span>
-          <span className="hidden sm:block h-4 w-px bg-white/[0.08]" />
-          <span>Live in under a week</span>
-          <span className="hidden sm:block h-4 w-px bg-white/[0.08]" />
-          <span>No long-term contracts</span>
+          {/* Sub-headline */}
+          <p
+            className="hero-sub animate-fade-up text-lg sm:text-xl text-slate-400 max-w-xl leading-relaxed mb-10 mx-auto"
+            style={{ animationDelay: "0.5s" }}
+          >
+            AI that answers every call, books every appointment, and follows up with every lead. Automatically.
+          </p>
+
+          {/* CTAs */}
+          <div
+            className="hero-ctas animate-fade-up flex flex-col sm:flex-row gap-4 justify-center mb-10"
+            style={{ animationDelay: "0.7s" }}
+          >
+            <MagneticButton
+              href="/book"
+              className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full px-8 py-4 font-semibold hover:shadow-[0_8px_30px_rgba(99,102,241,0.4)] hover:-translate-y-0.5 transition-all duration-300"
+            >
+              Book a Call
+              <ArrowRight className="h-4 w-4" />
+            </MagneticButton>
+            <MagneticButton
+              href="/services"
+              className="inline-flex items-center justify-center gap-2 border border-white/[0.1] text-white rounded-full px-8 py-4 font-medium hover:bg-white/[0.03] hover:border-white/[0.15] transition-all duration-300"
+            >
+              See How It Works
+            </MagneticButton>
+          </div>
+
+          {/* Trust signals */}
+          <div
+            className="hero-trust animate-fade-up flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-sm text-slate-500 mb-16"
+            style={{ animationDelay: "0.9s" }}
+          >
+            <span>3-second response time</span>
+            <span className="hidden sm:block h-4 w-px bg-white/[0.08]" />
+            <span>Live in under a week</span>
+            <span className="hidden sm:block h-4 w-px bg-white/[0.08]" />
+            <span>No long-term contracts</span>
+          </div>
         </div>
 
         {/* Chat mockup */}
@@ -368,7 +763,7 @@ export default function Page() {
 
               {/* Messages */}
               <div className="px-4 py-4 space-y-3 min-h-[260px]">
-                {CHAT_MESSAGES.map((msg, i) => (
+                {CHAT_MESSAGES.slice(0, visibleMsgs).map((msg, i) => (
                   <div
                     key={i}
                     className={`flex ${
@@ -397,6 +792,17 @@ export default function Page() {
                     </div>
                   </div>
                 ))}
+                {showTyping && (
+                  <div className="flex justify-start">
+                    <div className="max-w-[80%] rounded-2xl rounded-bl-md bg-white/[0.04]">
+                      <div className="typing-dots">
+                        <span />
+                        <span />
+                        <span />
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Input bar */}
@@ -418,354 +824,361 @@ export default function Page() {
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
       </section>
 
+      {/* Shimmer divider */}
+      <div className="shimmer-divider" />
+
       {/* ────────────────────────────────────────────────────────────── */}
       {/*  STATS BAR                                                    */}
       {/* ────────────────────────────────────────────────────────────── */}
-      <SectionReveal>
-        <section className="bg-white/[0.02] border-y border-white/[0.06] py-12">
-          <div className="mx-auto max-w-5xl px-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              {[
-                { value: "< 3s", label: "Response time" },
-                { value: "24/7", label: "Availability" },
-                { value: "0", label: "Missed inquiries" },
-                { value: "48hrs", label: "Time to go live" },
-              ].map((stat) => (
-                <div key={stat.value}>
-                  <div className="font-mono text-3xl md:text-4xl font-bold text-cyan-400">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-slate-500 mt-2">{stat.label}</div>
+      <section ref={statsRef} className="gsap-reveal bg-white/[0.02] border-y border-white/[0.06] py-12">
+        <div className="mx-auto max-w-5xl px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {STATS.map((stat, idx) => (
+              <div key={stat.label}>
+                <div
+                  ref={(el) => { statNumRefs.current[idx] = el; }}
+                  className="font-mono text-3xl md:text-4xl font-bold text-cyan-400"
+                >
+                  {stat.display ? stat.display : `${stat.prefix || ""}0${stat.suffix || ""}`}
                 </div>
-              ))}
-            </div>
+                <div className="text-sm text-slate-500 mt-2">{stat.label}</div>
+              </div>
+            ))}
           </div>
-        </section>
-      </SectionReveal>
+        </div>
+      </section>
+
+      {/* Shimmer divider */}
+      <div className="shimmer-divider" />
 
       {/* ────────────────────────────────────────────────────────────── */}
       {/*  WHAT ELEVAIR DOES                                            */}
       {/* ────────────────────────────────────────────────────────────── */}
-      <SectionReveal>
-        <section className="px-6 py-28">
-          <div className="mx-auto max-w-6xl">
-            {/* Section header */}
-            <div className="text-center mb-16">
-              <div className="font-mono text-xs tracking-[0.2em] uppercase text-indigo-400 flex items-center justify-center gap-3 mb-5">
-                <span className="h-px w-8 bg-indigo-500/40" />
-                THE PLATFORM
-                <span className="h-px w-8 bg-indigo-500/40" />
-              </div>
-              <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold">
-                What we build
-              </h2>
+      <section ref={servicesRef} className="gsap-reveal px-6 py-28">
+        <div className="mx-auto max-w-6xl">
+          {/* Section header */}
+          <div className="text-center mb-16">
+            <div className="font-mono text-xs tracking-[0.2em] uppercase text-indigo-400 flex items-center justify-center gap-3 mb-5">
+              <span className="h-px w-8 bg-indigo-500/40" />
+              THE PLATFORM
+              <span className="h-px w-8 bg-indigo-500/40" />
             </div>
-
-            {/* Cards */}
-            <div className="grid md:grid-cols-3 gap-6">
-              {/* Card 1 — AI Receptionist */}
-              <div className="group bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-[20px] p-8 hover:border-indigo-500/30 hover:bg-white/[0.05] transition-all duration-300">
-                <div className="h-1 w-16 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 mb-6" />
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
-                  <Bot className="h-6 w-6" />
-                </div>
-                <h3 className="font-heading text-xl font-bold text-white mt-5">
-                  AI Receptionist
-                </h3>
-                <p className="text-slate-400 mt-3 leading-relaxed">
-                  Handles calls, chats, and emails around the clock. Trained on your
-                  business. Qualifies leads and books appointments automatically.
-                </p>
-                <ul className="mt-5 space-y-2.5">
-                  {[
-                    "Responds to inquiries in under 3 seconds",
-                    "Qualifies leads with smart follow-up questions",
-                    "Books directly into your calendar",
-                    "Works across chat, SMS, and email",
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-2.5">
-                      <span className="w-1 h-1 rounded-full bg-indigo-400 mt-2.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-500">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/services"
-                  className="inline-flex items-center gap-1 mt-6 text-sm text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
-                >
-                  Learn more{" "}
-                  <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-                    &rarr;
-                  </span>
-                </Link>
-              </div>
-
-              {/* Card 2 — Smart Scheduling */}
-              <div className="group bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-[20px] p-8 hover:border-indigo-500/30 hover:bg-white/[0.05] transition-all duration-300">
-                <div className="h-1 w-16 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 mb-6" />
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
-                  <CalendarCheck className="h-6 w-6" />
-                </div>
-                <h3 className="font-heading text-xl font-bold text-white mt-5">
-                  Smart Scheduling
-                </h3>
-                <p className="text-slate-400 mt-3 leading-relaxed">
-                  Customers book themselves. Automated confirmations and reminders
-                  reduce no-shows. Syncs with your existing calendar.
-                </p>
-                <ul className="mt-5 space-y-2.5">
-                  {[
-                    "Self-service booking from any channel",
-                    "Automated SMS and email reminders",
-                    "Reschedule handling without human input",
-                    "No-show follow-up sequences",
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-2.5">
-                      <span className="w-1 h-1 rounded-full bg-indigo-400 mt-2.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-500">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/services"
-                  className="inline-flex items-center gap-1 mt-6 text-sm text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
-                >
-                  Learn more{" "}
-                  <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-                    &rarr;
-                  </span>
-                </Link>
-              </div>
-
-              {/* Card 3 — Lead Automation */}
-              <div className="group bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-[20px] p-8 hover:border-indigo-500/30 hover:bg-white/[0.05] transition-all duration-300">
-                <div className="h-1 w-16 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 mb-6" />
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
-                  <Zap className="h-6 w-6" />
-                </div>
-                <h3 className="font-heading text-xl font-bold text-white mt-5">
-                  Lead Automation
-                </h3>
-                <p className="text-slate-400 mt-3 leading-relaxed">
-                  Every inquiry gets an instant response. Smart follow-up sequences
-                  work around the clock until the lead converts.
-                </p>
-                <ul className="mt-5 space-y-2.5">
-                  {[
-                    "Instant response to every new lead",
-                    "Multi-touch follow-up sequences",
-                    "CRM integration and pipeline management",
-                    "Weekly performance reporting",
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-2.5">
-                      <span className="w-1 h-1 rounded-full bg-indigo-400 mt-2.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-500">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/services"
-                  className="inline-flex items-center gap-1 mt-6 text-sm text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
-                >
-                  Learn more{" "}
-                  <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-                    &rarr;
-                  </span>
-                </Link>
-              </div>
-            </div>
+            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold">
+              What we build
+            </h2>
           </div>
-        </section>
-      </SectionReveal>
+
+          {/* Cards */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Card 1 — AI Receptionist */}
+            <InteractiveCard className="service-card relative group bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-[20px] p-8 hover:border-indigo-500/30 hover:bg-white/[0.05] transition-all duration-300">
+              <div className="h-1 w-16 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 mb-6" />
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                <Bot className="h-6 w-6" />
+              </div>
+              <h3 className="font-heading text-xl font-bold text-white mt-5">
+                AI Receptionist
+              </h3>
+              <p className="text-slate-400 mt-3 leading-relaxed">
+                Handles calls, chats, and emails around the clock. Trained on your
+                business. Qualifies leads and books appointments automatically.
+              </p>
+              <ul className="mt-5 space-y-2.5">
+                {[
+                  "Responds to inquiries in under 3 seconds",
+                  "Qualifies leads with smart follow-up questions",
+                  "Books directly into your calendar",
+                  "Works across chat, SMS, and email",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2.5">
+                    <span className="w-1 h-1 rounded-full bg-indigo-400 mt-2.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-500">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/services"
+                className="inline-flex items-center gap-1 mt-6 text-sm text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+              >
+                Learn more{" "}
+                <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+                  &rarr;
+                </span>
+              </Link>
+            </InteractiveCard>
+
+            {/* Card 2 — Smart Scheduling */}
+            <InteractiveCard className="service-card relative group bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-[20px] p-8 hover:border-indigo-500/30 hover:bg-white/[0.05] transition-all duration-300">
+              <div className="h-1 w-16 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 mb-6" />
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                <CalendarCheck className="h-6 w-6" />
+              </div>
+              <h3 className="font-heading text-xl font-bold text-white mt-5">
+                Smart Scheduling
+              </h3>
+              <p className="text-slate-400 mt-3 leading-relaxed">
+                Customers book themselves. Automated confirmations and reminders
+                reduce no-shows. Syncs with your existing calendar.
+              </p>
+              <ul className="mt-5 space-y-2.5">
+                {[
+                  "Self-service booking from any channel",
+                  "Automated SMS and email reminders",
+                  "Reschedule handling without human input",
+                  "No-show follow-up sequences",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2.5">
+                    <span className="w-1 h-1 rounded-full bg-indigo-400 mt-2.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-500">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/services"
+                className="inline-flex items-center gap-1 mt-6 text-sm text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+              >
+                Learn more{" "}
+                <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+                  &rarr;
+                </span>
+              </Link>
+            </InteractiveCard>
+
+            {/* Card 3 — Lead Automation */}
+            <InteractiveCard className="service-card relative group bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-[20px] p-8 hover:border-indigo-500/30 hover:bg-white/[0.05] transition-all duration-300">
+              <div className="h-1 w-16 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 mb-6" />
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                <Zap className="h-6 w-6" />
+              </div>
+              <h3 className="font-heading text-xl font-bold text-white mt-5">
+                Lead Automation
+              </h3>
+              <p className="text-slate-400 mt-3 leading-relaxed">
+                Every inquiry gets an instant response. Smart follow-up sequences
+                work around the clock until the lead converts.
+              </p>
+              <ul className="mt-5 space-y-2.5">
+                {[
+                  "Instant response to every new lead",
+                  "Multi-touch follow-up sequences",
+                  "CRM integration and pipeline management",
+                  "Weekly performance reporting",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2.5">
+                    <span className="w-1 h-1 rounded-full bg-indigo-400 mt-2.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-500">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/services"
+                className="inline-flex items-center gap-1 mt-6 text-sm text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+              >
+                Learn more{" "}
+                <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+                  &rarr;
+                </span>
+              </Link>
+            </InteractiveCard>
+          </div>
+        </div>
+      </section>
+
+      {/* Shimmer divider */}
+      <div className="shimmer-divider" />
 
       {/* ────────────────────────────────────────────────────────────── */}
       {/*  HOW IT WORKS — Process Timeline                              */}
       {/* ────────────────────────────────────────────────────────────── */}
-      <SectionReveal>
-        <section className="px-6 py-28">
-          <div className="mx-auto max-w-5xl">
-            {/* Section header */}
-            <div className="text-center mb-20">
-              <div className="font-mono text-xs tracking-[0.2em] uppercase text-indigo-400 flex items-center justify-center gap-3 mb-5">
-                <span className="h-px w-8 bg-indigo-500/40" />
-                THE PROCESS
-                <span className="h-px w-8 bg-indigo-500/40" />
-              </div>
-              <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold">
-                How it works
-              </h2>
+      <section ref={processRef} className="gsap-reveal px-6 py-28">
+        <div className="mx-auto max-w-5xl">
+          {/* Section header */}
+          <div className="text-center mb-20">
+            <div className="font-mono text-xs tracking-[0.2em] uppercase text-indigo-400 flex items-center justify-center gap-3 mb-5">
+              <span className="h-px w-8 bg-indigo-500/40" />
+              THE PROCESS
+              <span className="h-px w-8 bg-indigo-500/40" />
             </div>
+            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold">
+              How it works
+            </h2>
+          </div>
 
-            {/* Steps — desktop horizontal / mobile vertical */}
-            <div className="relative">
-              {/* Horizontal connecting line (desktop) */}
-              <div className="hidden md:block absolute top-7 left-[12%] right-[12%] h-px bg-gradient-to-r from-indigo-500/20 via-purple-500/40 to-indigo-500/20" />
+          {/* Steps — desktop horizontal / mobile vertical */}
+          <div className="relative">
+            {/* Horizontal connecting line (desktop) */}
+            <div
+              ref={processLineRef}
+              className="hidden md:block absolute top-7 left-[12%] right-[12%] h-px bg-gradient-to-r from-indigo-500/20 via-purple-500/40 to-indigo-500/20"
+              style={{ transformOrigin: "left center" }}
+            />
 
-              {/* Vertical connecting line (mobile) */}
-              <div className="md:hidden absolute top-0 bottom-0 left-7 w-px bg-gradient-to-b from-indigo-500/20 via-purple-500/40 to-indigo-500/20" />
+            {/* Vertical connecting line (mobile) */}
+            <div className="md:hidden absolute top-0 bottom-0 left-7 w-px bg-gradient-to-b from-indigo-500/20 via-purple-500/40 to-indigo-500/20" />
 
-              <div className="grid md:grid-cols-4 gap-12 md:gap-6">
-                {[
-                  {
-                    num: "1",
-                    title: "We Learn Your Business",
-                    desc: "30-minute call. We map your services, FAQs, tone, and goals.",
-                  },
-                  {
-                    num: "2",
-                    title: "We Build Your AI",
-                    desc: "Custom trained on your business. Configured in 24 hours.",
-                  },
-                  {
-                    num: "3",
-                    title: "We Go Live",
-                    desc: "Embedded, tested, and live within 48 hours of your first call.",
-                  },
-                  {
-                    num: "4",
-                    title: "We Keep Improving",
-                    desc: "Monthly optimization. Your AI gets smarter every week.",
-                  },
-                ].map((step) => (
-                  <div
-                    key={step.num}
-                    className="relative text-left md:text-center pl-16 md:pl-0"
-                  >
-                    {/* Number circle */}
-                    <div className="absolute left-0 md:relative md:left-auto w-14 h-14 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold font-heading text-lg md:mx-auto z-10">
-                      {step.num}
-                    </div>
-                    <h3 className="font-heading text-lg font-bold text-white mt-0 md:mt-4">
-                      {step.title}
-                    </h3>
-                    <p className="text-sm text-slate-400 mt-2 max-w-[220px] md:mx-auto">
-                      {step.desc}
-                    </p>
+            <div className="grid md:grid-cols-4 gap-12 md:gap-6">
+              {[
+                {
+                  num: "1",
+                  title: "We Learn Your Business",
+                  desc: "30-minute call. We map your services, FAQs, tone, and goals.",
+                },
+                {
+                  num: "2",
+                  title: "We Build Your AI",
+                  desc: "Custom trained on your business. Configured in 24 hours.",
+                },
+                {
+                  num: "3",
+                  title: "We Go Live",
+                  desc: "Embedded, tested, and live within 48 hours of your first call.",
+                },
+                {
+                  num: "4",
+                  title: "We Keep Improving",
+                  desc: "Monthly optimization. Your AI gets smarter every week.",
+                },
+              ].map((step) => (
+                <div
+                  key={step.num}
+                  className="process-step relative text-left md:text-center pl-16 md:pl-0"
+                >
+                  {/* Number circle */}
+                  <div className="absolute left-0 md:relative md:left-auto w-14 h-14 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold font-heading text-lg md:mx-auto z-10">
+                    {step.num}
                   </div>
-                ))}
-              </div>
+                  <h3 className="font-heading text-lg font-bold text-white mt-0 md:mt-4">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm text-slate-400 mt-2 max-w-[220px] md:mx-auto">
+                    {step.desc}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
-        </section>
-      </SectionReveal>
+        </div>
+      </section>
+
+      {/* Shimmer divider */}
+      <div className="shimmer-divider" />
 
       {/* ────────────────────────────────────────────────────────────── */}
       {/*  PRICING PREVIEW                                              */}
       {/* ────────────────────────────────────────────────────────────── */}
-      <SectionReveal>
-        <section className="px-6 py-28">
-          <div className="mx-auto max-w-5xl">
-            {/* Section header */}
-            <div className="text-center mb-16">
-              <div className="font-mono text-xs tracking-[0.2em] uppercase text-indigo-400 flex items-center justify-center gap-3 mb-5">
-                <span className="h-px w-8 bg-indigo-500/40" />
-                PRICING
-                <span className="h-px w-8 bg-indigo-500/40" />
-              </div>
-              <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold">
-                Pricing
-              </h2>
-              <p className="text-lg text-slate-400 mt-4 max-w-lg mx-auto">
-                No setup fees. No contracts.
-              </p>
+      <section ref={pricingRef} className="gsap-reveal px-6 py-28">
+        <div className="mx-auto max-w-5xl">
+          {/* Section header */}
+          <div className="text-center mb-16">
+            <div className="font-mono text-xs tracking-[0.2em] uppercase text-indigo-400 flex items-center justify-center gap-3 mb-5">
+              <span className="h-px w-8 bg-indigo-500/40" />
+              PRICING
+              <span className="h-px w-8 bg-indigo-500/40" />
             </div>
-
-            {/* Cards */}
-            <div className="grid md:grid-cols-3 gap-6">
-              {PLANS.map((plan) => (
-                <div
-                  key={plan.name}
-                  className={`relative bg-white/[0.03] backdrop-blur-xl border rounded-[20px] p-8 transition-all duration-300 ${
-                    plan.featured
-                      ? "border-indigo-500/30 scale-[1.02] md:scale-105"
-                      : "border-white/[0.06] hover:border-white/[0.1]"
-                  }`}
-                >
-                  {/* Featured badge */}
-                  {plan.featured && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-bold px-4 py-1 rounded-full whitespace-nowrap">
-                      Most Popular
-                    </div>
-                  )}
-
-                  <h3 className="font-heading text-xl font-bold text-white">
-                    {plan.name}
-                  </h3>
-
-                  <div className="mt-4 mb-6">
-                    <span className="font-heading text-4xl font-bold text-white">
-                      {plan.price}
-                    </span>
-                    <span className="text-lg text-slate-500">/mo</span>
-                  </div>
-
-                  <ul className="space-y-3 mb-8">
-                    {plan.features.map((f) => (
-                      <li key={f} className="flex items-center gap-2.5">
-                        <Check className="h-4 w-4 text-indigo-400 flex-shrink-0" />
-                        <span className="text-sm text-slate-400">{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Link
-                    href="/onboarding.html"
-                    className={`block w-full text-center rounded-full py-3.5 font-semibold text-sm transition-all duration-300 ${
-                      plan.featured
-                        ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:shadow-[0_8px_30px_rgba(99,102,241,0.4)] hover:-translate-y-0.5"
-                        : "border border-white/[0.1] text-white hover:bg-white/[0.03] hover:border-white/[0.15]"
-                    }`}
-                  >
-                    Get Started
-                  </Link>
-                </div>
-              ))}
-            </div>
-
-            {/* Sub-note */}
-            <p className="text-center text-sm text-slate-500 mt-10">
-              Not sure?{" "}
-              <Link
-                href="/onboarding.html"
-                className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2 transition-colors"
-              >
-                Get started free
-              </Link>{" "}
-              and we&rsquo;ll tell you which plan fits.
+            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold">
+              Pricing
+            </h2>
+            <p className="text-lg text-slate-400 mt-4 max-w-lg mx-auto">
+              No setup fees. No contracts.
             </p>
           </div>
-        </section>
-      </SectionReveal>
+
+          {/* Cards */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {PLANS.map((plan) => (
+              <InteractiveCard
+                key={plan.name}
+                className={`pricing-card relative bg-white/[0.03] backdrop-blur-xl border rounded-[20px] p-8 transition-all duration-300 ${
+                  plan.featured
+                    ? "border-indigo-500/30 scale-[1.02] md:scale-105 pricing-featured"
+                    : "border-white/[0.06] hover:border-white/[0.1]"
+                }`}
+              >
+                {/* Featured badge */}
+                {plan.featured && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-bold px-4 py-1 rounded-full whitespace-nowrap">
+                    Most Popular
+                  </div>
+                )}
+
+                <h3 className="font-heading text-xl font-bold text-white">
+                  {plan.name}
+                </h3>
+
+                <div className="mt-4 mb-6">
+                  <span className="font-heading text-4xl font-bold text-white">
+                    {plan.price}
+                  </span>
+                  <span className="text-lg text-slate-500">/mo</span>
+                </div>
+
+                <ul className="space-y-3 mb-8">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex items-center gap-2.5">
+                      <Check className="h-4 w-4 text-indigo-400 flex-shrink-0" />
+                      <span className="text-sm text-slate-400">{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Link
+                  href="/book"
+                  className={`block w-full text-center rounded-full py-3.5 font-semibold text-sm transition-all duration-300 ${
+                    plan.featured
+                      ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:shadow-[0_8px_30px_rgba(99,102,241,0.4)] hover:-translate-y-0.5"
+                      : "border border-white/[0.1] text-white hover:bg-white/[0.03] hover:border-white/[0.15]"
+                  }`}
+                >
+                  Get Started
+                </Link>
+              </InteractiveCard>
+            ))}
+          </div>
+
+          {/* Sub-note */}
+          <p className="text-center text-sm text-slate-500 mt-10">
+            Not sure?{" "}
+            <Link
+              href="/book"
+              className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2 transition-colors"
+            >
+              Book a free call
+            </Link>{" "}
+            and we&rsquo;ll tell you which plan fits.
+          </p>
+        </div>
+      </section>
+
+      {/* Shimmer divider */}
+      <div className="shimmer-divider" />
 
       {/* ────────────────────────────────────────────────────────────── */}
       {/*  FINAL CTA                                                    */}
       {/* ────────────────────────────────────────────────────────────── */}
-      <SectionReveal>
-        <section className="relative px-6 py-32">
-          {/* Gradient backdrop */}
-          <div className="absolute inset-0 mx-6 rounded-3xl bg-gradient-to-br from-indigo-500/[0.08] to-purple-500/[0.04] pointer-events-none" />
+      <section ref={ctaRef} className="gsap-reveal relative px-6 py-32">
+        {/* Gradient backdrop */}
+        <div className="absolute inset-0 mx-6 rounded-3xl bg-gradient-to-br from-indigo-500/[0.08] to-purple-500/[0.04] pointer-events-none" />
 
-          <div className="relative mx-auto max-w-3xl text-center">
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold text-white">
-              Ready to automate your front office?
-            </h2>
-            <p className="text-lg text-slate-400 text-center max-w-xl mx-auto mt-4 leading-relaxed">
-              30-minute call. We&rsquo;ll map your workflows and show you exactly what we&rsquo;d build.
-            </p>
-            <div className="mt-10">
-              <Link
-                href="/onboarding.html"
-                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full px-10 py-5 text-lg font-semibold hover:shadow-[0_8px_30px_rgba(99,102,241,0.4)] hover:-translate-y-0.5 transition-all duration-300"
-              >
-                Get Started &rarr;
-              </Link>
-            </div>
-            <p className="text-sm text-slate-600 mt-6">
-              No commitment &middot; No sales pitch &middot; Just a clear plan
-            </p>
+        <div className="relative mx-auto max-w-3xl text-center">
+          <h2 className="font-heading text-4xl sm:text-5xl font-bold text-white">
+            Ready to automate your front office?
+          </h2>
+          <p className="text-lg text-slate-400 text-center max-w-xl mx-auto mt-4 leading-relaxed">
+            30-minute call. We&rsquo;ll map your workflows and show you exactly what we&rsquo;d build.
+          </p>
+          <div className="mt-10">
+            <MagneticButton
+              href="/book"
+              className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full px-10 py-5 text-lg font-semibold hover:shadow-[0_8px_30px_rgba(99,102,241,0.4)] hover:-translate-y-0.5 transition-all duration-300"
+            >
+              Book a Call &rarr;
+            </MagneticButton>
           </div>
-        </section>
-      </SectionReveal>
+          <p className="text-sm text-slate-600 mt-6">
+            No commitment &middot; No sales pitch &middot; Just a clear plan
+          </p>
+        </div>
+      </section>
     </div>
   );
 }
