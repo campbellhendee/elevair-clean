@@ -288,7 +288,7 @@ export default function DemoAssistant() {
             )}
             <div className="mt-3 text-xs text-slate-400 flex items-center gap-2">
               <MessageSquare className="h-3.5 w-3.5" />
-              <span>Powered by live API.</span>
+              <span>Trained on your business. Responds in seconds.</span>
             </div>
 
             {/* Intent-based CTA */}

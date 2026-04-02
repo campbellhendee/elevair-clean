@@ -3,7 +3,7 @@ import Link from "next/link";
 const companyLinks = [
   { href: "/about", label: "About" },
   { href: "/process", label: "Process" },
-  { href: "/results", label: "Results" },
+  { href: "/results", label: "Why It Works" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -37,7 +37,7 @@ export default function Footer() {
             </p>
             <div className="mt-4 flex items-center gap-4">
               <a
-                href="https://twitter.com"
+                href="https://x.com/elevairai"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs text-slate-600 hover:text-slate-400 transition-colors"
@@ -45,7 +45,7 @@ export default function Footer() {
                 Twitter
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://linkedin.com/company/elevair"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs text-slate-600 hover:text-slate-400 transition-colors"

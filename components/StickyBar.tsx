@@ -45,11 +45,11 @@ export default function StickyBar({
         ${className}
       `}
     >
-      <div className="bg-slate-900/95 backdrop-blur-md border-t border-white/10 px-4 py-3 safe-area-inset">
+      <div className="bg-[#0a0a0f]/95 backdrop-blur-md border-t border-white/[0.06] px-4 py-3 safe-area-inset">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            <span className="text-white font-medium">Ready to elevate your space?</span>
+            <span className="text-white font-medium">Automate your front office</span>
           </div>
           
           <div className="flex items-center gap-3">
@@ -58,7 +58,7 @@ export default function StickyBar({
               className="
                 bg-white/10 text-white px-4 py-2 rounded-lg 
                 hover:bg-white/20 transition-colors
-                focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900
+                focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0f]
                 text-sm font-medium
               "
             >
@@ -67,9 +67,9 @@ export default function StickyBar({
             <a
               href="/onboarding.html"
               className="
-                bg-cyan-400 text-slate-900 px-4 py-2 rounded-lg
-                hover:bg-cyan-300 transition-colors shadow-lg shadow-cyan-500/20
-                focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900
+                bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-2 rounded-lg
+                hover:shadow-lg hover:shadow-indigo-500/20 transition-all
+                focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0f]
                 text-sm font-semibold
               "
             >
