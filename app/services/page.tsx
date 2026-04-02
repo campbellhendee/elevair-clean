@@ -1,256 +1,217 @@
-"use client";
-
-import { CheckCircle, Users, Target, Zap, TrendingUp } from "lucide-react";
 import Link from "next/link";
-import ServiceCard from "../../components/ServiceCard";
-import StatsTiles from "../../components/StatsTiles";
-import CTASection from "../../components/CTASection";
-import FAQAccordion from "../../components/FAQAccordion";
-import ServicesStickyBar from "../../components/ServicesStickyBar";
+
+const services = [
+  {
+    icon: "\u{1F4DE}",
+    title: "AI Receptionist",
+    description:
+      "Your business never misses an inquiry again. Our AI handles calls, chats, and emails 24/7 with natural, accurate responses trained specifically on your business.",
+    features: [
+      "Instant answers to calls, chats, and web forms",
+      "Trained on your services, pricing, and FAQs",
+      "Qualifies leads before they reach your team",
+      "Integrates with your phone system and website",
+      "Handles multiple conversations at once",
+      "Works nights, weekends, and holidays",
+    ],
+  },
+  {
+    icon: "\u{1F4C5}",
+    title: "Smart Scheduling",
+    description:
+      "Customers book themselves. Confirmations and reminders go out automatically. Your calendar fills up, no-shows drop, and nobody plays phone tag.",
+    features: [
+      "Self-service booking from any channel",
+      "Automated text and email confirmations",
+      "Smart reminders that cut no-shows by 40%+",
+      "Syncs with Google Calendar and Outlook",
+      "Handles rescheduling and cancellations",
+      "Time zone aware",
+    ],
+  },
+  {
+    icon: "\u26A1",
+    title: "Lead Automation",
+    description:
+      "Every lead gets an instant, personal response. Smart follow-up sequences keep working until the lead converts \u2014 or tells you to stop.",
+    features: [
+      "Sub-60-second response to every inquiry",
+      "Multi-touch follow-ups via email and SMS",
+      "Intelligent lead scoring and qualification",
+      "CRM integration (HubSpot, Salesforce, etc.)",
+      "Real-time alerts for high-intent leads",
+      "Full attribution and conversion tracking",
+    ],
+  },
+];
+
+const steps = [
+  {
+    num: "1",
+    title: "Discovery",
+    description:
+      "A 30-minute call to understand your business, map your workflows, and scope the build.",
+  },
+  {
+    num: "2",
+    title: "Build & Launch",
+    description:
+      "We build your system, integrate your tools, and go live \u2014 typically within 48 hours.",
+  },
+  {
+    num: "3",
+    title: "Optimize",
+    description:
+      "Monthly performance reviews, continuous tuning, and new capabilities as your business grows.",
+  },
+];
+
+const faqs = [
+  {
+    q: "How quickly can we get started?",
+    a: "Most systems are live within 48 hours of our first call. Complex integrations may take 1\u20132 weeks.",
+  },
+  {
+    q: "Do I need to change my current tools?",
+    a: "No. We integrate with what you already use \u2014 your CRM, calendar, phone system, and email.",
+  },
+  {
+    q: "What does it cost?",
+    a: "Plans start at $497/mo. Book a call and we\u2019ll scope exactly what you need.",
+  },
+  {
+    q: "What if the AI says something wrong?",
+    a: "We train it specifically on your business and test extensively. You approve everything before launch. And we monitor it continuously.",
+  },
+  {
+    q: "Can I cancel anytime?",
+    a: "Yes. No long-term contracts. Cancel with 30 days notice.",
+  },
+];
 
 export default function ServicesPage() {
-  const services = [
-    {
-      iconName: "Target",
-      title: "Conversion Rate Optimization",
-      description: "Turn more visitors into customers with proven strategies.",
-      features: [
-        "Funnel analysis and bottleneck identification",
-        "A/B testing of key conversion elements",
-        "Landing page optimization",
-        "Checkout process streamlining",
-        "User behavior tracking and insights"
-      ],
-      results: "AI-powered optimization with continuous learning and adaptation",
-      timeframe: "2-4 weeks"
-    },
-    {
-      iconName: "Users",
-      title: "Lead Generation Systems",
-      description: "Build predictable pipelines that generate qualified prospects.",
-      features: [
-        "Lead magnet creation and optimization",
-        "Email capture form design",
-        "Landing page development",
-        "Lead scoring and qualification",
-        "Automated follow-up sequences"
-      ],
-      results: "Intelligent lead scoring and automated nurture sequences",
-      timeframe: "3-6 weeks"
-    },
-    {
-      iconName: "Zap",
-      title: "Marketing Automation",
-      description: "Streamline your marketing with smart automation workflows.",
-      features: [
-        "Email automation sequences",
-        "Customer journey mapping",
-        "Behavioral trigger setup",
-        "Segmentation strategies",
-        "Performance tracking and optimization"
-      ],
-      results: "24/7 automated support with human-like interactions",
-      timeframe: "4-8 weeks"
-    },
-    {
-      iconName: "TrendingUp",
-      title: "Growth Strategy & Analytics",
-      description: "Data-driven strategies to scale your business effectively.",
-      features: [
-        "Growth metric identification and tracking",
-        "Customer acquisition cost optimization",
-        "Retention strategy development",
-        "Revenue funnel analysis",
-        "Competitive analysis and positioning"
-      ],
-      results: "Data-driven insights with advanced analytics and reporting",
-      timeframe: "6-12 weeks"
-    }
-  ];
-
-  const faqItems = [
-    {
-      question: "How quickly will I see results?",
-      answer: "As a beta partner, you'll see immediate improvements in response times and availability. While we're still gathering data on long-term outcomes, our AI systems are designed for instant 24/7 coverage and sub-second response times."
-    },
-    {
-      question: "Do you work with businesses in my industry?",
-      answer: "Our AI technology is industry-agnostic and can be trained on any business model. We're currently focusing on service-based businesses and e-commerce as our beta partners, but the underlying technology works across industries."
-    },
-    {
-      question: "What's included in the free strategy call?",
-      answer: "We'll analyze your current customer communication process, identify automation opportunities, and show you exactly how our AI would handle your typical customer interactions. It's a technical demonstration, not a sales pitch."
-    },
-    {
-      question: "How much involvement is required from my team?",
-      answer: "Minimal. We handle most of the work, but we'll need about 2-3 hours of your time each week for feedback and approvals. We believe in working with you, not just for you, so you understand every change we make."
-    },
-    {
-      question: "What if I'm not technical?",
-      answer: "Perfect! Our whole mission is making advanced AI accessible to non-technical business owners. We handle all the technical complexity - you just need to tell us about your business and we'll train the AI to represent you accurately."
-    },
-    {
-      question: "Is this a proven system?",
-      answer: "We're currently in beta, which means you'll get early access to cutting-edge AI technology at a significant discount. While we're still building our track record, our technology is built on proven AI models and we're confident in the capabilities."
-    }
-  ];
-
   return (
-    <>
-      <div className="min-h-screen bg-slate-950 text-slate-100">
-        {/* Hero Section */}
-        <section className="relative overflow-hidden">
-          <div className="absolute inset-0 animated-grid"></div>
-          <div className="absolute inset-0 bg-vignette"></div>
-          <div className="relative container-section">
-            <div className="mx-auto max-w-4xl text-center">
-              <div className="page-header">
-                <h1 className="">
-                  Stop guessing.
-                  <br />
-                  <span className="text-cyan-400">Start converting.</span>
-                </h1>
-                <p className="text-lg text-slate-300 max-w-3xl mx-auto">
-                  We're building AI systems that automate customer communication for small businesses. Currently in beta — join early and help shape the future of business automation.
-                </p>
-              </div>
-              <div className="mt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link href="/book" className="btn-primary px-8 py-4 text-lg">
-                  Join Our Beta Program
-                </Link>
-                <span className="text-slate-400 text-sm">
-                  Limited spots • Free setup • Early access pricing
-                </span>
-              </div>
-            </div>
+    <main className="min-h-screen bg-[#0a0a0f]">
+      {/* Hero */}
+      <section className="pt-32 pb-16 px-6">
+        <div className="max-w-5xl mx-auto text-center">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <span className="w-5 h-px bg-indigo-500" />
+            <span className="font-mono text-xs tracking-[0.2em] uppercase text-indigo-400">
+              What We Build
+            </span>
+            <span className="w-5 h-px bg-indigo-500" />
           </div>
-        </section>
+          <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight">
+            AI That Handles Your Front Office
+          </h1>
+          <p className="text-lg text-slate-400 max-w-2xl mx-auto mt-6">
+            From first inquiry to booked appointment &mdash; three systems that
+            work together so nothing falls through the cracks.
+          </p>
+        </div>
+      </section>
 
-        {/* Stats Section */}
-        <section className="container-section">
-          <div className="mx-auto max-w-7xl">
-            <div className="text-center mb-12">
-              <h2 className="text-headline font-bold text-white mb-4">
-                Technology Capabilities
-              </h2>
-              <p className="text-slate-300 text-lg max-w-2xl mx-auto">
-                Built on cutting-edge AI, designed for the future of business automation
-              </p>
-            </div>
-            <StatsTiles />
-          </div>
-        </section>
-
-        {/* Services Section */}
-        <section className="container-section">
-          <div className="mx-auto max-w-7xl">
-            <div className="text-center mb-16">
-              <h2 className="text-headline font-bold text-white mb-4">
-                How Our AI Technology Works
-              </h2>
-              <p className="text-slate-300 text-lg max-w-3xl mx-auto">
-                Four core systems that work together to automate your customer communication.
-                Currently in beta with early access pricing.
-              </p>
-            </div>
-            
-            <div className="grid gap-8 md:grid-cols-2">
-              {services.map((service, index) => (
-                <ServiceCard key={index} {...service} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Process Overview */}
-        <section className="container-section bg-slate-800/30">
-          <div className="mx-auto max-w-4xl text-center">
-            <h2 className="text-headline font-bold text-white mb-6">
-              Our Simple 3-Step Process
-            </h2>
-            <p className="text-slate-300 text-lg mb-12 max-w-2xl mx-auto">
-              No complicated onboarding. No months of planning. We get started fast and show results even faster.
-            </p>
-            
-            <div className="grid gap-8 md:grid-cols-3">
-              <div className="text-center card-surface p-6">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cyan-400 text-slate-900 font-bold text-xl mb-4">
-                  1
+      {/* Services */}
+      <section className="px-6">
+        <div className="max-w-5xl mx-auto space-y-8">
+          {services.map((service) => (
+            <div
+              key={service.title}
+              className="bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-[20px] p-10 md:p-14"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 flex items-center justify-center text-2xl">
+                  {service.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">Analyze</h3>
-                <p className="text-slate-300">
-                  We audit your current setup, identify the biggest opportunities, and create a clear action plan.
-                </p>
+                <h2 className="font-heading text-2xl font-bold text-white">
+                  {service.title}
+                </h2>
               </div>
-              
-              <div className="text-center card-surface p-6">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cyan-400 text-slate-900 font-bold text-xl mb-4">
-                  2
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-3">Optimize</h3>
-                <p className="text-slate-300">
-                  We implement proven improvements to your funnels, starting with the highest-impact changes first.
-                </p>
-              </div>
-              
-              <div className="text-center card-surface p-6">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cyan-400 text-slate-900 font-bold text-xl mb-4">
-                  3
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-3">Scale</h3>
-                <p className="text-slate-300">
-                  We build systems that keep working for you, so you can focus on running your business.
-                </p>
-              </div>
-            </div>
-            
-            <div className="mt-12 p-6 card-surface">
-              <div className="flex items-center justify-center gap-2 mb-3">
-                <CheckCircle className="h-5 w-5 text-green-400" />
-                <span className="font-semibold text-green-400">30-Day Results Guarantee</span>
-              </div>
-              <p className="text-slate-300">
-                If you don't see measurable improvements in your conversion rates within 30 days, 
-                we'll refund your investment. That's how confident we are in our process.
+              <p className="text-slate-400 leading-relaxed mt-4 max-w-3xl">
+                {service.description}
               </p>
+              <div className="mt-8 grid md:grid-cols-2 gap-x-8 gap-y-3">
+                {service.features.map((feature) => (
+                  <div key={feature} className="flex items-start gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-2 flex-shrink-0" />
+                    <span className="text-sm text-slate-500">{feature}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          ))}
+        </div>
+      </section>
 
-        {/* FAQ Section */}
-        <section className="container-section">
-          <div className="mx-auto max-w-4xl">
-            <div className="text-center mb-12">
-              <h2 className="text-headline font-bold text-white mb-4">
-                Questions? We've Got Answers.
-              </h2>
-              <p className="text-slate-300 text-lg">
-                Here are the most common questions we get from small business owners
-              </p>
-            </div>
-            <FAQAccordion items={faqItems} />
+      {/* Process */}
+      <section className="py-24 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <span className="w-5 h-px bg-indigo-500" />
+            <span className="font-mono text-xs tracking-[0.2em] uppercase text-indigo-400">
+              The Process
+            </span>
+            <span className="w-5 h-px bg-indigo-500" />
           </div>
-        </section>
+          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white text-center">
+            Live in 48 Hours
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8 mt-12">
+            {steps.map((step) => (
+              <div key={step.num} className="text-center">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto flex items-center justify-center text-white font-bold font-heading text-lg">
+                  {step.num}
+                </div>
+                <h3 className="font-heading text-lg font-bold text-white mt-4">
+                  {step.title}
+                </h3>
+                <p className="text-sm text-slate-400 mt-2">
+                  {step.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-        {/* Final CTA */}
-        <section className="container-section">
-          <CTASection
-            title="Ready to Stop Leaving Money on the Table?"
-            description="Get your free 30-minute business teardown and discover exactly how to turn more visitors into customers."
-            primaryButton={{
-              text: "Book Your Free Teardown",
-              href: "/book"
-            }}
-            secondaryButton={{
-              text: "Learn About Our Process",
-              href: "/about"
-            }}
-            badge="No sales pitch • Actionable insights • 30 minutes"
-          />
-        </section>
-      </div>
-      
-      <ServicesStickyBar />
-    </>
+      {/* FAQ */}
+      <section className="py-24 px-6">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="font-heading text-2xl md:text-3xl font-bold text-white text-center mb-12">
+            Frequently Asked Questions
+          </h2>
+          <div>
+            {faqs.map((faq) => (
+              <details
+                key={faq.q}
+                className="group bg-white/[0.03] border border-white/[0.06] rounded-xl mb-3"
+              >
+                <summary className="cursor-pointer px-6 py-5 flex items-center justify-between">
+                  <span className="font-medium text-white">{faq.q}</span>
+                  <span className="ml-4 text-slate-500 group-open:rotate-45 transition-transform text-xl leading-none">
+                    +
+                  </span>
+                </summary>
+                <div className="px-6 pb-5 text-slate-400">{faq.a}</div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-24 px-6 text-center">
+        <h2 className="font-heading text-2xl md:text-3xl font-bold text-white">
+          Ready to automate your front office?
+        </h2>
+        <Link
+          href="/book"
+          className="mt-8 inline-block bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full px-8 py-4 font-semibold hover:shadow-[0_8px_30px_rgba(99,102,241,0.4)] hover:-translate-y-0.5 transition-all"
+        >
+          Book a Free Call
+        </Link>
+      </section>
+    </main>
   );
 }

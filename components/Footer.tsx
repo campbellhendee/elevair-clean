@@ -1,53 +1,134 @@
 import Link from "next/link";
-import { Mail } from "lucide-react";
 
-const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "support@elevair.org";
+const companyLinks = [
+  { href: "/about", label: "About" },
+  { href: "/process", label: "Process" },
+  { href: "/results", label: "Results" },
+  { href: "/contact", label: "Contact" },
+];
+
+const serviceLinks = [
+  { href: "/services", label: "All Services" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/book", label: "Book a Call" },
+];
+
+const legalLinks = [
+  { href: "/privacy", label: "Privacy" },
+  { href: "/terms", label: "Terms" },
+];
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 bg-slate-950/50 backdrop-blur-xl border-t border-white/10">
-      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 text-sm">
+    <footer className="bg-[#0a0a0f] border-t border-white/[0.04]">
+      <div className="mx-auto max-w-6xl px-6 py-16">
+        {/* Top grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12">
+          {/* Brand */}
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4">Company</h3>
-            <ul className="space-y-3 text-slate-400">
-              <li><Link href="/about" className="hover:text-cyan-400 transition-colors">About</Link></li>
-              <li><Link href="/process" className="hover:text-cyan-400 transition-colors">Process</Link></li>
-              <li><Link href="/results" className="hover:text-cyan-400 transition-colors">Results</Link></li>
-              <li><Link href="/contact" className="hover:text-cyan-400 transition-colors">Contact</Link></li>
+            <Link href="/" className="inline-block">
+              <span className="font-heading text-lg font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                Elevair
+              </span>
+            </Link>
+            <p className="mt-2 text-sm text-slate-600">
+              AI that works while you don&apos;t.
+            </p>
+            <div className="mt-4 flex items-center gap-4">
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-slate-600 hover:text-slate-400 transition-colors"
+              >
+                Twitter
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-slate-600 hover:text-slate-400 transition-colors"
+              >
+                LinkedIn
+              </a>
+            </div>
+          </div>
+
+          {/* Company */}
+          <div>
+            <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-4">
+              Company
+            </h3>
+            <ul className="space-y-3">
+              {companyLinks.map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    className="text-sm text-slate-500 hover:text-white transition-colors"
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
+
+          {/* Services */}
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4">Services</h3>
-            <ul className="space-y-3 text-slate-400">
-              <li><Link href="/services" className="hover:text-cyan-400 transition-colors">All Services</Link></li>
-              <li><Link href="/pricing" className="hover:text-cyan-400 transition-colors">Pricing</Link></li>
-              <li><Link href="/faq" className="hover:text-cyan-400 transition-colors">FAQ</Link></li>
-              <li><Link href="/book" className="hover:text-cyan-400 transition-colors">Book a Call</Link></li>
+            <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-4">
+              Services
+            </h3>
+            <ul className="space-y-3">
+              {serviceLinks.map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    className="text-sm text-slate-500 hover:text-white transition-colors"
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
+
+          {/* Legal */}
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4">Legal</h3>
-            <ul className="space-y-3 text-slate-400">
-              <li><Link href="/privacy" className="hover:text-cyan-400 transition-colors">Privacy Policy</Link></li>
-              <li><Link href="/terms" className="hover:text-cyan-400 transition-colors">Terms of Service</Link></li>
+            <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-4">
+              Legal
+            </h3>
+            <ul className="space-y-3">
+              {legalLinks.map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    className="text-sm text-slate-500 hover:text-white transition-colors"
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold text-white mb-4">Contact</h3>
-            <a href={`mailto:${supportEmail}`} className="inline-flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition-colors">
-              <Mail className="h-4 w-4" />
-              {supportEmail}
+            <a
+              href="mailto:growth@elevair.org"
+              className="mt-4 block text-sm text-slate-500"
+            >
+              growth@elevair.org
             </a>
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-slate-500 text-xs">
-          <p>© {new Date().getFullYear()} Elevair. All rights reserved.</p>
-          <p>Built for clarity, speed, and results.</p>
+        {/* Bottom bar */}
+        <div className="mt-12 pt-8 border-t border-white/[0.04] flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-xs text-slate-700">
+            &copy; 2025 Elevair. All rights reserved.
+          </p>
+          <p className="text-xs text-slate-700">
+            Built with AI. Delivered with care.
+          </p>
         </div>
       </div>
     </footer>
   );
 }
-

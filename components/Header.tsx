@@ -1,20 +1,18 @@
 "use client";
+
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bolt, Menu, X } from "lucide-react";
-import CTAButton from "./CTAButton";
+import { Menu, X, ArrowRight } from "lucide-react";
 
 const links = [
   { href: "/services", label: "Services" },
-  { href: "/process", label: "Process" },
-  { href: "/results", label: "Results" },
-  { href: "/pricing", label: "Pricing" },
   { href: "/about", label: "About" },
+  { href: "/pricing", label: "Pricing" },
   { href: "/contact", label: "Contact" },
 ] as const;
 
-function isActive(pathname: string, href: string) {
+function isActive(pathname: string, href: string): boolean {
   if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(href + "/");
 }
@@ -25,12 +23,10 @@ export default function Header() {
   const [hideMobile, setHideMobile] = useState(false);
   const lastScrollY = useRef(0);
   const pathname = usePathname();
-  const focus = "focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950";
 
   useEffect(() => {
     const onScroll = () => {
-      setScrolled(window.scrollY > 8);
-      // Mobile hide-on-scroll
+      setScrolled(window.scrollY > 40);
       if (window.innerWidth <= 640) {
         const currentY = window.scrollY;
         if (currentY > lastScrollY.current && currentY > 32) {
@@ -46,16 +42,17 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock body scroll and close on ESC for mobile drawer
   useEffect(() => {
     if (open) {
       const original = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
-      const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
-      window.addEventListener('keydown', onKey);
+      document.body.style.overflow = "hidden";
+      const onKey = (e: KeyboardEvent) => {
+        if (e.key === "Escape") setOpen(false);
+      };
+      window.addEventListener("keydown", onKey);
       return () => {
         document.body.style.overflow = original;
-        window.removeEventListener('keydown', onKey);
+        window.removeEventListener("keydown", onKey);
       };
     }
   }, [open]);
@@ -63,32 +60,23 @@ export default function Header() {
   return (
     <header
       role="banner"
-      className={`sticky top-0 z-40 relative border-b transition-colors duration-300 ${
+      className={`sticky top-0 z-50 border-b transition-all duration-300 ${
         scrolled
-          ? "bg-slate-950/80 border-white/10 shadow-[0_6px_20px_rgba(0,0,0,.35)] backdrop-blur"
+          ? "bg-[#0a0a0f]/85 backdrop-blur-xl border-white/[0.06] shadow-[0_4px_30px_rgba(0,0,0,0.3)]"
           : "bg-transparent border-transparent"
       } ${hideMobile ? "header-hide-mobile" : ""}`}
-      style={{
-        transition: "transform 0.35s cubic-bezier(.4,0,.2,1)",
-      }}
     >
-  <div className="mx-auto w-full max-w-screen-2xl px-2 md:px-4 py-3.5 flex items-center justify-between">
-        <Link href="/" className={`inline-flex items-center gap-3 text-xl font-bold tracking-wide ${focus} group`}>
-          {/* New Elevair Logo - Compact Header Version */}
-          <div className="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 group-hover:scale-105 transition-all duration-300 shadow-lg shadow-cyan-500/20">
-            <svg 
-              viewBox="0 0 100 100" 
-              fill="currentColor" 
-              className="h-5 w-5 text-slate-900"
-            >
-              <path d="M50 10 L60 40 L90 50 L60 60 L50 90 L40 60 L10 50 L40 40 Z" />
-            </svg>
-          </div>
-          <span className="text-cyan-400 font-bold text-2xl tracking-wide">
+      <div className="mx-auto w-full max-w-6xl px-6 py-4 flex items-center justify-between">
+        {/* Logo */}
+        <Link href="/" className="flex items-center">
+          <span className="font-heading text-xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
             Elevair
           </span>
+          <span className="ml-1 inline-block h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
         </Link>
-        <nav aria-label="Primary" className="hidden md:flex items-center gap-5 text-sm text-slate-300">
+
+        {/* Desktop Nav */}
+        <nav aria-label="Primary" className="hidden md:flex items-center gap-7">
           {links.map((l) => {
             const active = isActive(pathname, l.href);
             return (
@@ -96,29 +84,67 @@ export default function Header() {
                 key={l.href}
                 href={l.href}
                 aria-current={active ? "page" : undefined}
-                className={`${active ? "text-white border-b-2 border-cyan-400" : "hover:text-white border-b-2 border-transparent hover:border-white/20"} pb-1 ${focus}`}
+                className={`text-sm transition-colors ${
+                  active ? "text-white" : "text-slate-400 hover:text-white"
+                }`}
               >
                 {l.label}
               </Link>
             );
           })}
-          <CTAButton href="/book" placement="header" className="ml-5">
-            Book
-          </CTAButton>
         </nav>
+
+        {/* Desktop CTA */}
+        <Link
+          href="/book"
+          className="hidden md:inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-medium text-white hover:shadow-[0_0_20px_rgba(99,102,241,0.3)] transition-all"
+        >
+          Book a Call
+          <ArrowRight className="h-3.5 w-3.5" />
+        </Link>
+
+        {/* Mobile Hamburger */}
         <button
           aria-label="Toggle menu"
           aria-expanded={open}
           aria-controls="primary-mobile-nav"
-          className={`md:hidden rounded border border-white/10 p-2 text-slate-200 hover:bg-white/5 ${focus}`}
+          className="md:hidden rounded-lg border border-white/[0.08] p-2.5 text-slate-300 hover:bg-white/[0.03]"
           onClick={() => setOpen((o) => !o)}
         >
-          {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
+          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
+
+      {/* Mobile Menu */}
       {open && (
-        <nav id="primary-mobile-nav" aria-label="Primary mobile" className="md:hidden border-t border-white/10 bg-slate-950">
-          <div className="mx-auto max-w-6xl px-6 py-3 grid gap-2">
+        <nav
+          id="primary-mobile-nav"
+          aria-label="Primary mobile"
+          className="md:hidden fixed inset-0 z-50 bg-[#0a0a0f] flex flex-col"
+        >
+          {/* Top bar */}
+          <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
+            <Link
+              href="/"
+              className="flex items-center"
+              onClick={() => setOpen(false)}
+            >
+              <span className="font-heading text-xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                Elevair
+              </span>
+              <span className="ml-1 inline-block h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
+            </Link>
+            <button
+              aria-label="Close menu"
+              className="rounded-lg border border-white/[0.08] p-2.5 text-slate-300 hover:bg-white/[0.03]"
+              onClick={() => setOpen(false)}
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          {/* Center links */}
+          <div className="flex-1 flex flex-col items-center justify-center gap-6">
             {links.map((l) => {
               const active = isActive(pathname, l.href);
               return (
@@ -126,22 +152,31 @@ export default function Header() {
                   key={l.href}
                   href={l.href}
                   aria-current={active ? "page" : undefined}
-                  className={`block rounded-lg px-2 py-2 ${active ? "text-white bg-white/[.04]" : "text-slate-200 hover:text-white hover:bg-white/[.04]"} ${focus}`}
+                  className={`text-2xl font-heading font-bold transition-colors ${
+                    active ? "text-white" : "text-white hover:text-indigo-400"
+                  }`}
                   onClick={() => setOpen(false)}
                 >
                   {l.label}
                 </Link>
               );
             })}
-            <CTAButton href="/book" placement="header" className="justify-center">
-              Book
-            </CTAButton>
+          </div>
+
+          {/* Bottom CTA */}
+          <div className="flex justify-center mb-12 px-6">
+            <Link
+              href="/book"
+              className="flex w-full max-w-xs items-center justify-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-3 text-sm font-medium text-white hover:shadow-[0_0_20px_rgba(99,102,241,0.3)] transition-all"
+              onClick={() => setOpen(false)}
+            >
+              Book a Call
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
           </div>
         </nav>
       )}
-      {/* subtle bottom gradient border on desktop */}
-      <div aria-hidden className="hidden md:block absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-      {/* mobile hide-on-scroll style */}
+
       <style>{`
         @media (max-width: 640px) {
           .header-hide-mobile {
