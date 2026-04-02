@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -9,6 +9,125 @@ import {
   Zap,
   Check,
 } from "lucide-react";
+
+/* ------------------------------------------------------------------ */
+/*  Interactive mesh gradient canvas — responds to mouse movement      */
+/* ------------------------------------------------------------------ */
+function HeroCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mouse = useRef({ x: 0.5, y: 0.5 });
+  const animationRef = useRef<number>(0);
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    mouse.current = {
+      x: e.clientX / window.innerWidth,
+      y: e.clientY / window.innerHeight,
+    };
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let w = 0;
+    let h = 0;
+    const resize = () => {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize);
+    window.addEventListener("mousemove", handleMouseMove);
+
+    // Nodes that form the mesh
+    const nodes: { x: number; y: number; vx: number; vy: number; baseX: number; baseY: number }[] = [];
+    const count = 40;
+    for (let i = 0; i < count; i++) {
+      const x = Math.random() * w;
+      const y = Math.random() * h;
+      nodes.push({
+        x, y, baseX: x, baseY: y,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+      });
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+
+      // Move nodes toward mouse influence
+      const mx = mouse.current.x * w;
+      const my = mouse.current.y * h;
+
+      for (const n of nodes) {
+        // Drift
+        n.x += n.vx;
+        n.y += n.vy;
+
+        // Mouse attraction (subtle)
+        const dx = mx - n.x;
+        const dy = my - n.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 300) {
+          n.x += dx * 0.002;
+          n.y += dy * 0.002;
+        }
+
+        // Soft bounds
+        if (n.x < -50) n.vx = Math.abs(n.vx);
+        if (n.x > w + 50) n.vx = -Math.abs(n.vx);
+        if (n.y < -50) n.vy = Math.abs(n.vy);
+        if (n.y > h + 50) n.vy = -Math.abs(n.vy);
+      }
+
+      // Draw connections
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 200) {
+            const alpha = (1 - dist / 200) * 0.12;
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = `rgba(99, 102, 241, ${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw nodes
+      for (const n of nodes) {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(139, 92, 246, 0.25)";
+        ctx.fill();
+      }
+
+      animationRef.current = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animationRef.current);
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [handleMouseMove]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      style={{ opacity: 0.6 }}
+    />
+  );
+}
 
 /* ------------------------------------------------------------------ */
 /*  SectionReveal — IntersectionObserver entrance animation            */
@@ -156,7 +275,9 @@ export default function Page() {
       {/* ────────────────────────────────────────────────────────────── */}
       {/*  HERO                                                         */}
       {/* ────────────────────────────────────────────────────────────── */}
-      <section className="relative flex min-h-screen flex-col items-center justify-center px-6 pt-24 pb-12 text-center">
+      <section className="relative flex min-h-screen flex-col items-center justify-center px-6 pt-24 pb-12 text-center overflow-hidden">
+        {/* Interactive mesh canvas */}
+        <HeroCanvas />
         {/* Ambient glow */}
         <div className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[700px] w-[700px] rounded-full bg-indigo-500/[0.045] blur-[140px]" />
 
@@ -188,12 +309,10 @@ export default function Page() {
 
         {/* Sub-headline */}
         <p
-          className="hero-sub animate-fade-up text-lg sm:text-xl text-slate-400 max-w-2xl leading-relaxed mb-10"
+          className="hero-sub animate-fade-up text-lg sm:text-xl text-slate-400 max-w-xl leading-relaxed mb-10"
           style={{ animationDelay: "0.5s" }}
         >
-          Stop losing leads to slow response times. Elevair&rsquo;s AI answers in
-          seconds, books appointments automatically, and follows up until they
-          convert.
+          AI that answers every call, books every appointment, and follows up with every lead. Automatically.
         </p>
 
         {/* CTAs */}
@@ -205,7 +324,7 @@ export default function Page() {
             href="/book"
             className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full px-8 py-4 font-semibold hover:shadow-[0_8px_30px_rgba(99,102,241,0.4)] hover:-translate-y-0.5 transition-all duration-300"
           >
-            Get Early Access
+            Book a Call
             <ArrowRight className="h-4 w-4" />
           </Link>
           <Link
@@ -221,11 +340,11 @@ export default function Page() {
           className="hero-trust animate-fade-up flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-sm text-slate-500 mb-16"
           style={{ animationDelay: "0.9s" }}
         >
-          <span className="flex items-center gap-2">⚡ Responds in 3 seconds</span>
+          <span>3-second response time</span>
           <span className="hidden sm:block h-4 w-px bg-white/[0.08]" />
-          <span className="flex items-center gap-2">🚀 Live in 48 hours</span>
+          <span>Live in under a week</span>
           <span className="hidden sm:block h-4 w-px bg-white/[0.08]" />
-          <span className="flex items-center gap-2">📋 No contracts</span>
+          <span>No long-term contracts</span>
         </div>
 
         {/* Chat mockup */}
@@ -307,10 +426,10 @@ export default function Page() {
           <div className="mx-auto max-w-5xl px-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               {[
-                { value: "< 3s", label: "Average response time" },
-                { value: "24/7", label: "Always-on coverage" },
-                { value: "68%", label: "Of leads go cold without instant response" },
-                { value: "48hrs", label: "Average time to go live" },
+                { value: "< 3s", label: "Response time" },
+                { value: "24/7", label: "Availability" },
+                { value: "0", label: "Missed inquiries" },
+                { value: "48hrs", label: "Time to go live" },
               ].map((stat) => (
                 <div key={stat.value}>
                   <div className="font-mono text-3xl md:text-4xl font-bold text-cyan-400">
@@ -338,8 +457,7 @@ export default function Page() {
                 <span className="h-px w-8 bg-indigo-500/40" />
               </div>
               <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold">
-                Everything You Need to Never
-                <br className="hidden sm:block" /> Miss a Lead Again
+                What we build
               </h2>
             </div>
 
@@ -355,9 +473,8 @@ export default function Page() {
                   AI Receptionist
                 </h3>
                 <p className="text-slate-400 mt-3 leading-relaxed">
-                  Never miss another inquiry. Our AI answers instantly, qualifies the
-                  lead, and books the appointment&nbsp;&mdash; before a human could
-                  even check their inbox.
+                  Handles calls, chats, and emails around the clock. Trained on your
+                  business. Qualifies leads and books appointments automatically.
                 </p>
                 <ul className="mt-5 space-y-2.5">
                   {[
@@ -393,8 +510,8 @@ export default function Page() {
                   Smart Scheduling
                 </h3>
                 <p className="text-slate-400 mt-3 leading-relaxed">
-                  Eliminate no-shows and phone tag. Automated booking, SMS reminders,
-                  and follow-up sequences keep your calendar full.
+                  Customers book themselves. Automated confirmations and reminders
+                  reduce no-shows. Syncs with your existing calendar.
                 </p>
                 <ul className="mt-5 space-y-2.5">
                   {[
@@ -430,8 +547,8 @@ export default function Page() {
                   Lead Automation
                 </h3>
                 <p className="text-slate-400 mt-3 leading-relaxed">
-                  Turn cold leads hot. Instant first response plus smart follow-ups
-                  ensure no lead goes cold&nbsp;&mdash; whether it&rsquo;s 9am or 2am.
+                  Every inquiry gets an instant response. Smart follow-up sequences
+                  work around the clock until the lead converts.
                 </p>
                 <ul className="mt-5 space-y-2.5">
                   {[
@@ -475,8 +592,7 @@ export default function Page() {
                 <span className="h-px w-8 bg-indigo-500/40" />
               </div>
               <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold">
-                Live in 48 Hours.
-                <br className="hidden sm:block" /> No Technical Skills Needed.
+                How it works
               </h2>
             </div>
 
@@ -547,10 +663,10 @@ export default function Page() {
                 <span className="h-px w-8 bg-indigo-500/40" />
               </div>
               <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold">
-                Simple, Transparent Pricing
+                Pricing
               </h2>
               <p className="text-lg text-slate-400 mt-4 max-w-lg mx-auto">
-                No setup fees. No contracts. Cancel anytime.
+                No setup fees. No contracts.
               </p>
             </div>
 
@@ -631,24 +747,21 @@ export default function Page() {
 
           <div className="relative mx-auto max-w-3xl text-center">
             <h2 className="font-heading text-4xl sm:text-5xl font-bold text-white">
-              Stop Losing Leads
-              <br className="hidden sm:block" /> While You Sleep
+              Ready to automate your front office?
             </h2>
             <p className="text-lg text-slate-400 text-center max-w-xl mx-auto mt-4 leading-relaxed">
-              Every hour your business goes without AI is an hour a competitor is
-              taking your customers.
+              30-minute call. We&rsquo;ll map your workflows and show you exactly what we&rsquo;d build.
             </p>
             <div className="mt-10">
               <Link
                 href="/book"
                 className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full px-10 py-5 text-lg font-semibold hover:shadow-[0_8px_30px_rgba(99,102,241,0.4)] hover:-translate-y-0.5 transition-all duration-300"
               >
-                Get Early Access &rarr;
+                Book a Call &rarr;
               </Link>
             </div>
             <p className="text-sm text-slate-600 mt-6">
-              Beta program &middot; Limited spots &middot; No setup fees &middot; No
-              contracts
+              No commitment &middot; No sales pitch &middot; Just a clear plan
             </p>
           </div>
         </section>
