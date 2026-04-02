@@ -126,10 +126,11 @@ export async function POST(req: Request): Promise<Response> {
         reply = "All set! Our team will review this and reach out within 24 hours to schedule your kickoff call.";
       }
 
-      // Save brief as a GitHub Issue on agency-hub
-      await saveToGitHub(brief).catch(() => {
-        // Non-blocking — if GitHub save fails, the user still gets their response
-      });
+      // Save brief + notify team (all non-blocking)
+      await Promise.allSettled([
+        saveToGitHub(brief),
+        notifyTeam(brief),
+      ]);
     }
 
     const result: { reply: string; brief_saved: boolean; brief?: string } = {
@@ -174,4 +175,86 @@ async function saveToGitHub(brief: string): Promise<void> {
     const text = await response.text().catch(() => "");
     console.error("GitHub issue creation failed:", text);
   }
+}
+
+/* ── Notify team via SMS + Email + Push ── */
+async function notifyTeam(brief: string): Promise<void> {
+  const nameMatch = brief.match(/# Client Brief:\s*(.+)/);
+  const businessName = nameMatch ? nameMatch[1].trim() : "New Client";
+
+  const contactMatch = brief.match(/\*\*Contact:\*\*\s*(.+)/);
+  const contact = contactMatch ? contactMatch[1].trim() : "";
+
+  const shortMsg = `New Elevair onboarding: ${businessName}${contact ? ` — ${contact}` : ""}. Check agency-hub issues.`;
+
+  // Send all notifications in parallel
+  await Promise.allSettled([
+    // Push notifications via ntfy.sh (instant, free, no signup)
+    sendPush(shortMsg, businessName, brief),
+    // SMS via Twilio (if configured)
+    sendSMS("7138269548", shortMsg),  // Campbell
+    sendSMS("7138594127", shortMsg),  // Walker
+    // Email via Resend (if configured)
+    sendEmail(
+      ["campbellhendee@gmail.com", "campbellhendee@elevair.org", "williamdeyo@elevair.org"],
+      `New onboarding: ${businessName}`,
+      brief
+    ),
+  ]);
+}
+
+/* ── Push notifications via ntfy.sh ── */
+async function sendPush(message: string, title: string, body: string): Promise<void> {
+  await fetch("https://ntfy.sh/elevair-leads", {
+    method: "POST",
+    headers: {
+      Title: `New Client: ${title}`,
+      Priority: "high",
+      Tags: "briefcase,moneybag",
+    },
+    body: message,
+  }).catch(() => {});
+}
+
+/* ── SMS via Twilio ── */
+async function sendSMS(to: string, message: string): Promise<void> {
+  const sid = process.env.TWILIO_ACCOUNT_SID;
+  const token = process.env.TWILIO_AUTH_TOKEN;
+  const from = process.env.TWILIO_PHONE_NUMBER;
+  if (!sid || !token || !from) return;
+
+  const params = new URLSearchParams({
+    To: `+1${to.replace(/\D/g, "")}`,
+    From: from,
+    Body: message,
+  });
+
+  await fetch(`https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`, {
+    method: "POST",
+    headers: {
+      Authorization: "Basic " + btoa(`${sid}:${token}`),
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: params.toString(),
+  }).catch(() => {});
+}
+
+/* ── Email via Resend ── */
+async function sendEmail(to: string[], subject: string, body: string): Promise<void> {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) return;
+
+  await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${key}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: "Elevair <onboarding@elevair.org>",
+      to,
+      subject,
+      text: body,
+    }),
+  }).catch(() => {});
 }
