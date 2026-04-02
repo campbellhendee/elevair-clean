@@ -31,11 +31,11 @@ export default function ServicesStickyBar() {
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 transform transition-transform duration-300">
       <div className="bg-slate-950/95 backdrop-blur-md border-t border-white/10 p-4">
         <Link
-          href="/book"
+          href="/onboarding.html"
           onClick={handleClick}
           className="flex items-center justify-center gap-2 w-full rounded-xl bg-cyan-400 px-6 py-3 text-base font-semibold text-slate-900 hover:bg-cyan-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 shadow-lg shadow-cyan-500/20 transition-all duration-200 min-h-[44px]"
         >
-          Book a Free 30-min Teardown
+          Get Started Free
           <ArrowRight className="h-5 w-5" />
         </Link>
       </div>

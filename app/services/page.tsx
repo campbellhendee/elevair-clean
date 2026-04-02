@@ -206,10 +206,10 @@ export default function ServicesPage() {
           Ready to automate your front office?
         </h2>
         <Link
-          href="/book"
+          href="/onboarding.html"
           className="mt-8 inline-block bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full px-8 py-4 font-semibold hover:shadow-[0_8px_30px_rgba(99,102,241,0.4)] hover:-translate-y-0.5 transition-all"
         >
-          Book a Free Call
+          Get Started
         </Link>
       </section>
     </main>

@@ -61,7 +61,7 @@ export default function ResultsPage() {
 
         <div className="text-center mt-16">
           <Link
-            href="/book"
+            href="/onboarding.html"
             className="btn-primary px-8 py-4 text-lg"
           >
             Join Beta Program

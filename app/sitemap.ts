@@ -10,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/pricing` },
     { url: `${base}/faq` },
     { url: `${base}/about` },
-    { url: `${base}/book` },
+    { url: `${base}/onboarding.html` },
     { url: `${base}/contact` },
     { url: `${base}/privacy` },
     { url: `${base}/terms` },

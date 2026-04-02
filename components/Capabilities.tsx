@@ -108,8 +108,8 @@ export default function Capabilities() {
               </div>
 
               <div className="relative mt-4">
-                <CTAButton href="/book" placement="section" variant="secondary" className="text-xs">
-                  Book a free consultation
+                <CTAButton href="/onboarding.html" placement="section" variant="secondary" className="text-xs">
+                  Get started free
                   <Sparkles className="h-3.5 w-3.5" />
                 </CTAButton>
               </div>

@@ -8,9 +8,9 @@ export default function ThanksPage() {
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
       <div className="mx-auto w-full max-w-3xl px-6 py-16 text-center">
-    <h1 className="text-3xl md:text-4xl font-bold mb-4">Thanks — last step: book your consultation</h1>
-        <p className="text-slate-300 mb-6">Your details are in. Grab a time now so we can prep a mini plan for your exact funnel.</p>
-  <CTAButton href="/book" placement="thanks">Book a call</CTAButton>
+    <h1 className="text-3xl md:text-4xl font-bold mb-4">Thanks — last step: tell us about your business</h1>
+        <p className="text-slate-300 mb-6">Your details are in. Complete the quick onboarding so we can prep a plan for your exact setup.</p>
+  <CTAButton href="/onboarding.html" placement="thanks">Get Started</CTAButton>
       </div>
     </main>
   );

@@ -217,7 +217,7 @@ function InlineCTA() {
         <Sparkles className="h-4 w-4 text-cyan-300" />
         <span>Want to see a sample setup for your workflow?</span>
       </div>
-      <CTAButton href="/book" placement="section" variant="primary" className="whitespace-nowrap">
+      <CTAButton href="/onboarding.html" placement="section" variant="primary" className="whitespace-nowrap">
         See a 30‑min Teardown
       </CTAButton>
     </div>

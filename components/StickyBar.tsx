@@ -65,15 +65,15 @@ export default function StickyBar({
               Get Quote
             </a>
             <a
-              href="/book"
+              href="/onboarding.html"
               className="
-                bg-cyan-400 text-slate-900 px-4 py-2 rounded-lg 
+                bg-cyan-400 text-slate-900 px-4 py-2 rounded-lg
                 hover:bg-cyan-300 transition-colors shadow-lg shadow-cyan-500/20
                 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900
                 text-sm font-semibold
               "
             >
-              Book Consultation
+              Get Started
             </a>
           </div>
         </div>

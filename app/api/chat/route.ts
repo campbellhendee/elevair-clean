@@ -18,8 +18,8 @@ export async function POST(req: Request) {
       role: "system",
       content:
         "You are Elevair’s website assistant. Be concise, friendly, and helpful. " +
-        "Focus on automation, follow-ups, integrations, pricing, and booking. " +
-        "When appropriate, suggest visiting /book for a quick walkthrough.",
+        "Focus on automation, follow-ups, integrations, and pricing. " +
+        "When appropriate, suggest visiting /onboarding.html to get started.",
     };
     // Lightweight company knowledge retrieval
     const lastUser = [...messages].reverse().find((m) => m.role === "user");

@@ -96,10 +96,10 @@ export default function Header() {
 
         {/* Desktop CTA */}
         <Link
-          href="/book"
+          href="/onboarding.html"
           className="hidden md:inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-medium text-white hover:shadow-[0_0_20px_rgba(99,102,241,0.3)] transition-all"
         >
-          Book a Call
+          Get Started
           <ArrowRight className="h-3.5 w-3.5" />
         </Link>
 
@@ -166,11 +166,11 @@ export default function Header() {
           {/* Bottom CTA */}
           <div className="flex justify-center mb-12 px-6">
             <Link
-              href="/book"
+              href="/onboarding.html"
               className="flex w-full max-w-xs items-center justify-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-3 text-sm font-medium text-white hover:shadow-[0_0_20px_rgba(99,102,241,0.3)] transition-all"
               onClick={() => setOpen(false)}
             >
-              Book a Call
+              Get Started
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>

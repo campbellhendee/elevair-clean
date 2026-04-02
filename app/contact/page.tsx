@@ -24,13 +24,13 @@ const INFO_CARDS: InfoCard[] = [
     ),
   },
   {
-    label: "Book a Call",
+    label: "Get Started",
     content: (
       <Link
-        href="/book"
+        href="/onboarding.html"
         className="text-white text-sm hover:text-indigo-400 transition-colors"
       >
-        Skip the form. Let&apos;s talk.
+        Tell us about your business.
       </Link>
     ),
   },

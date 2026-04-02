@@ -11,7 +11,7 @@ const serviceLinks = [
   { href: "/services", label: "All Services" },
   { href: "/pricing", label: "Pricing" },
   { href: "/faq", label: "FAQ" },
-  { href: "/book", label: "Book a Call" },
+  { href: "/onboarding.html", label: "Get Started" },
 ];
 
 const legalLinks = [

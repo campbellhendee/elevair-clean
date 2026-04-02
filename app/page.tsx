@@ -321,10 +321,10 @@ export default function Page() {
           style={{ animationDelay: "0.7s" }}
         >
           <Link
-            href="/book"
+            href="/onboarding.html"
             className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full px-8 py-4 font-semibold hover:shadow-[0_8px_30px_rgba(99,102,241,0.4)] hover:-translate-y-0.5 transition-all duration-300"
           >
-            Book a Call
+            Get Started
             <ArrowRight className="h-4 w-4" />
           </Link>
           <Link
@@ -709,7 +709,7 @@ export default function Page() {
                   </ul>
 
                   <Link
-                    href="/book"
+                    href="/onboarding.html"
                     className={`block w-full text-center rounded-full py-3.5 font-semibold text-sm transition-all duration-300 ${
                       plan.featured
                         ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:shadow-[0_8px_30px_rgba(99,102,241,0.4)] hover:-translate-y-0.5"
@@ -726,10 +726,10 @@ export default function Page() {
             <p className="text-center text-sm text-slate-500 mt-10">
               Not sure?{" "}
               <Link
-                href="/book"
+                href="/onboarding.html"
                 className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2 transition-colors"
               >
-                Book a free call
+                Get started free
               </Link>{" "}
               and we&rsquo;ll tell you which plan fits.
             </p>
@@ -754,10 +754,10 @@ export default function Page() {
             </p>
             <div className="mt-10">
               <Link
-                href="/book"
+                href="/onboarding.html"
                 className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full px-10 py-5 text-lg font-semibold hover:shadow-[0_8px_30px_rgba(99,102,241,0.4)] hover:-translate-y-0.5 transition-all duration-300"
               >
-                Book a Call &rarr;
+                Get Started &rarr;
               </Link>
             </div>
             <p className="text-sm text-slate-600 mt-6">

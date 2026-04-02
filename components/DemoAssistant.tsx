@@ -11,7 +11,7 @@ const SUGGESTIONS = [
   "How do follow-ups work?",
   "Can you integrate with my tools?",
   "How much does it cost?",
-  "Book a quick walkthrough",
+  "Get started with Elevair",
 ];
 
 function useStreamedText(target: string) {
@@ -134,7 +134,7 @@ export default function DemoAssistant() {
     } catch (err) {
       // No demo fallback — show friendly error and stop
       setMode("unavailable");
-      setApiError("Live AI is unavailable right now. Please try again in a bit or book a quick walkthrough at /book.");
+      setApiError("Live AI is unavailable right now. Please try again in a bit or get started at /onboarding.html.");
       setMessages((m) => [
         ...m,
         { id: cryptoRandom(), role: "assistant", content: "Sorry — I can’t reach the AI right now. Please try again shortly." },
@@ -294,8 +294,8 @@ export default function DemoAssistant() {
             {/* Intent-based CTA */}
             {ctaVisible && (
               <div className="mt-4">
-                <Link href="/book" className="btn-primary inline-flex items-center gap-2">
-                  Book a walkthrough
+                <Link href="/onboarding.html" className="btn-primary inline-flex items-center gap-2">
+                  Get Started
                 </Link>
               </div>
             )}

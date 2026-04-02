@@ -107,17 +107,17 @@ export default function PricingPage() {
               </div>
               {plan.featured ? (
                 <Link
-                  href="/book"
+                  href="/onboarding.html"
                   className="mt-8 block text-center bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full px-8 py-4 font-semibold hover:shadow-[0_8px_30px_rgba(99,102,241,0.4)] hover:-translate-y-0.5 transition-all"
                 >
-                  Book a Free Call
+                  Get Started
                 </Link>
               ) : (
                 <Link
-                  href="/book"
+                  href="/onboarding.html"
                   className="mt-8 block text-center border border-white/[0.1] rounded-full px-6 py-3 text-sm font-medium text-white hover:bg-white/[0.03] transition-all"
                 >
-                  Book a Free Call
+                  Get Started
                 </Link>
               )}
             </div>
@@ -128,14 +128,14 @@ export default function PricingPage() {
       {/* Below cards */}
       <div className="mt-12 text-center">
         <p className="text-slate-500">
-          Not sure which plan? Book a free call and we&apos;ll scope it
+          Not sure which plan? Get started and we&apos;ll scope it
           together.
         </p>
         <Link
-          href="/book"
+          href="/onboarding.html"
           className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
         >
-          Book a Call &rarr;
+          Get Started &rarr;
         </Link>
       </div>
 
@@ -158,10 +158,10 @@ export default function PricingPage() {
       {/* Bottom CTA */}
       <section className="py-16 text-center">
         <Link
-          href="/book"
+          href="/onboarding.html"
           className="text-sm text-slate-500 hover:text-white transition-colors"
         >
-          Book a Free Call &rarr;
+          Get Started &rarr;
         </Link>
       </section>
     </main>
