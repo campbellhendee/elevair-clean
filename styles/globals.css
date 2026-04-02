@@ -81,8 +81,6 @@
 
   html {
     scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
-    text-size-adjust: 100%;
   }
 
   body {
@@ -384,6 +382,74 @@ nav.scrolled {
   animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* ── Aurora gradient mesh — hero background ── */
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.18;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.aurora-blob-1 {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, #6366f1 0%, transparent 70%);
+  top: -15%;
+  right: -10%;
+  animation: aurora-drift-1 20s ease-in-out infinite;
+}
+
+.aurora-blob-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
+  top: 20%;
+  left: -8%;
+  animation: aurora-drift-2 25s ease-in-out infinite;
+}
+
+.aurora-blob-3 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+  bottom: -5%;
+  right: 15%;
+  animation: aurora-drift-3 22s ease-in-out infinite;
+}
+
+@keyframes aurora-drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-40px, 30px) scale(1.05); }
+  66% { transform: translate(20px, -20px) scale(0.97); }
+}
+
+@keyframes aurora-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -25px) scale(0.95); }
+  66% { transform: translate(-20px, 35px) scale(1.03); }
+}
+
+@keyframes aurora-drift-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-30px, -20px) scale(1.08); }
+}
+
+/* Section glow accent — subtle gradient behind headings */
+.section-glow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(60px);
+}
+
 /* ══════════════════════════════════════════
    Reduced Motion
    ══════════════════════════════════════════ */
@@ -394,6 +460,7 @@ nav.scrolled {
     transition-duration: 0.01ms !important;
   }
   html { scroll-behavior: auto; }
+  .aurora-blob { animation: none; }
 }
 
 /* ══════════════════════════════════════════
@@ -456,23 +523,6 @@ nav.scrolled {
 }
 .typing-dots span:nth-child(2) { animation-delay: 0.15s; }
 .typing-dots span:nth-child(3) { animation-delay: 0.3s; }
-
-/* ── Cursor glow ── */
-.cursor-glow {
-  position: fixed;
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.04) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 1;
-  will-change: transform;
-  transform: translate(-50%, -50%);
-  transition: opacity 0.4s ease;
-}
-@media (hover: none) {
-  .cursor-glow { display: none; }
-}
 
 /* ── Magnetic button ── */
 .magnetic-btn {

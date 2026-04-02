@@ -30,125 +30,6 @@ function delay(ms: number): Promise<void> {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Interactive mesh gradient canvas — responds to mouse movement      */
-/* ------------------------------------------------------------------ */
-function HeroCanvas() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouse = useRef({ x: 0.5, y: 0.5 });
-  const animationRef = useRef<number>(0);
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    mouse.current = {
-      x: e.clientX / window.innerWidth,
-      y: e.clientY / window.innerHeight,
-    };
-  }, []);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let w = 0;
-    let h = 0;
-    const resize = () => {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener("resize", resize);
-    window.addEventListener("mousemove", handleMouseMove);
-
-    // Nodes that form the mesh
-    const nodes: { x: number; y: number; vx: number; vy: number; baseX: number; baseY: number }[] = [];
-    const count = 65;
-    for (let i = 0; i < count; i++) {
-      const x = Math.random() * w;
-      const y = Math.random() * h;
-      nodes.push({
-        x, y, baseX: x, baseY: y,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-      });
-    }
-
-    const draw = () => {
-      ctx.clearRect(0, 0, w, h);
-
-      // Move nodes toward mouse influence
-      const mx = mouse.current.x * w;
-      const my = mouse.current.y * h;
-
-      for (const n of nodes) {
-        // Drift
-        n.x += n.vx;
-        n.y += n.vy;
-
-        // Mouse attraction (subtle)
-        const dx = mx - n.x;
-        const dy = my - n.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 400) {
-          n.x += dx * 0.004;
-          n.y += dy * 0.004;
-        }
-
-        // Soft bounds
-        if (n.x < -50) n.vx = Math.abs(n.vx);
-        if (n.x > w + 50) n.vx = -Math.abs(n.vx);
-        if (n.y < -50) n.vy = Math.abs(n.vy);
-        if (n.y > h + 50) n.vy = -Math.abs(n.vy);
-      }
-
-      // Draw connections
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const dx = nodes[i].x - nodes[j].x;
-          const dy = nodes[i].y - nodes[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 250) {
-            const alpha = (1 - dist / 250) * 0.12;
-            ctx.beginPath();
-            ctx.moveTo(nodes[i].x, nodes[i].y);
-            ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.strokeStyle = `rgba(99, 102, 241, ${alpha})`;
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-        }
-      }
-
-      // Draw nodes
-      for (const n of nodes) {
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, 1.5, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(139, 92, 246, 0.25)";
-        ctx.fill();
-      }
-
-      animationRef.current = requestAnimationFrame(draw);
-    };
-
-    draw();
-
-    return () => {
-      cancelAnimationFrame(animationRef.current);
-      window.removeEventListener("resize", resize);
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [handleMouseMove]);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: 0.6 }}
-    />
-  );
-}
-
-/* ------------------------------------------------------------------ */
 /*  InteractiveCard — 3D tilt + spotlight on hover                     */
 /* ------------------------------------------------------------------ */
 function InteractiveCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
@@ -345,8 +226,6 @@ export default function Page() {
   const [showTyping, setShowTyping] = useState(false);
 
   /* Refs for GSAP */
-  const cursorGlowRef = useRef<HTMLDivElement>(null);
-  const heroContentRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLElement>(null);
   const statNumRefs = useRef<(HTMLDivElement | null)[]>([]);
   const servicesRef = useRef<HTMLElement>(null);
@@ -386,25 +265,6 @@ export default function Page() {
     };
     sequence();
     return () => { cancelled = true; };
-  }, []);
-
-  /* Cursor glow */
-  useEffect(() => {
-    if (!window.matchMedia("(hover: hover)").matches) return;
-    const glow = cursorGlowRef.current;
-    if (!glow) return;
-    let rafId = 0;
-    const onMove = (e: MouseEvent) => {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        glow.style.transform = `translate(${e.clientX - 250}px, ${e.clientY - 250}px)`;
-      });
-    };
-    window.addEventListener("mousemove", onMove);
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      cancelAnimationFrame(rafId);
-    };
   }, []);
 
   /* GSAP master setup */
@@ -531,12 +391,12 @@ export default function Page() {
             { scaleX: 0 },
             {
               scaleX: 1,
-              ease: "none",
+              duration: 1.2,
+              ease: "power2.out",
               scrollTrigger: {
                 trigger: processRef.current,
                 start: "top 70%",
-                end: "bottom 60%",
-                scrub: 1,
+                once: true,
               },
             }
           );
@@ -614,38 +474,6 @@ export default function Page() {
         );
       }
 
-      /* -- Hero parallax -- */
-      if (heroContentRef.current) {
-        gsap.to(heroContentRef.current, {
-          y: -40,
-          ease: "none",
-          scrollTrigger: {
-            trigger: heroContentRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
-          },
-        });
-      }
-
-      /* -- Orb parallax -- */
-      const orb1 = document.querySelector(".orb-1");
-      const orb2 = document.querySelector(".orb-2");
-      if (orb1) {
-        gsap.to(orb1, {
-          y: -80,
-          ease: "none",
-          scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: 1 },
-        });
-      }
-      if (orb2) {
-        gsap.to(orb2, {
-          y: 60,
-          ease: "none",
-          scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: 1 },
-        });
-      }
-
       /* Store cleanup for ScrollTrigger instances */
       cleanups.push(() => {
         ST.getAll().forEach((t: { kill: () => void }) => t.kill());
@@ -662,19 +490,18 @@ export default function Page() {
 
   return (
     <div className="min-h-screen text-white overflow-x-hidden">
-      {/* Cursor glow */}
-      <div ref={cursorGlowRef} className="cursor-glow" />
-
       {/* ────────────────────────────────────────────────────────────── */}
       {/*  HERO                                                         */}
       {/* ────────────────────────────────────────────────────────────── */}
       <section className="relative flex min-h-screen flex-col items-center justify-center px-6 pt-24 pb-12 text-center overflow-hidden">
-        {/* Interactive mesh canvas */}
-        <HeroCanvas />
-        {/* Ambient glow */}
-        <div className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[700px] w-[700px] rounded-full bg-indigo-500/[0.045] blur-[140px]" />
+        {/* Aurora gradient mesh background */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="aurora-blob aurora-blob-1" />
+          <div className="aurora-blob aurora-blob-2" />
+          <div className="aurora-blob aurora-blob-3" />
+        </div>
 
-        <div ref={heroContentRef}>
+        <div>
           {/* Pill badge */}
           <div
             className="hero-badge animate-fade-up mb-8 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2"
@@ -854,7 +681,8 @@ export default function Page() {
       {/* ────────────────────────────────────────────────────────────── */}
       {/*  WHAT ELEVAIR DOES                                            */}
       {/* ────────────────────────────────────────────────────────────── */}
-      <section ref={servicesRef} className="gsap-reveal px-6 py-28">
+      <section ref={servicesRef} className="gsap-reveal relative px-6 py-28">
+        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-indigo-500/[0.03] rounded-full blur-[100px]" />
         <div className="mx-auto max-w-6xl">
           {/* Section header */}
           <div className="text-center mb-16">
@@ -990,7 +818,8 @@ export default function Page() {
       {/* ────────────────────────────────────────────────────────────── */}
       {/*  HOW IT WORKS — Process Timeline                              */}
       {/* ────────────────────────────────────────────────────────────── */}
-      <section ref={processRef} className="gsap-reveal px-6 py-28">
+      <section ref={processRef} className="gsap-reveal relative px-6 py-28">
+        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-indigo-500/[0.03] rounded-full blur-[100px]" />
         <div className="mx-auto max-w-5xl">
           {/* Section header */}
           <div className="text-center mb-20">
@@ -1066,7 +895,8 @@ export default function Page() {
       {/* ────────────────────────────────────────────────────────────── */}
       {/*  PRICING PREVIEW                                              */}
       {/* ────────────────────────────────────────────────────────────── */}
-      <section ref={pricingRef} className="gsap-reveal px-6 py-28">
+      <section ref={pricingRef} className="gsap-reveal relative px-6 py-28">
+        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-indigo-500/[0.03] rounded-full blur-[100px]" />
         <div className="mx-auto max-w-5xl">
           {/* Section header */}
           <div className="text-center mb-16">
