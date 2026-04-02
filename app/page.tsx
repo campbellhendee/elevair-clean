@@ -11,16 +11,6 @@ import {
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
-/*  Global type augmentation for GSAP                                  */
-/* ------------------------------------------------------------------ */
-declare global {
-  interface Window {
-    gsap: any;
-    ScrollTrigger: any;
-  }
-}
-
-/* ------------------------------------------------------------------ */
 /*  SectionReveal — IntersectionObserver entrance animation            */
 /* ------------------------------------------------------------------ */
 interface SectionRevealProps {
@@ -148,7 +138,6 @@ const PLANS = [
 export default function Page() {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [fadingIn, setFadingIn] = useState(true);
-  const [gsapReady, setGsapReady] = useState(false);
 
   /* Rotating headline phrases */
   useEffect(() => {
@@ -162,42 +151,6 @@ export default function Page() {
     return () => clearInterval(interval);
   }, []);
 
-  /* GSAP hero animation */
-  useEffect(() => {
-    let attempts = 0;
-    const maxAttempts = 40; // ~4 seconds
-
-    function tryInit() {
-      if (typeof window !== "undefined" && window.gsap && window.ScrollTrigger) {
-        setGsapReady(true);
-        const gsap = window.gsap;
-        gsap.registerPlugin(window.ScrollTrigger);
-
-        // small raf delay so opacity-0 classes are painted first
-        requestAnimationFrame(() => {
-          const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-          tl.from(".hero-badge", { opacity: 0, y: 20, duration: 0.6, delay: 0.3 })
-            .from(".hero-headline", { opacity: 0, y: 50, duration: 0.9 }, "-=0.3")
-            .from(".hero-sub", { opacity: 0, y: 30, duration: 0.7 }, "-=0.5")
-            .from(".hero-ctas", { opacity: 0, y: 20, duration: 0.6 }, "-=0.4")
-            .from(".hero-trust", { opacity: 0, y: 15, duration: 0.5 }, "-=0.3")
-            .from(
-              ".hero-mockup",
-              { opacity: 0, y: 80, scale: 0.92, duration: 1.2 },
-              "-=0.5"
-            );
-        });
-      } else {
-        attempts++;
-        if (attempts < maxAttempts) {
-          setTimeout(tryInit, 100);
-        }
-      }
-    }
-
-    tryInit();
-  }, []);
-
   return (
     <div className="min-h-screen text-white overflow-x-hidden">
       {/* ────────────────────────────────────────────────────────────── */}
@@ -209,9 +162,8 @@ export default function Page() {
 
         {/* Pill badge */}
         <div
-          className={`hero-badge mb-8 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2 ${
-            gsapReady ? "opacity-0" : "opacity-100"
-          }`}
+          className="hero-badge animate-fade-up mb-8 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2"
+          style={{ animationDelay: "0.1s" }}
         >
           <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
           <span className="text-xs font-mono tracking-wider text-slate-400 uppercase">
@@ -221,9 +173,8 @@ export default function Page() {
 
         {/* Headline */}
         <h1
-          className={`hero-headline font-heading text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold tracking-tight leading-[1.05] mb-6 max-w-5xl ${
-            gsapReady ? "opacity-0" : "opacity-100"
-          }`}
+          className="hero-headline animate-fade-up font-heading text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold tracking-tight leading-[1.05] mb-6 max-w-5xl"
+          style={{ animationDelay: "0.3s" }}
         >
           AI That Works
           <br />
@@ -237,9 +188,8 @@ export default function Page() {
 
         {/* Sub-headline */}
         <p
-          className={`hero-sub text-lg sm:text-xl text-slate-400 max-w-2xl leading-relaxed mb-10 ${
-            gsapReady ? "opacity-0" : "opacity-100"
-          }`}
+          className="hero-sub animate-fade-up text-lg sm:text-xl text-slate-400 max-w-2xl leading-relaxed mb-10"
+          style={{ animationDelay: "0.5s" }}
         >
           Stop losing leads to slow response times. Elevair&rsquo;s AI answers in
           seconds, books appointments automatically, and follows up until they
@@ -248,9 +198,8 @@ export default function Page() {
 
         {/* CTAs */}
         <div
-          className={`hero-ctas flex flex-col sm:flex-row gap-4 justify-center mb-10 ${
-            gsapReady ? "opacity-0" : "opacity-100"
-          }`}
+          className="hero-ctas animate-fade-up flex flex-col sm:flex-row gap-4 justify-center mb-10"
+          style={{ animationDelay: "0.7s" }}
         >
           <Link
             href="/book"
@@ -269,9 +218,8 @@ export default function Page() {
 
         {/* Trust signals */}
         <div
-          className={`hero-trust flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-sm text-slate-500 mb-16 ${
-            gsapReady ? "opacity-0" : "opacity-100"
-          }`}
+          className="hero-trust animate-fade-up flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-sm text-slate-500 mb-16"
+          style={{ animationDelay: "0.9s" }}
         >
           <span className="flex items-center gap-2">⚡ Responds in 3 seconds</span>
           <span className="hidden sm:block h-4 w-px bg-white/[0.08]" />
@@ -282,9 +230,8 @@ export default function Page() {
 
         {/* Chat mockup */}
         <div
-          className={`hero-mockup w-full max-w-lg mx-auto ${
-            gsapReady ? "opacity-0" : "opacity-100"
-          }`}
+          className="hero-mockup animate-fade-up w-full max-w-lg mx-auto"
+          style={{ animationDelay: "1.1s" }}
         >
           <div className="bg-white/[0.04] border border-white/[0.08] rounded-2xl p-1 shadow-[0_0_80px_rgba(99,102,241,0.12)]">
             {/* Mockup inner */}
