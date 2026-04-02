@@ -11,18 +11,6 @@ import {
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
-/*  Declare GSAP on window for TypeScript                              */
-/* ------------------------------------------------------------------ */
-declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    gsap: any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ScrollTrigger: any;
-  }
-}
-
-/* ------------------------------------------------------------------ */
 /*  Utility: promisified delay                                         */
 /* ------------------------------------------------------------------ */
 function delay(ms: number): Promise<void> {
@@ -267,225 +255,61 @@ export default function Page() {
     return () => { cancelled = true; };
   }, []);
 
-  /* GSAP master setup */
+  /* Scroll reveal — lightweight IntersectionObserver, no GSAP */
   useEffect(() => {
-    let attempts = 0;
-    let rafId = 0;
-    const cleanups: (() => void)[] = [];
+    const sections = [statsRef, servicesRef, processRef, pricingRef, ctaRef];
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+            obs.unobserve(entry.target);
 
-    const tryInit = () => {
-      attempts++;
-      /* eslint-disable @typescript-eslint/no-explicit-any */
-      const gsap = (window as any).gsap;
-      const ST = (window as any).ScrollTrigger;
-      /* eslint-enable @typescript-eslint/no-explicit-any */
-
-      if (!gsap || !ST) {
-        if (attempts < 240) {
-          rafId = requestAnimationFrame(tryInit);
-        } else {
-          // Fallback: make everything visible
-          document.body.classList.add("gsap-failed");
-        }
-        return;
-      }
-
-      gsap.registerPlugin(ST);
-
-      /* -- Stats: fade in + count up -- */
-      if (statsRef.current) {
-        gsap.fromTo(
-          statsRef.current,
-          { opacity: 0, y: 40 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: statsRef.current,
-              start: "top 85%",
-              once: true,
-            },
-            onComplete: () => {
-              // Count up each numeric stat
+            // Stat count-up
+            if (entry.target === statsRef.current) {
               STATS.forEach((stat, idx) => {
                 const el = statNumRefs.current[idx];
                 if (!el || stat.display) return;
                 const target = stat.value ?? 0;
                 const prefix = stat.prefix || "";
                 const suffix = stat.suffix || "";
-                const obj = { val: 0 };
-                gsap.to(obj, {
-                  val: target,
-                  duration: 1.2,
-                  ease: "power2.out",
-                  onUpdate: () => {
-                    el.textContent = `${prefix}${Math.round(obj.val)}${suffix}`;
-                  },
-                  onComplete: () => {
-                    if (stat.flash) {
-                      el.classList.add("stat-flash");
-                    }
-                  },
-                });
+                let start = 0;
+                const duration = 1200;
+                const startTime = performance.now();
+                const tick = (now: number) => {
+                  const progress = Math.min((now - startTime) / duration, 1);
+                  const eased = 1 - Math.pow(1 - progress, 3);
+                  start = Math.round(eased * target);
+                  el.textContent = `${prefix}${start}${suffix}`;
+                  if (progress < 1) requestAnimationFrame(tick);
+                  else if (stat.flash) el.classList.add("stat-flash");
+                };
+                requestAnimationFrame(tick);
               });
-            },
-          }
-        );
-      }
-
-      /* -- Service cards: stagger -- */
-      if (servicesRef.current) {
-        const cards = servicesRef.current.querySelectorAll(".service-card");
-        gsap.fromTo(
-          cards,
-          { opacity: 0, y: 60 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            stagger: 0.15,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: servicesRef.current,
-              start: "top 80%",
-              once: true,
-            },
-          }
-        );
-        gsap.fromTo(
-          servicesRef.current,
-          { opacity: 0 },
-          {
-            opacity: 1,
-            duration: 0.01,
-            scrollTrigger: {
-              trigger: servicesRef.current,
-              start: "top 85%",
-              once: true,
-            },
-          }
-        );
-      }
-
-      /* -- Process: line draw + step stagger -- */
-      if (processRef.current) {
-        gsap.fromTo(
-          processRef.current,
-          { opacity: 0 },
-          {
-            opacity: 1,
-            duration: 0.01,
-            scrollTrigger: {
-              trigger: processRef.current,
-              start: "top 85%",
-              once: true,
-            },
-          }
-        );
-
-        if (processLineRef.current) {
-          gsap.fromTo(
-            processLineRef.current,
-            { scaleX: 0 },
-            {
-              scaleX: 1,
-              duration: 1.2,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: processRef.current,
-                start: "top 70%",
-                once: true,
-              },
             }
-          );
-        }
 
-        const steps = processRef.current.querySelectorAll(".process-step");
-        gsap.fromTo(
-          steps,
-          { opacity: 0, y: 40 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            stagger: 0.15,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: processRef.current,
-              start: "top 75%",
-              once: true,
-            },
+            // Stagger children (cards, steps)
+            const staggerItems = entry.target.querySelectorAll(".stagger-item");
+            staggerItems.forEach((item, i) => {
+              (item as HTMLElement).style.transitionDelay = `${i * 120}ms`;
+              item.classList.add("revealed");
+            });
+
+            // Process line
+            if (entry.target === processRef.current && processLineRef.current) {
+              processLineRef.current.classList.add("line-drawn");
+            }
           }
-        );
-      }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-      /* -- Pricing cards: stagger -- */
-      if (pricingRef.current) {
-        const cards = pricingRef.current.querySelectorAll(".pricing-card");
-        gsap.fromTo(
-          cards,
-          { opacity: 0, y: 80 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            stagger: 0.12,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: pricingRef.current,
-              start: "top 80%",
-              once: true,
-            },
-          }
-        );
-        gsap.fromTo(
-          pricingRef.current,
-          { opacity: 0 },
-          {
-            opacity: 1,
-            duration: 0.01,
-            scrollTrigger: {
-              trigger: pricingRef.current,
-              start: "top 85%",
-              once: true,
-            },
-          }
-        );
-      }
+    sections.forEach((ref) => {
+      if (ref.current) obs.observe(ref.current);
+    });
 
-      /* -- Final CTA: fade up -- */
-      if (ctaRef.current) {
-        gsap.fromTo(
-          ctaRef.current,
-          { opacity: 0, y: 50 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: ctaRef.current,
-              start: "top 85%",
-              once: true,
-            },
-          }
-        );
-      }
-
-      /* Store cleanup for ScrollTrigger instances */
-      cleanups.push(() => {
-        ST.getAll().forEach((t: { kill: () => void }) => t.kill());
-      });
-    };
-
-    rafId = requestAnimationFrame(tryInit);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      cleanups.forEach((fn) => fn());
-    };
+    return () => obs.disconnect();
   }, []);
 
   return (
@@ -657,7 +481,7 @@ export default function Page() {
       {/* ────────────────────────────────────────────────────────────── */}
       {/*  STATS BAR                                                    */}
       {/* ────────────────────────────────────────────────────────────── */}
-      <section ref={statsRef} className="gsap-reveal bg-white/[0.02] border-y border-white/[0.06] py-12">
+      <section ref={statsRef} className="scroll-reveal bg-white/[0.02] border-y border-white/[0.06] py-12">
         <div className="mx-auto max-w-5xl px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {STATS.map((stat, idx) => (
@@ -681,7 +505,7 @@ export default function Page() {
       {/* ────────────────────────────────────────────────────────────── */}
       {/*  WHAT ELEVAIR DOES                                            */}
       {/* ────────────────────────────────────────────────────────────── */}
-      <section ref={servicesRef} className="gsap-reveal relative px-6 py-28">
+      <section ref={servicesRef} className="scroll-reveal relative px-6 py-28">
         <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-indigo-500/[0.03] rounded-full blur-[100px]" />
         <div className="mx-auto max-w-6xl">
           {/* Section header */}
@@ -699,7 +523,7 @@ export default function Page() {
           {/* Cards */}
           <div className="grid md:grid-cols-3 gap-6">
             {/* Card 1 — AI Receptionist */}
-            <InteractiveCard className="service-card relative group bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-[20px] p-8 hover:border-indigo-500/30 hover:bg-white/[0.05] transition-all duration-300">
+            <InteractiveCard className="service-card stagger-item relative group bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-[20px] p-8 hover:border-indigo-500/30 hover:bg-white/[0.05] transition-all duration-300">
               <div className="h-1 w-16 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 mb-6" />
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
                 <Bot className="h-6 w-6" />
@@ -736,7 +560,7 @@ export default function Page() {
             </InteractiveCard>
 
             {/* Card 2 — Smart Scheduling */}
-            <InteractiveCard className="service-card relative group bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-[20px] p-8 hover:border-indigo-500/30 hover:bg-white/[0.05] transition-all duration-300">
+            <InteractiveCard className="service-card stagger-item relative group bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-[20px] p-8 hover:border-indigo-500/30 hover:bg-white/[0.05] transition-all duration-300">
               <div className="h-1 w-16 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 mb-6" />
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
                 <CalendarCheck className="h-6 w-6" />
@@ -773,7 +597,7 @@ export default function Page() {
             </InteractiveCard>
 
             {/* Card 3 — Lead Automation */}
-            <InteractiveCard className="service-card relative group bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-[20px] p-8 hover:border-indigo-500/30 hover:bg-white/[0.05] transition-all duration-300">
+            <InteractiveCard className="service-card stagger-item relative group bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-[20px] p-8 hover:border-indigo-500/30 hover:bg-white/[0.05] transition-all duration-300">
               <div className="h-1 w-16 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 mb-6" />
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
                 <Zap className="h-6 w-6" />
@@ -818,7 +642,7 @@ export default function Page() {
       {/* ────────────────────────────────────────────────────────────── */}
       {/*  HOW IT WORKS — Process Timeline                              */}
       {/* ────────────────────────────────────────────────────────────── */}
-      <section ref={processRef} className="gsap-reveal relative px-6 py-28">
+      <section ref={processRef} className="scroll-reveal relative px-6 py-28">
         <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-indigo-500/[0.03] rounded-full blur-[100px]" />
         <div className="mx-auto max-w-5xl">
           {/* Section header */}
@@ -870,7 +694,7 @@ export default function Page() {
               ].map((step) => (
                 <div
                   key={step.num}
-                  className="process-step relative text-left md:text-center pl-16 md:pl-0"
+                  className="process-step stagger-item relative text-left md:text-center pl-16 md:pl-0"
                 >
                   {/* Number circle */}
                   <div className="absolute left-0 md:relative md:left-auto w-14 h-14 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold font-heading text-lg md:mx-auto z-10">
@@ -895,7 +719,7 @@ export default function Page() {
       {/* ────────────────────────────────────────────────────────────── */}
       {/*  PRICING PREVIEW                                              */}
       {/* ────────────────────────────────────────────────────────────── */}
-      <section ref={pricingRef} className="gsap-reveal relative px-6 py-28">
+      <section ref={pricingRef} className="scroll-reveal relative px-6 py-28">
         <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-indigo-500/[0.03] rounded-full blur-[100px]" />
         <div className="mx-auto max-w-5xl">
           {/* Section header */}
@@ -918,7 +742,7 @@ export default function Page() {
             {PLANS.map((plan) => (
               <InteractiveCard
                 key={plan.name}
-                className={`pricing-card relative bg-white/[0.03] backdrop-blur-xl border rounded-[20px] p-8 transition-all duration-300 ${
+                className={`pricing-card stagger-item relative bg-white/[0.03] backdrop-blur-xl border rounded-[20px] p-8 transition-all duration-300 ${
                   plan.featured
                     ? "border-indigo-500/30 scale-[1.02] md:scale-105 pricing-featured"
                     : "border-white/[0.06] hover:border-white/[0.1]"
@@ -985,7 +809,7 @@ export default function Page() {
       {/* ────────────────────────────────────────────────────────────── */}
       {/*  FINAL CTA                                                    */}
       {/* ────────────────────────────────────────────────────────────── */}
-      <section ref={ctaRef} className="gsap-reveal relative px-6 py-32">
+      <section ref={ctaRef} className="scroll-reveal relative px-6 py-32">
         {/* Gradient backdrop */}
         <div className="absolute inset-0 mx-6 rounded-3xl bg-gradient-to-br from-indigo-500/[0.08] to-purple-500/[0.04] pointer-events-none" />
 
