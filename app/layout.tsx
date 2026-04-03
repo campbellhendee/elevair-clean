@@ -40,9 +40,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="bg-[#0a0a0f] text-slate-100 antialiased font-body">
+      <body className="bg-[#09090e] text-slate-100 antialiased font-body">
         {/* Page content */}
         <div className="relative">
+          {/* Background orbs — absolute, not fixed (fixed breaks iOS scroll) */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+            <div className="orb orb-1" />
+            <div className="orb orb-2" />
+            <div className="orb orb-3" />
+          </div>
+
           <a
             href="#main"
             className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-accent-primary text-white px-3 py-2 rounded"

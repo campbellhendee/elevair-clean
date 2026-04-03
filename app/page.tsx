@@ -325,6 +325,9 @@ export default function Page() {
           <div className="aurora-blob aurora-blob-3" />
         </div>
 
+        {/* Grid overlay */}
+        <div className="hero-grid" />
+
         <div>
           {/* Pill badge */}
           <div
@@ -469,6 +472,12 @@ export default function Page() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 scroll-indicator">
+          <span className="text-[10px] font-mono tracking-widest uppercase text-slate-600">Scroll</span>
+          <div className="w-px h-6 bg-gradient-to-b from-slate-600 to-transparent" />
         </div>
 
         {/* Bottom divider */}

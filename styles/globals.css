@@ -10,10 +10,12 @@
    ══════════════════════════════════════════ */
 :root {
   /* Colors */
-  --bg-primary: #0a0a0f;
-  --bg-secondary: #0f0f18;
+  --bg-primary: #09090e;
+  --bg-secondary: #0e0e15;
+  --bg-tertiary: #13131c;
   --bg-card: rgba(255, 255, 255, 0.03);
-  --bg-card-hover: rgba(255, 255, 255, 0.06);
+  --bg-card-hover: rgba(255, 255, 255, 0.055);
+  --bg-glass: rgba(255, 255, 255, 0.04);
   --accent-primary: #6366f1;
   --accent-secondary: #8b5cf6;
   --accent-cyan: #06b6d4;
@@ -59,6 +61,12 @@
   --shadow-glow: 0 0 60px rgba(99, 102, 241, 0.15);
   --shadow-glow-strong: 0 0 80px rgba(99, 102, 241, 0.3);
   --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+
+  --gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+  --gradient-text: linear-gradient(135deg, #6366f1, #a855f7);
+  --accent-light: rgba(99, 102, 241, 0.12);
+  --border-accent: rgba(99, 102, 241, 0.35);
+  --border-hover: rgba(255, 255, 255, 0.12);
 
   /* Radii */
   --radius-sm: 6px;
@@ -283,6 +291,16 @@
   animation: orb-float 10s ease-in-out infinite reverse;
 }
 
+.orb-3 {
+  width: 400px;
+  height: 400px;
+  background: #a855f7;
+  top: 50%;
+  left: 30%;
+  animation: orb-float 12s ease-in-out infinite;
+  animation-delay: -4s;
+}
+
 @keyframes orb-float {
   0%, 100% { transform: translate(0, 0) scale(1); }
   33% { transform: translate(30px, -30px) scale(1.05); }
@@ -373,6 +391,15 @@ nav.scrolled {
   animation: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* ── Scroll indicator ── */
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+.scroll-indicator {
+  animation: scroll-bounce 2s ease-in-out infinite;
+}
+
 /* ── Aurora gradient mesh — hero background ── */
 .aurora-blob {
   position: absolute;
@@ -425,6 +452,19 @@ nav.scrolled {
 @keyframes aurora-drift-3 {
   0%, 100% { transform: translate(0, 0) scale(1); }
   50% { transform: translate(-30px, -20px) scale(1.08); }
+}
+
+/* ── Hero grid background ── */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
+  pointer-events: none;
 }
 
 /* Section glow accent — subtle gradient behind headings */
