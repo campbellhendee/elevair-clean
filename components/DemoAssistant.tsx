@@ -178,13 +178,13 @@ export default function DemoAssistant() {
   }, [streamed, loading]);
 
   return (
-    <section className="container-section pt-0">
+    <section className="px-6 py-24">
       <div className="max-w-5xl mx-auto">
-        <div className="card-surface p-0 overflow-hidden">
+        <div className="bg-white/[0.03] border border-white/[0.06] rounded-[20px] p-0 overflow-hidden">
           {/* Header */}
-          <div className="px-5 sm:px-6 py-4 border-b border-white/10 flex items-center justify-between">
+          <div className="px-5 sm:px-6 py-4 border-b border-white/[0.06] flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 grid place-items-center shadow-cyan-500/20 shadow">
+              <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 grid place-items-center shadow-indigo-500/20 shadow">
                 <Sparkles className="h-5 w-5 text-slate-900" />
               </div>
               <div>
@@ -251,7 +251,7 @@ export default function DemoAssistant() {
                   }
                 }}
                 placeholder="Ask about automation, follow‑ups, or pricing…"
-                className={`flex-1 bg-white/5 border border-white/10 rounded-lg px-3.5 py-2.5 outline-none focus:border-cyan-400/40 ${loading ? "opacity-60 cursor-not-allowed" : ""}`}
+                className={`flex-1 bg-white/5 border border-white/[0.06] rounded-lg px-3.5 py-2.5 outline-none focus:border-indigo-400/40 ${loading ? "opacity-60 cursor-not-allowed" : ""}`}
                 disabled={loading}
               />
               <button
@@ -311,15 +311,15 @@ function Message({ role, content, thinking }: { role: "user" | "assistant" | "sy
   return (
     <div className={`flex items-start gap-3 ${isUser ? "justify-end" : ""}`}>
       {!isUser && (
-        <div className="h-8 w-8 rounded-md bg-cyan-500/20 border border-cyan-400/20 grid place-items-center text-cyan-300">
+        <div className="h-8 w-8 rounded-md bg-indigo-500/20 border border-indigo-400/20 grid place-items-center text-indigo-300">
           <Bot className="h-4 w-4" />
         </div>
       )}
       <div
         className={`max-w-[80%] rounded-xl px-3.5 py-2.5 text-sm leading-relaxed ${
           isUser
-            ? "bg-cyan-500/20 text-cyan-100 border border-cyan-400/30"
-            : "bg-white/[.04] text-slate-200 border border-white/10"
+            ? "bg-indigo-500/20 text-indigo-100 border border-indigo-400/30"
+            : "bg-white/[.04] text-slate-200 border border-white/[0.06]"
         }`}
       >
         {thinking ? (
