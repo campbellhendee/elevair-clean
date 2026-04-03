@@ -347,11 +347,18 @@ export default function Page() {
           >
             AI That Works
             <br />
-            <span
-              className="inline-block bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent transition-opacity duration-400"
-              style={{ opacity: fadingIn ? 1 : 0 }}
-            >
-              {ROTATING_PHRASES[phraseIndex]}
+            <span className="relative inline-grid">
+              {/* Invisible longest phrase to hold the width */}
+              <span className="invisible col-start-1 row-start-1 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent" aria-hidden="true">
+                Without Extra Staff.
+              </span>
+              {/* Visible rotating phrase */}
+              <span
+                className="col-start-1 row-start-1 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent transition-opacity duration-300"
+                style={{ opacity: fadingIn ? 1 : 0 }}
+              >
+                {ROTATING_PHRASES[phraseIndex]}
+              </span>
             </span>
           </h1>
 
